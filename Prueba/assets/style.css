@@ -1,0 +1,246 @@
+body {	color:#333;	font:300 15px/15px Roboto,Arial,Helvetica;background:white; -webkit-font-smoothing:antialiased;}
+
+a{color:#610B5E; text-decoration:none;}
+a:hover{color:#666;}
+.btn,a,.btn:hover,a:hover {
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-ms-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+outline: none !important;
+}
+
+h1,h2,h3,h4{margin: 0;line-height: 1em;}
+h1{font:700 5em Roboto,Arial,Helvetica;margin:0.25em 0;text-transform: uppercase;}
+h2{font:300 2.5em Roboto,Arial,Helvetica;margin-bottom: 1.5em;}
+h3{font:300 2em Roboto,Arial,Helvetica;margin:2em 0 1em 0;}
+h4{font:300 1.5em Roboto,Arial,Helvetica;margin-bottom: 1em;}
+h4 i{margin-right: 0.5em;}
+
+p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
+
+
+.spacer{padding: 11em 0;}
+.spacer2{padding: 0em 0;}
+.promocion{padding: 10px;padding-bottom: 60px;}
+
+.btn{border:none;border-radius: 0;padding: 1em 4em;background: rgba(0,0,0,0.5);text-transform: uppercase;}
+.btn:hover,.btn:active{color: #fff;}
+.btn-default{color: #ccc;border: 1px solid #aaa;}
+.btn-default:hover,.btn-default:active{background: rgba(0,0,0,0.8);}
+.btn-primary{color: #fff;background:#e89f10;width: 100%;outline: none;}
+.btn-primary:hover,.btn-primary:active,.btn-primary:focus{background:#f3c024;box-shadow: none;}
+
+.topbar {background:url(../images/lines.png);	height:5px;position: fixed;top: 0;width: 100%;z-index: 1000;}
+.navbar-nav > li > a{font-size: 1em;line-height: 2.8em;}
+.navbar-fixed-top{top: 5px;}
+.navbar-fixed-top{top: 4x;}
+.navbar-inverse{background: black;}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{background: none;color: #FF00FF;}
+
+#head,.carousel{margin-top: 0;}
+
+#home{padding-top: 8.6em !important;}
+#works{padding-top: 9em !important;}
+
+
+.logomision{height:200px; margin: auto; text-align: center; }
+
+/*about*/
+.about.spacer{padding-left: 4em; padding-right: 4em;padding-bottom: 0;}
+.services ul li{width: 10em;height: 10em;border: 1px solid #ccc;padding: 0;border-radius: 50%;margin: 0 1.25em;line-height: 13.5em;color: #999;}
+.services ul li span{line-height: 2em;display: inline-block;font-weight: 300;}
+.services ul li span i{font-size: 3em;}
+.services ul li span b{display: block;font-size: 1em;font-weight: 300;}
+
+
+/*testimonials*/
+.partners img{float: left;margin:0 75px 30px 0;}
+.testimonails{min-height: 195px;}
+.testimonails img{margin-top: 5px;}
+.testimonails span{color: #888;}
+.testimonails span b{font-weight: 400;}
+.carousel-indicators li{border: 1px solid #f3c024;}
+.carousel-indicators{bottom: 0;}
+
+/*works*/
+#works{padding-top:6em;}
+#works figcaption a{border:1px solid #fff;margin-top: 1em;display: inline-block;color: #fff;padding: 0 2em;}
+#works figcaption a:hover{text-decoration: none;padding: 0 3em;}
+/*works*/
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-primary {
+  background-color: #A6A8C1 !important;
+  border-color: #31347B !important;
+ }
+
+.btn{background-color: #9F418F !important;border-color: #9F418F !important;}
+
+.btn3d {position:relative;border:0;border-radius:3px;margin:15px 10px 0 0;transition:all .09s linear;
+	box-shadow:0 0 0 1px transparent inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 6px 6px 0 0 #ccc, 6px 6px 0 1px rgba(0,0,0,0.2), 6px 6px 3px 0px rgba(0,0,0,0.3);
+    outline:medium none;-moz-outline-style:none;}
+.btn3d:active {
+    top:7px;
+}
+.btn3d:focus {
+    outline:medium none;
+    -moz-outline-style:none;
+}
+.btn3d.btn-default {
+    background-color:#f5f5f5;
+}
+
+/*team*/
+.team figure{width: 100%;}
+.team img{width: 100%;}
+.team b{font-size: 1.2em;display: block;}
+.team a i.fa{color: #fff; font-size: 2em;}
+.team a i.fa:hover{color: #E89F10;}
+
+
+.highlight-info{ background:url(../images/lab.jpg) center fixed; background-size: cover; color:#fff;}
+.highlight-info .overlay{background: rgba(232,159,16,0.7);}
+.highlight-info h4{color: #fff;margin:0.5em 0 0 0;}
+/*about us*/
+
+/*contact*/
+.contactform textarea,.contactform input{width: 100%;padding:1em;border:1px solid #ccc;margin-bottom: 1em;border-radius: 0;outline: none;}
+/*contact*/
+
+.paddingpromo{
+	padding: 6px ! important;
+}
+
+.footer{background-color: #111; color: #fff; font-size: 1em;color: #aaa;}
+.footer a{color: #aaa;margin: 0 1em; }
+
+.footerarriba{background-color: #9F418F; color: #fff; font-size: 1em;color: #fff;}
+.footerarriba a{color: white;margin: 0 0em;}
+.footerarriba body{font:font:300 15px/15px Roboto,Arial,Helvetica;}
+
+.gototop{position: fixed;bottom: 20px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
+.gototop i{line-height: 0.5em;}
+
+
+@media (max-width: 2000px) {
+	body{font:300 15px/15px Roboto,Arial,Helvetica;}
+	.navbar-brand{padding-top: 5px;}
+	.services ul li{margin:0 0.5em; }
+	
+	.grid figure h2{font: 700 3em Roboto,Arial,Helvetica;}
+	figure.effect-oscar figcaption{padding: 12%;}
+	figure.effect-oscar figcaption::before,figure.effect-chico figcaption::before{top: 20px;right: 20px;bottom: 20px;left: 20px;}
+
+	.partners img{margin: 0 25px 25px 0;}
+	
+	.fotocuadrada{
+		max-height:800px;
+		max-width:800px;
+		width:auto;
+		height:auto;
+		position: center;
+		
+	}
+	
+	.paddingpromo{
+	padding: 10px ! important;}
+	 
+}
+
+@media (max-width: 1400px) {
+	body{font:280 14px/14px Roboto,Arial,Helvetica;}
+	.navbar-brand{padding-top: 5px;}
+	.services ul li{margin:0 0.5em; }
+	
+	.grid figure h2{font: 700 1.5em Roboto,Arial,Helvetica;}
+	figure.effect-oscar figcaption{padding: 12%;}
+	figure.effect-oscar figcaption::before,figure.effect-chico figcaption::before{top: 20px;right: 20px;bottom: 20px;left: 20px;}
+
+	.partners img{margin: 0 25px 25px 0;}
+	
+	.fotocuadrada{
+		max-height:400px;
+		max-width:800px;
+		width:auto;
+		height:auto;
+		position: center;
+		
+	}
+	.paddingpromo{
+	padding: 15px ! important;}
+	 
+}
+
+
+@media (max-width: 1200px) {
+	body{font:300 13px/13px Roboto,Arial,Helvetica;}
+	.navbar-brand{padding-top: 5px;}
+	.services ul li{margin:0 0.5em; }
+	
+	.grid figure h2{font: 700 1.5em Roboto,Arial,Helvetica;}
+	figure.effect-oscar figcaption{padding: 12%;}
+	figure.effect-oscar figcaption::before,figure.effect-chico figcaption::before{top: 20px;right: 20px;bottom: 20px;left: 20px;}
+
+	.partners img{margin: 0 25px 25px 0;}
+	
+	.fotocuadrada{
+		max-height:300px;
+		max-width:700px;
+		width:auto;
+		height:auto;
+		position: center;
+		
+	}
+}
+
+@media (max-width: 900px) {
+	h1{font: 700 3.5em Roboto,Arial,Helvetica;}
+	h4 {font: 300 1.3em Roboto,Arial,Helvetica;}
+	.btn{padding: 1em 2em;}
+	.partners img{margin: 0 15px 25px 0;width: 157px;}
+	.services ul li{width: 9em;height: 9em;}
+	figure.effect-chico figcaption {padding: 2em;}	
+	figure.effect-oscar figcaption {padding: 20%;}
+	figure.effect-chico figcaption::before{top: 10px;right: 10px;bottom: 10px;left: 10px;}
+	.grid figure.effect-chico p{font-size: 0.6em;line-height: 1.5em;}	
+	
+	.navbar-brand img{height: 37px;}
+	.logomision{height:150px; margin: auto !important; text-align: center !important; }
+}
+
+
+@media (max-width: 767px) {
+	body{font:300 12px/12px Roboto,Arial,Helvetica;}
+	.navbar-nav > li > a {line-height: 1em;}	
+	.navbar-brand{padding: 7px;}
+	.navbar-brand img{height: 37px;}
+	.navbar-toggle{margin-top: 12px;}
+
+	.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
+
+	h2.text-center{text-align: left;font-size: 1.7em;}
+	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}
+	#partners h2{padding: 0 1em;} 
+	#home {padding-top: 5em;}
+
+	.partners{display: block;float: left;}
+	.partners img{width: 120px;}
+	
+	.logomision{height:90px; margin: auto !important; text-align: center !important; }
+
+
+
+	.about.spacer{padding-left: 2em;padding-right: 2em;}
+	.spacer{padding:2em 0 0 0;}
+	.spacer2{padding:7em 0 0 0;}
+	
+	.services ul li{margin-bottom: 1em;}
+
+	.highlight-info .overlay{padding-bottom: 2em;}
+
+	.grid.team div{margin: 0;padding: 0;}
+	figure.effect-chico figcaption {padding: 1.5em;}
+	.footer{margin-top: 2em;padding-bottom: 2em;}
+	.footerarriba{margin-top: 1em;padding-bottom:1em;}
+}
