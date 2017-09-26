@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -318,7 +319,6 @@ public class LetSesion extends HttpServlet {
     	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    
     	    	
     	    	String llegoReservaa = (request.getParameter("16_Id_Reserva"));
-    	    	System.out.println("Id de reserva: "+llegoReservaa);
     	    	
     	    	String llegoMail = (request.getParameter("15_Mail"));
     	    	String llegoNombre = (request.getParameter("Nombre"));
@@ -366,9 +366,7 @@ public class LetSesion extends HttpServlet {
     	    					+ "¡Te esperamos!"
     	    					+ "<br>Nuestra página es: "+pagina
     	    					+ "<br><br><br><strong>"+nombreEnvia+"</strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
-    	    			
-    	    			System.out.println(correo + " "+correo2 +" "+correo3);
-    	    			
+    	    			    	    			
     	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
     	    			  	    	    	
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
@@ -522,9 +520,7 @@ public class LetSesion extends HttpServlet {
     				columna = "15_Apellido_Pat";
     				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
     			}
-    			
-    			System.out.println(columna +request.getParameter(columna));
-    			
+    			    			
     			ArrayList<ArrayList<Object>> sesiones = (ArrayList<ArrayList<Object>>)gd.getSesionesSinIdLike(columna, request.getParameter(columna), "String");	
     	    	request.setAttribute("sesiones", sesiones);
     			
@@ -769,5 +765,18 @@ public class LetSesion extends HttpServlet {
     	
     	return ;
 	}
+
+    public String DomingoASabado (String fecha) throws java.text.ParseException{
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    	Date fecha1 = sdf.parse(fecha);
+    	
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(fecha1); // Configuramos la fecha que se recibe
+    	if(calendar.get(Calendar.DAY_OF_WEEK) == 1){
+    		calendar.add(Calendar.DAY_OF_YEAR, -1);  // numero de días a añadir, o restar en caso de días<0
+    	}
+ 	    fecha = sdf.format(calendar.getTime()); 
+    	return fecha;
+    }    
 
 }

@@ -396,7 +396,7 @@ $('#datetimepicker2').datetimepicker({
 	format:'Y/m/d',
 	formatDate:'Y/m/d',
 	dayOfWeekStart : 1,
-	disabledWeekDays: [0],
+	//disabledWeekDays: [0],
 	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 	timepicker: false
 });
@@ -407,7 +407,7 @@ $('#datetimepicker21').datetimepicker({
 	format:'Y/m/d',
 	formatDate:'Y/m/d',
 	dayOfWeekStart : 1,
-	disabledWeekDays: [0],
+	//disabledWeekDays: [0],
 	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 	timepicker: false
 });

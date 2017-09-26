@@ -1005,7 +1005,6 @@ function CuponOcupado(){
 	lang:'es',
 	formatDate:'Y.m.d',
 	startDate:	'2016/01/01',
-	disabledWeekDays: [0],
 	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 	timepicker: false,
 	});
@@ -1043,7 +1042,7 @@ function CuponOcupado(){
 		format:'Y/m/d',
 		formatDate:'Y/m/d',
 		dayOfWeekStart : 1,
-		disabledWeekDays: [0],
+		//disabledWeekDays: [0],
 		minDate:'-1970/01/01', // yesterday is minimum date
 		dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 		timepicker: false,
@@ -1057,7 +1056,7 @@ function CuponOcupado(){
 		format:'Y/m/d',
 		formatDate:'Y/m/d',
 		dayOfWeekStart : 1,
-		disabledWeekDays: [0],
+		//disabledWeekDays: [0],
 		dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 		timepicker: false,
 		scrollMonth: false,

@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -95,7 +96,6 @@ public class LetReserva extends HttpServlet {
 		    	    	//Obtencion de parámetros de formulario
 		    	    	String llegoMail = request.getParameter("15_Mail");
 		    	    	
-		    	    	System.out.println(llegoMail);
 		    	    	String llegoRut = request.getParameter("15_Rut_Cliente");
 		    	    	if(!llegoRut.equals("")){
 		    	    		int IntllegoRut = Integer.parseInt(llegoRut);
@@ -144,7 +144,6 @@ public class LetReserva extends HttpServlet {
 		    	    	
 		    	    	String llegoReclamo = request.getParameter("15_Reclamo");
 		    	    	String llegoComentario = request.getParameter("15_Observacion");
-		    	    	System.out.println(llegoReclamo);
 		    	    	
 		    	    	Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
 		    			System.out.println("Nombre en LetCliente - NuevoCliente: "+ usuario.getNombre());
@@ -193,7 +192,6 @@ public class LetReserva extends HttpServlet {
         	    	llegoFecha = llegoDia +" "+llegoHora;
         	    	
         	    	fechaConHora = gd.ConvertirFecha(llegoFecha);
-        			System.out.println(fechaConHora);
     	    	}
     	    	
     	    	String llegoCampania = request.getParameter("17_Id_Campania");
@@ -292,7 +290,7 @@ public class LetReserva extends HttpServlet {
 	    			String horario = "";
 	    			
 	    			if(res.getFecha() != null){
-	    				fecha2 = sdf2.format(res.getFecha());	
+	    				fecha2 = DomingoASabado(sdf2.format(res.getFecha()));	
 	        			hora = sdf3.format(res.getFecha());	
 	        			horario = "es <strong>"+fecha2+ "</strong> a las <strong>"+hora+"</strong> horas ";
 	    			}else{
@@ -518,7 +516,7 @@ public class LetReserva extends HttpServlet {
     	    			String horario = "";
     	    			
     	    			if(reserv.getFecha() != null){
-    	    				fecha2 = sdf2.format(reserv.getFecha());	
+    	    				fecha2 = DomingoASabado(sdf2.format(reserv.getFecha()));	
     	        			hora = sdf3.format(reserv.getFecha());	
     	        			horario = "es <strong>"+fecha2+ "</strong> a las <strong>"+hora+"</strong> horas ";
     	    			}else{
@@ -604,7 +602,7 @@ public class LetReserva extends HttpServlet {
     	    			String horario = "";
     	    			
     	    			if(reserv.getFecha() != null){
-    	    				fecha2 = sdf2.format(reserv.getFecha());	
+    	    				fecha2 = DomingoASabado(sdf2.format(reserv.getFecha()));	
     	        			hora = sdf3.format(reserv.getFecha());	
     	        			horario = "es <strong>"+fecha2+ "</strong> a las <strong>"+hora+"</strong> horas ";
     	    			}else{
@@ -776,6 +774,10 @@ public class LetReserva extends HttpServlet {
   	    	}
 	    	
 	    	int llegoCobro = Integer.parseInt(request.getParameter("Cobro"));
+	    	int llegoReagendamiento = 0;
+	    	if(request.getParameter("16_Cantidad_Reagendamiento_Modificada")!=null){
+	    		llegoReagendamiento = Integer.parseInt(request.getParameter("16_Cantidad_Reagendamiento_Modificada"));
+	    	}
   	    	int llegoId = Integer.parseInt(request.getParameter("15_Id_Cliente"));
   	    	String llegoCampania = request.getParameter("17_Id_Campania");
   	    	String llegoCodigo = request.getParameter("16_Codigo");
@@ -805,9 +807,7 @@ public class LetReserva extends HttpServlet {
 	    	Cliente cliente = cli.get(0); 
   				    		    	
   			Date fechaConHora = null;
-  			
-  			System.out.println("Fecha: "+llegoFecha);
-  			
+  			  			
   			if(!llegoFecha.equals("")){
   				fechaConHora = gd.ConvertirFecha(llegoFecha);
   				res.setId_Estado(1);
@@ -815,9 +815,12 @@ public class LetReserva extends HttpServlet {
   				res.setId_Estado(3);
   			}
   			  			
-  			if((res.getFecha()!=null)&&(!res.getFecha().equals(fechaConHora))&&(llegoCobro==1)){
-  				CantReagendamiento++;
+  			if((res.getFecha()!=null)&&(!res.getFecha().equals(fechaConHora)&&(llegoCobro==1))){
+  					CantReagendamiento++;
   			}
+  			if((res.getFecha()!=null)&&(llegoCobro==-1)){
+  				CantReagendamiento = llegoReagendamiento;
+  			}  			
   			
 			res.setId_Reserva(llegoIdReserva);
   			res.setId_Cliente(llegoId);
@@ -864,11 +867,10 @@ public class LetReserva extends HttpServlet {
 	    	String clave = Vend.getMail_PW();
 	    	
 	    	String AsuntoDeCorreo = "Confirmación de reserva";
-	    	
-			
+	    				
 			if(fechaConHora!=null){
 				SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
-				String fecha2 = sdf2.format(res.getFecha());
+				String fecha2 = DomingoASabado(sdf2.format(res.getFecha()));
 				SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
 				String hora = sdf3.format(res.getFecha());
 		    	String adicional = "";
@@ -891,10 +893,7 @@ public class LetReserva extends HttpServlet {
     	    	if(!MensajeMail.equals("")){
     	    		MensajeMail = "<br><br>" + MensajeMail ; 
     	    	}
-    	    	
-    	    	System.out.println(llegoPreReservaPrevio);
-    	    	System.out.println(llegoPreReserva);
-    	    	
+    	    	    	    	
     	    	if(llegoPreReservaPrevio.equals("checked") && llegoPreReserva!=null && llegoPreReserva.equals("0")){
     	    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
     						+ "Se ha <strong>confirmado</strong> una sesión fotográfica. <br><br>"
@@ -930,7 +929,6 @@ public class LetReserva extends HttpServlet {
 						+ "<br>Para más información visite nuestra página: "+pagina
 						+ "<br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
     	    }
-			
 			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
 		    	 
   			String mensaje = "Reserva modificada correctamente";
@@ -990,9 +988,7 @@ public class LetReserva extends HttpServlet {
   			String Fecha2 = "";
   			Fecha1 = request.getParameter("Inicio");
   			Fecha2 = request.getParameter("Fin");
-  			
-  			System.out.println("Fechas a enviar = '"+Fecha1+ "' y '"+Fecha2+"'");
-  			
+  			  			
   			sesion.setAttribute("16_Fecha1", Fecha1);
 	    	sesion.setAttribute("16_Fecha2", Fecha2);
   			
@@ -1019,9 +1015,7 @@ public class LetReserva extends HttpServlet {
     		
     			sesion.setAttribute("16_Fecha1", Fecha1);
     	    	sesion.setAttribute("16_Fecha2", Fecha2);
-    			
-    			System.out.println("Fechas a enviar = '"+Fecha1+ "' y '"+Fecha2+"'");
-    			
+    			    			
     	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdConFechasAnticipo("", "", "", Fecha1, Fecha2);	
     			request.setAttribute("reservas", reservas);
     			
@@ -1048,9 +1042,7 @@ public class LetReserva extends HttpServlet {
     				columna = "15_Apellido_Pat";
     				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
     			}
-    			
-    			System.out.println(columna +request.getParameter(columna) );
-    			
+    			    			
     			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdLike(columna, request.getParameter(columna), "String");	
     	    	request.setAttribute("reservas", reservas);
     			
@@ -1091,9 +1083,7 @@ public class LetReserva extends HttpServlet {
 				columna = "15_Apellido_Pat";
 				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
 			}
-  			
-  			System.out.println(columna +request.getParameter(columna) );
-  			
+  			  			
   			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdLikeAnticipo(columna, request.getParameter(columna), "String");	
   	    	request.setAttribute("reservas", reservas);
   			
@@ -1120,9 +1110,7 @@ public class LetReserva extends HttpServlet {
 				columna = "15_Apellido_Pat";
 				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
 			}
-  			
-  			System.out.println(columna +request.getParameter(columna) );
-  			
+  			  			
   			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdLike(columna, request.getParameter(columna), "String");	
   	    	request.setAttribute("reservas", reservas);
   			
@@ -1149,9 +1137,7 @@ public class LetReserva extends HttpServlet {
 				columna = "15_Apellido_Pat";
 				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
 			}
-  			
-  			System.out.println(columna +request.getParameter(columna) );
-  			
+  			  			
   			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdLike(columna, request.getParameter(columna), "String");	
   	    	request.setAttribute("reservas", reservas);
   						
@@ -1178,9 +1164,7 @@ public class LetReserva extends HttpServlet {
     				columna = "15_Apellido_Pat";
     				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
     			}
-    			
-    			System.out.println(columna +request.getParameter(columna) );
-    			
+    			    			
     			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdLike(columna, request.getParameter(columna), "String");	
     	    	request.setAttribute("reservas", reservas);
     						
@@ -1216,12 +1200,8 @@ public class LetReserva extends HttpServlet {
 
     	  			parametro = request.getParameter(columna);
     	  			sesion.setAttribute("15_Nombre", request.getParameter("24_Id_Ticket"));
-    	  			
-    				System.out.println(request.getParameter(columna));
-    	  			System.out.println("Valor");
-    				
+    	  			    				
     				if(parametro.equals("0") || parametro.equals("N/A")){
-    					System.out.println("Pasa por el if");
     					parametro = "-1";
     				}
     			}
@@ -1250,9 +1230,6 @@ public class LetReserva extends HttpServlet {
     			
     			sesion.setAttribute("16_Fecha1", Fecha1);
     	    	sesion.setAttribute("16_Fecha2", Fecha2);
-
-    			
-    			System.out.println("Fechas a enviar = '"+Fecha1+ "' y '"+Fecha2+"'");
     			
     	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdConFechas("", "", "", Fecha1, Fecha2);	
     			request.setAttribute("reservas", reservas);
@@ -1301,9 +1278,7 @@ public class LetReserva extends HttpServlet {
     			
     			sesion.setAttribute("16_Fecha1", Fecha1);
     	    	sesion.setAttribute("16_Fecha2", Fecha2);
-    			
-    			System.out.println("Fechas a enviar = '"+Fecha1+ "' y '"+Fecha2+"'");
-    			
+    			    			
     	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdConFechas("", "", "", Fecha1, Fecha2);	
     			request.setAttribute("reservas", reservas);
     			
@@ -1352,7 +1327,7 @@ public class LetReserva extends HttpServlet {
 			String correo3 = "salomon.nilo@advancing.cl"; 
 			
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
-			String fecha2 = sdf2.format(reserv.getFecha());
+			String fecha2 = DomingoASabado(sdf2.format(reserv.getFecha()));
 			
 			SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
 			String hora = sdf3.format(reserv.getFecha());
@@ -1435,10 +1410,7 @@ public class LetReserva extends HttpServlet {
 			String llegofecha = request.getParameter("Fecha");
 			String llegoreservas = request.getParameter("Reservas");
 			String llegoprereservas = request.getParameter("PreReservas");
-			
-			System.out.println(llegoreservas);
-			System.out.println(llegoprereservas);
-			
+						
 			if(llegofecha!=null && llegofecha.length()==10){
 				
 				llegofecha = llegofecha.replace('/', '-');
@@ -1484,7 +1456,7 @@ public class LetReserva extends HttpServlet {
 					String horario = "";
 					
 					if(reserv.getFecha() != null){
-						fecha2 = sdf2.format(reserv.getFecha());	
+						fecha2 = DomingoASabado(sdf2.format(reserv.getFecha()));	
 		    			hora = sdf3.format(reserv.getFecha());	
 		    			horario = "es <strong>"+fecha2+ "</strong> a las <strong>"+hora+"</strong> horas ";
 					}else{
@@ -1577,6 +1549,20 @@ public class LetReserva extends HttpServlet {
 	    	rd.forward(request, response);
 	      }
     }
+    
+
+    public String DomingoASabado (String fecha) throws java.text.ParseException{
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    	Date fecha1 = sdf.parse(fecha);
+    	
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(fecha1); // Configuramos la fecha que se recibe
+    	if(calendar.get(Calendar.DAY_OF_WEEK) == 1){
+    		calendar.add(Calendar.DAY_OF_YEAR, -1);  // numero de días a añadir, o restar en caso de días<0
+    	}
+ 	    fecha = sdf.format(calendar.getTime()); 
+    	return fecha;
+    }    
     
     public int Diferencia (int campania, int personastotales){
     	if(personastotales > campania){

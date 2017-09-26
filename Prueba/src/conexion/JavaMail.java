@@ -22,7 +22,8 @@ import javax.mail.internet.MimeMultipart;
 
 public class JavaMail {  
   
-	String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\Prueba";
+	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\Prueba";
+	String directorio = "C:\\Users\\Administrator\\git\\Prueba";
 	
 	/**
 	 * @author Salomon

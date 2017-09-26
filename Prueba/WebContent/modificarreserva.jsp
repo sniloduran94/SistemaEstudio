@@ -269,7 +269,7 @@ select {
 			<div class="form-group" id="VecesReagendamiento" style="display:none">
 				  <label class="col-md-4 control-label" for="">Veces reagendamiento</label>
 				  <div class="col-md-4">
-				  	<input class="form-control" type="number" value="<%=res.getCantidad_Reagendamiento()%>" name="16_Cantidad_Reagendamiento" maxlength="20" id="15_Celular" placeholder="" OnChange="validarNumeros(this)"/>
+				  	<input class="form-control" type="number" value="<%=res.getCantidad_Reagendamiento()%>" name="16_Cantidad_Reagendamiento_Modificada" maxlength="20" id="16_Cantidad_Reagendamiento_Modificada" placeholder="" />
 				  </div>
 			</div>
 			
@@ -473,18 +473,22 @@ select {
 
 <script type="text/javascript">
 	function CobroReagenda(){
-		var FechaAntigua = document.getElementById("FechaAntigua").value;
-		
-		var FechaNueva = document.getElementById("datetimepicker2").value;
-				
-		if(countdays(FechaAntigua,FechaNueva)>=-2){
+		if(document.getElementById("VecesReagendamiento").style.display=='none'){
+			var FechaAntigua = document.getElementById("FechaAntigua").value;
 			
-			var r = confirm('\'OK\', para generar cobro por reagendamiento. \'Cancelar\', para no cobrar');
-			if(r== true){
-				document.getElementById("Cobro").value = 1;
-			}else{
-				document.getElementById("Cobro").value = 0;
+			var FechaNueva = document.getElementById("datetimepicker2").value;
+					
+			if(countdays(FechaAntigua,FechaNueva)>=-2){
+				
+				var r = confirm('\'OK\', para generar cobro por reagendamiento. \'Cancelar\', para no cobrar');
+				if(r== true){
+					document.getElementById("Cobro").value = 1;
+				}else{
+					document.getElementById("Cobro").value = 0;
+				}
 			}
+		}else{
+			document.getElementById("Cobro").value = -1;
 		}
 	}
 	
@@ -737,7 +741,7 @@ dayOfWeekStart : 1,
 lang:'es',
 formatDate:'Y.m.d',
 startDate:	'2016/01/01',
-disabledWeekDays: [0],
+//disabledWeekDays: [0],
 dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 timepicker: false,
 });
@@ -775,7 +779,7 @@ $('#datetimepicker2').datetimepicker({
 	format:'Y/m/d',
 	formatDate:'Y/m/d',
 	dayOfWeekStart : 1,
-	disabledWeekDays: [0],
+	//disabledWeekDays: [0],
 	minDate:'-1970/01/01', // yesterday is minimum date
 	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 	timepicker: false,
