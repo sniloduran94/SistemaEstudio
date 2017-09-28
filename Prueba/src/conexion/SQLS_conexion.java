@@ -801,7 +801,7 @@ public class SQLS_conexion {
 			SQL = SQL + "AND [DBO].[15_CLIENTE].[06_ID_CIUDAD] = [DBO].[06_CIUDAD].[06_ID_CIUDAD] "
 					+ "AND [DBO].[15_CLIENTE].[08_ID_COMUNA] = [DBO].[08_COMUNA].[08_ID_COMUNA];";
 		}else{
-			SQL = "SELECT [DBO].[15_CLIENTE].*"
+			SQL = "SELECT [DBO].[15_CLIENTE].* "
 					+ "FROM [DBO].[15_CLIENTE]; ";
 		}
 		
@@ -855,8 +855,8 @@ public class SQLS_conexion {
 			}
 			SQL = SQL + ";";
 		}else{
-			SQL = "SELECT [DBO].[15_CLIENTE].*"
-					+ "FROM [DBO].[15_CLIENTE]; ";
+			SQL = "SELECT * "
+					+ " FROM [DBO].[15_CLIENTE]; ";
 		}
 		
 		ResultSet rs = Consultar(SQL);

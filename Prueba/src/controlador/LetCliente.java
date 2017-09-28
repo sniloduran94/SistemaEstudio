@@ -397,6 +397,24 @@ public class LetCliente extends HttpServlet {
 	  	    	rd = request.getRequestDispatcher("/visualizarclientes.jsp");
 	  	    	rd.forward(request, response);
 	  	    }
+		  
+		  if (llegoSolicitud.equals("FiltroClienteFono")) {
+	  	    	
+	  	    	Trabajador usuario =  null;
+	  	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+	  	    	//request.setAttribute("usuario", usuario);
+	  			System.out.println("Nombre en LetCliente - Filtro Fono : "+ usuario.getNombre());
+	  			
+	  			String columna = "15_FoT";
+	  			
+	  			String busqueda = request.getParameter(columna) + "%' OR [15_Celular] LIKE '%"+request.getParameter(columna)+"";
+	  				  		  			
+	  			ArrayList<ArrayList<Object>> clientes = (ArrayList<ArrayList<Object>>)gd.getClientesSinIdLike("15_Fono", busqueda, "String");	
+	  	    	request.setAttribute("clientes", clientes);
+	  			
+	  	    	rd = request.getRequestDispatcher("/visualizarclientes.jsp");
+	  	    	rd.forward(request, response);
+	  	    }
 	}
        
 	

@@ -126,7 +126,7 @@
   		<div><h2>Clientes</h2></div>
   		
   		<div class="row">
-  		<div class="col-lg-6 col-md-6">
+  		<div class="col-lg-4 col-md-4">
   		<form action="ServletCliente?opcion=FiltroCliente" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-4 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
@@ -137,13 +137,24 @@
 			</div>
 			</form>
 			</div>
-		<div class="col-lg-6 col-md-6">
+		<div class="col-lg-4 col-md-4">
 			<form action="ServletCliente?opcion=FiltroCliente" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-4 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-8">
 			  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
 			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
+			  </div>
+			</div>
+			</form>
+  		</div>
+  		<div class="col-lg-4 col-md-4">
+			<form action="ServletCliente?opcion=FiltroClienteFono" method="post">
+			<div class="form-group wowload fadeInUp">
+			  <label class="col-md-4 control-label" for="rango">Buscar por teléfono o celular <i class="fa fa-phone fa-1x"></i></label>
+			  <div class="col-md-8">
+			  	<input class="form-control" type="Number" id="15_FoT" autocomplete="off" placeholder="1234567" name="15_FoT"/><br>
+			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-phone fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 			  </div>
 			</div>
 			</form>
@@ -237,10 +248,9 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX"><a href="https://www.facebook.com/Genesis-FOTO-Estudio-CHILE-1541270662565794/" title="Facebook Genesis Estudio Fotográfico"><i class="fa fa-facebook-square fa-3x"></i></a>
-	<a href="https://www.instagram.com/genesisestudio/" title="Instagram Genesis Estudio"><i class="fa fa-instagram fa-3x"></i></a></p>
- Ramón Carnicer #37 Piso 1, Providencia, Santiago |&nbsp;  <a href="https://www.google.cl/maps/place/Eliodoro+Ya%C3%B1ez+1075,+Providencia,+Regi%C3%B3n+Metropolitana/@-33.4338019,-70.622082,16z/data=!4m5!3m4!1s0x9662cf7d962a86e5:0x74b763052116819e!8m2!3d-33.4337339!4d-70.6201153" target="_blank"><i class="fa fa-map-marker fa-2x"></i>(Ver mapa)</a>   |   Fono 56 2 3204 2639   |   Celular 56 9 4435 4344 <br><br>
-©Copyright 2016 Genesis Estudio. Todos los derechos reservados.<br><br>
+	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+ <br><br>
+©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
 <!-- # Footer Ends -->
 <a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
