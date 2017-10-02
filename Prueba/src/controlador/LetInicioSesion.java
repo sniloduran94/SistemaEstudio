@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -86,7 +87,7 @@ public class LetInicioSesion extends HttpServlet {
 	    			sesion.setAttribute("usuario", trab);
 	    			
 	    			Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
-	    			System.out.println("Nombre en LetSesion - InicioSesion: "+ usuario.getNombre());
+	    			System.out.println("Nombre en LetSesion - InicioSesion: "+ usuario.getNombre() + " "+   new Date());
 	    			
 	    			request.setAttribute("mensaje", "<strong>¡Bienvenido(a) </strong>");
 	    			request.setAttribute("tipomensaje", "bienvenida" );
@@ -872,7 +873,13 @@ public class LetInicioSesion extends HttpServlet {
 		// TODO Auto-generated method stub
 		//super.doGet(req, resp);
 		try {
-			procesamientoPeticion(request, response);
+			if(sesion==null){
+				RequestDispatcher rd = null;
+				rd = request.getRequestDispatcher("/login.html");
+		    	rd.forward(request, response);
+			}else{
+				procesamientoPeticion(request, response);
+			}
 		} catch (ParseException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

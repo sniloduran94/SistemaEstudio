@@ -4,9 +4,6 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -3144,9 +3141,7 @@ public int ActualizarCampania(Campania camp){
 					+ ",[17_Descripcion_Adicional] = ?"
 					+ ",[17_Abono] = ?"
 					+ " WHERE [17_Id_Campania] = ?");
-					
-			System.out.println(p);
-			
+								
 			int i = 1;
 			p.setString(i++, camp.getNombre());
 			p.setString(i++, String.valueOf(camp.getId_Canal_Venta()));

@@ -1,8 +1,6 @@
 package conexion;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.activation.DataHandler;

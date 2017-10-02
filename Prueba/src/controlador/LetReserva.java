@@ -72,8 +72,9 @@ public class LetReserva extends HttpServlet {
     	    
     	    if (llegoSolicitud.equals("Reservar")) {
     	    	
-    	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
-    	    	System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre());
+    	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	
+    	    	
+    	    	System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre() + new Date());
     	    	int llegoId = 0;	
     	    	
     	    	ArrayList<Cliente> Clientes = (ArrayList<Cliente>)gd.getClientesFiltro("","","");
