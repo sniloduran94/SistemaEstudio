@@ -420,7 +420,8 @@ public class LetInicioSesion extends HttpServlet {
 	    }
 	    
 	    if (llegoSolicitud.equals("GenerarXLS")) {
-
+	    	System.out.println("SOLICITUD DE GENERACION");
+	    	
 	    	Trabajador usuario =  null;
 	    	usuario = (Trabajador) sesion.getAttribute("usuario");
 			System.out.println("Nombre en LetSesion - VisualizarClientes: "+ usuario.getNombre());
@@ -428,7 +429,6 @@ public class LetInicioSesion extends HttpServlet {
 			ArrayList<ArrayList<String>> Arreglo = (ArrayList<ArrayList<String>>)(gd.ArrayExcel());
 			
 			try{
-				
 				WriteExcel test = new WriteExcel();
 				String home = System.getProperty("user.home");
 				String dir = System.getProperty("user.dir");
@@ -437,8 +437,7 @@ public class LetInicioSesion extends HttpServlet {
 				
 				UserHomeApplet dirUsu = new UserHomeApplet();
 				System.out.println("Prop "+dirUsu.getUserHome());
-				
-				
+								
 				String fmt = home+"/Downloads/GenesisEstudio.xls";
 				File f = null;
 				for (int i = 1; i < 100; i++) {
@@ -469,7 +468,7 @@ public class LetInicioSesion extends HttpServlet {
 				rd.include(request, response); 
 				
 			}catch(Exception e){	
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				String mensaje = "<strong>¡Se produjo un error!</strong><br><br>"
 						+ "Descripción: "+e.getMessage();
 				
@@ -477,9 +476,8 @@ public class LetInicioSesion extends HttpServlet {
 				request.setAttribute("mensaje", mensaje);
 				request.setAttribute("tipomensaje", "danger");
 			}
-						
-			//rd = request.getRequestDispatcher("/indextrabajador.jsp");
-			
+		
+			rd = request.getRequestDispatcher("/indextrabajador.jsp");
 			rd.forward(request, response);
 	    }
 	    
@@ -873,13 +871,14 @@ public class LetInicioSesion extends HttpServlet {
 		// TODO Auto-generated method stub
 		//super.doGet(req, resp);
 		try {
-			if(sesion==null){
+			procesamientoPeticion(request, response);
+			/*if(sesion==null){
 				RequestDispatcher rd = null;
 				rd = request.getRequestDispatcher("/login.html");
 		    	rd.forward(request, response);
-			}else{
-				procesamientoPeticion(request, response);
-			}
+			}else{*/
+				
+			//}
 		} catch (ParseException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

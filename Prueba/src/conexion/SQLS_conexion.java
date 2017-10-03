@@ -1844,7 +1844,7 @@ public class SQLS_conexion {
 				 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				 		+ "  	[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 				 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha12+"'"
-				 		+ "     ORDER BY HORA;";
+				 		+ "     ORDER BY [16_FECHA];";
 			 }
 			 if((!(Fecha2.equals("")))&&(!(Fecha1.equals("")))){
 				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
@@ -1880,7 +1880,7 @@ public class SQLS_conexion {
 					 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 					 		+ "		[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 					 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha2+"'"
-					 		+ "     ORDER BY FECHA;";
+					 		+ "     ORDER BY [16_FECHA];";
 			 }
 	}else{
 		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
@@ -1915,8 +1915,10 @@ public class SQLS_conexion {
 			+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
 			+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 			+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
-			+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+			+ "ORDER BY [16_FECHA] DESC;";
 	}
+		
+		System.out.println(SQL);
 		
 		ResultSet rs = Consultar(SQL);
 		
