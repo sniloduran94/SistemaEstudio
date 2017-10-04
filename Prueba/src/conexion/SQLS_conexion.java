@@ -5178,5 +5178,48 @@ public int ActualizarCampania(Campania camp){
 		}
 		return array;		
 	}
+	
+	public ArrayList<ArrayList<String>> EstadisticaCampania(String Excepciones) throws SQLException{
+		String SQL = " SELECT [17_Campania].[17_Id_Campania], [17_Campania].[17_Nombre],"
+				+ " [17_Campania].[17_Precio],  COUNT(*) AS [Total], "
+				+ " [14_Canal_Venta].[14_Id_Canal_Venta], [14_Canal_Venta].[14_Canal],"
+				+ "	[34_Tipo_Sesion].[34_Id_Tipo_Sesion], [34_Tipo_Sesion].[34_Tipo_Sesion] "
+				+ " FROM [16_Reserva]"
+				+ " INNER JOIN [17_Campania]"
+				+ " ON [16_Reserva].[17_Id_Campania] = [17_Campania].[17_Id_Campania]"
+				+ " INNER JOIN [14_Canal_Venta]"
+				+ " ON [17_Campania].[14_Id_Canal_Venta] = [14_Canal_Venta].[14_Id_Canal_Venta] "
+				+ " INNER JOIN [34_Tipo_Sesion]"
+				+ " ON [34_Tipo_Sesion].[34_Id_Tipo_Sesion] = [16_Reserva].[34_Id_Tipo_Sesion]"
+				+ Excepciones
+				+ " GROUP BY [17_Campania].[17_Id_Campania], [16_Reserva].[17_Id_Campania],"
+				+ " [17_Campania].[17_Nombre], [14_Canal_Venta].[14_Id_Canal_Venta], [17_Campania].[17_Precio],"
+				+ " [14_Canal_Venta].[14_Canal], [34_Tipo_Sesion].[34_Id_Tipo_Sesion], [34_Tipo_Sesion].[34_Tipo_Sesion] "
+				+ " ORDER BY [Total] DESC;";
+		
+		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<String> fila = new ArrayList<String>();
+				fila.add(rs.getString("17_Id_Campania"));
+				fila.add(rs.getString("17_Nombre"));
+				fila.add(rs.getString("Total"));
+				fila.add(rs.getString("14_Id_Canal_Venta"));
+				fila.add(rs.getString("14_Canal"));
+				fila.add(rs.getString("17_Precio"));
+				fila.add(rs.getString("34_Tipo_Sesion"));
+				
+				array.add(fila);
+			}
+		}
+		return array;
+	}
 		
 }

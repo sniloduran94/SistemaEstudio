@@ -395,6 +395,22 @@ public class LetInicioSesion extends HttpServlet {
 	    	rd.forward(request, response);
 	    }
 	    
+	    if (llegoSolicitud.equals("VisualizarEstadisticaCampania")) {
+	    	
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+			System.out.println("Nombre en LetSesion - Visualizar Campanias: "+ usuario.getNombre());
+	    	
+	    	ArrayList<ArrayList<String>> campanias = (ArrayList<ArrayList<String>>)gd.EstadisticaCampania("");	
+			request.setAttribute("campanias", campanias);
+			
+			ArrayList<Canal_Venta> canalesdeventa = (ArrayList<Canal_Venta>)gd.getCanalesVentas();	
+			request.setAttribute("canalesventas", canalesdeventa);
+			
+	    	rd = request.getRequestDispatcher("/visualizarestadisticascampanias.jsp");
+	    	rd.forward(request, response);
+	    }
+	    
 	    if (llegoSolicitud.equals("GenerarNuevoTrabajador")) {
 	    	
 	    	Trabajador usuario =  null;

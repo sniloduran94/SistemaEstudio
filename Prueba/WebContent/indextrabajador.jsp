@@ -614,6 +614,27 @@
                         </a>
                     </div>
                 </div>
+                 <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-bar-chart fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>Visualizar estadísticas<br>de campañas</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="ServletLogin?opcion=VisualizarEstadisticaCampania" method="post">
+                            <div class="panel-footer">
+                                <span class="pull-left">¡Visualizar!</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 	</div>
 	<div class="row wowload fadeInLeft">
        			<div class="col-lg-3 col-md-6">

@@ -2,7 +2,9 @@ package controlador;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -306,6 +308,87 @@ public class LetCampania extends HttpServlet {
 				request.setAttribute("canalesventas", canalesdeventa);
 				
 		    	rd = request.getRequestDispatcher("/visualizarcampanias.jsp");
+		    	rd.forward(request, response);
+		    }
+		    
+		    if (llegoSolicitud.equals("FiltroEstadistica")) {
+		    	
+		    	Trabajador usuario =  null;
+		    	boolean and = false;
+		    	usuario = (Trabajador) sesion.getAttribute("usuario");
+				System.out.println("Nombre en LetCampania - Estadistica Campanias: "+ usuario.getNombre());
+		    	
+				String llegoFechaInicio = request.getParameter("Inicio");
+				String llegoFechaFin = request.getParameter("Fin");
+				String llegoCampania = request.getParameter("17_Nombre");
+				String llegoTipoSesion = request.getParameter("34_Tipo_Sesion");
+				String llegoPrecio = request.getParameter("17_Precio");
+				String llegoCanalVenta = request.getParameter("14_Id_Canal_Venta");
+								
+				String CondicionDeBusqueda = " WHERE ";
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				String Fecha12 = null;
+				
+				if(!(llegoFechaInicio.equals(""))){
+					java.util.Date DiaSiguiente = (java.util.Date) sdf.parse(llegoFechaInicio);
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(DiaSiguiente); // Configuramos la fecha que se recibe
+					calendar.add(Calendar.DAY_OF_YEAR, 1);  // numero de días a añadir, o restar en caso de días<0
+					Fecha12 = sdf.format(calendar.getTime());	
+				}
+						
+				if((!(llegoFechaInicio.equals("")))||(!(llegoFechaFin.equals("")))){
+					if((!(llegoFechaInicio.equals("")))&&(llegoFechaFin.equals(""))){
+						 CondicionDeBusqueda += " [16_FECHA] BETWEEN '"+llegoFechaInicio+"' AND '"+Fecha12+"' ";
+					}
+					if((!(llegoFechaFin.equals("")))&&(!(llegoFechaInicio.equals("")))){
+						CondicionDeBusqueda += " [16_FECHA] BETWEEN '"+llegoFechaInicio+"' AND '"+llegoFechaFin+"' ";
+					} 
+					and = true;
+				}else{
+					CondicionDeBusqueda += " ";
+				}
+				
+				if(!llegoCampania.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [17_Campania].[17_Nombre] LIKE '%"+llegoCampania+"%' ";
+					and = true;
+				}
+				
+				if(!llegoTipoSesion.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [34_Tipo_Sesion].[34_Tipo_Sesion] LIKE '%"+llegoTipoSesion+"%' ";
+					and = true;
+				}
+				
+				if(!llegoPrecio.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [17_Campania].[17_Precio] = "+llegoPrecio+" ";
+					and = true;
+				}
+				
+				if(!llegoCanalVenta.equals("") && !llegoCanalVenta.equals("0")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [14_Canal_Venta].[14_Id_Canal_Venta] = "+llegoCanalVenta+" ";
+					and = true;
+				}
+					
+				this.InvalidarFiltros();
+				
+				ArrayList<ArrayList<String>> campanias;
+				if(and){
+					campanias = (ArrayList<ArrayList<String>>)gd.EstadisticaCampania(CondicionDeBusqueda);	
+				}else{
+					campanias = (ArrayList<ArrayList<String>>)gd.EstadisticaCampania("");	
+				}
+				
+				request.setAttribute("campanias", campanias);
+				
+				ArrayList<Canal_Venta> canalesdeventa = (ArrayList<Canal_Venta>)gd.getCanalesVentas();	
+				request.setAttribute("canalesventas", canalesdeventa);
+				
+		    	rd = request.getRequestDispatcher("/visualizarestadisticascampanias.jsp");
 		    	rd.forward(request, response);
 		    }
 	}
