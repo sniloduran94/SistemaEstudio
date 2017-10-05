@@ -321,7 +321,6 @@ public class LetCampania extends HttpServlet {
 				String llegoFechaInicio = request.getParameter("Inicio");
 				String llegoFechaFin = request.getParameter("Fin");
 				String llegoCampania = request.getParameter("17_Nombre");
-				String llegoTipoSesion = request.getParameter("34_Tipo_Sesion");
 				String llegoPrecio = request.getParameter("17_Precio");
 				String llegoCanalVenta = request.getParameter("14_Id_Canal_Venta");
 								
@@ -355,13 +354,7 @@ public class LetCampania extends HttpServlet {
 					CondicionDeBusqueda += " [17_Campania].[17_Nombre] LIKE '%"+llegoCampania+"%' ";
 					and = true;
 				}
-				
-				if(!llegoTipoSesion.equals("")){
-					CondicionDeBusqueda += (and)?" AND ":"";
-					CondicionDeBusqueda += " [34_Tipo_Sesion].[34_Tipo_Sesion] LIKE '%"+llegoTipoSesion+"%' ";
-					and = true;
-				}
-				
+								
 				if(!llegoPrecio.equals("")){
 					CondicionDeBusqueda += (and)?" AND ":"";
 					CondicionDeBusqueda += " [17_Campania].[17_Precio] = "+llegoPrecio+" ";
