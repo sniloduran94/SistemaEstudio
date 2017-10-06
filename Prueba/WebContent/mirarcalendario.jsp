@@ -6,7 +6,7 @@
 <head>
 <meta charset='utf-8' />
 <!--  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
-<title>Genesis Estudio</title>
+<title></title>
 
 <link href='fullcalendar-2.6.0/fullcalendar.css' rel='stylesheet' />
 <link href='fullcalendar-2.6.0/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -62,7 +62,7 @@
 	
 	<!-- Footer Starts -->
 	<div class="footer text-center spacer">
-	Copyright 2017 Genesis Estudio. All rights reserved.
+	Copyright 2017 Sistema Estudio. All rights reserved.
 	</div>
 	<!-- # Footer Ends -->
 	<a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
@@ -122,5 +122,7 @@
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
 
+
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 </body>
 </html>

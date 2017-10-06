@@ -10,7 +10,7 @@
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Genesis Estudio</title>
+<title></title>
 
 <!-- <link rel="stylesheet" href="assets/table/table.css">  -->
 
@@ -230,10 +230,6 @@
 <!-- custom script -->
 <script src="assets/script.js"></script>
 
-<script type="text/javascript">
-	function redirect(URL){
-		window.location= '/GenesisEstudio/'+ URL;
-	}
-</script>
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
 </body>

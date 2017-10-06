@@ -5,7 +5,7 @@
 <html lang="es">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Genesis Estudio</title>
+<title></title>
 
 <!-- Google fonts -->
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
@@ -265,11 +265,8 @@
 <!------------------------------ FIN BOTONES DE MENú--------------------------->
 
 
-<script type="text/javascript">
-	function redirect(URL){
-		window.location= '/GenesisEstudio/'+ URL;
-	}
-</script>
+
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
 </body>
 </html>

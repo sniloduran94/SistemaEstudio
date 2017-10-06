@@ -11,7 +11,7 @@
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Genesis Estudio</title>
+<title></title>
 
 <!-- <link rel="stylesheet" href="assets/table/table.css">  -->
 
@@ -324,10 +324,6 @@
     <!-- The modal dialog, which will be used to wrap the lightbox content -->    
 </div>
 
-
-
-
-
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
 
@@ -350,16 +346,6 @@
 
 <script src="assets/bootstrap/js/jquery.js"></script>
 <script src="build/jquery.datetimepicker.full.js"></script>
-
-
-
-
-<script type="text/javascript">
-	function redirect(URL){
-		window.location= '/GenesisEstudio/'+ URL;
-	}
-</script>
-
 <script>
 window.onerror = function(errorMsg) {
 	$('#console').html($('#console').html()+'<br>'+errorMsg)
@@ -564,5 +550,7 @@ $('#datetimepicker_dark').datetimepicker({theme:'dark'})
 		});
 	}
 </script>
+
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 </body>
 </html>

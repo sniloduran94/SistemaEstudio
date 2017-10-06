@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Prueba (Estudio Fotográfico)</title>
+<title></title>
 
 
 <link href="assets/jquery-ui.css" rel="stylesheet">
@@ -1361,13 +1361,8 @@ function valEmail(valor){
     }
 });
 </script>
-    <script type="text/javascript">
-	function redirect(URL){
-		window.location= '/Prueba/'+ URL;
-	}	
-</script>
-
-
+   
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
 </body>
 </html>

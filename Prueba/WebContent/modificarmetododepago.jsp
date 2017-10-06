@@ -10,7 +10,7 @@
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Genesis Estudio</title>
+<title></title>
 
 <link href="assets/jquery-ui.css" rel="stylesheet">
 
@@ -275,16 +275,8 @@
 		document.getElementById('17_Cant_Fotos_CD').style.visibility = (obj.checked) ? 'visible' : 'hidden';
 	}
 </script>
-<script type="text/javascript">
-	function redirect(URL){
-		window.location= '/GenesisEstudio/'+ URL;
-	}
-</script>
 
-<script>/*
-window.onerror = function(errorMsg) {
-	$('#console').html($('#console').html()+'<br>'+errorMsg)
-}*/
+<script>
 
 $.datetimepicker.setLocale('en');
 
@@ -401,31 +393,9 @@ $('#datetimepicker9').datetimepicker({
 	weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
 	timepicker:false
 });
-
-/*
-var dateToDisable = new Date();
-	dateToDisable.setDate(dateToDisable.getDate() + 2);
-$('#datetimepicker11').datetimepicker({
-	beforeShowDay: function(date) {
-		if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
-			return [false, ""]
-		}
-
-		return [true, ""];
-	}
-});
-$('#datetimepicker12').datetimepicker({
-	beforeShowDay: function(date) {
-		if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
-			return [true, "custom-date-style"];
-		}
-
-		return [true, ""];
-	}
-});
-*/
 $('#datetimepicker_dark').datetimepicker({theme:'dark'})
 </script>
 
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
 </body>
