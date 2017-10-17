@@ -194,6 +194,20 @@ public class LetInicioSesion extends HttpServlet {
 	    	rd.forward(request, response);
 	    }
 	    
+	    if (llegoSolicitud.equals("VisualizarReservaSwitch")) {
+	    	
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+	    	//request.setAttribute("usuario", usuario);
+			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
+	    	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("", "", "");	
+	    	request.setAttribute("reservas", reservas);
+			
+	    	rd = request.getRequestDispatcher("/visualizarreservasswitch.jsp");
+	    	rd.forward(request, response);
+	    }
+	    
 	    if (llegoSolicitud.equals("VisualizarReservasPendientes")) {
 	    	
 	    	Trabajador usuario =  null;

@@ -122,36 +122,30 @@
   <h2>Reservas</h2>
 	<% if(request.getAttribute("SinFiltros")==null){ %>
 	
-  	<form action="ServletReserva?opcion=FiltroFechas" method="post">
+  	<form action="ServletReserva?opcion=FiltroReservas" method="post">
 	<div class="form-group wowload fadeInUp">
 	  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
 	  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
-	  	<button type="submit" id="adelanto" name="boton" onClick="MayorOIgual()" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 	  </div>
 	</div>
-	</form>
-	<form action="ServletReserva?opcion=FiltroCliente" method="post">
 	<div class="form-group wowload fadeInUp">
 	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 	  </div>
 	</div>
-	</form>
-	<br><br><br><br><br><br>
-	<form action="ServletReserva?opcion=FiltroCliente" method="post">
 	<div class="form-group wowload fadeInUp">
 	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
+	  	</div>
 	</div>
+	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 	</form>
-	<br><br><br><br><br><br>
+	
+	<br><br>
 	<form action="ServletReserva?opcion=FiltroPreReserva" method="post">
 	<div class="form-group wowload fadeInUp">
 	  <div class="col-md-6 col-sm-6">

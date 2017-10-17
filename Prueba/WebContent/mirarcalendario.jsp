@@ -54,7 +54,11 @@
 		   <button style="text-align:center;"  class="btn btn-success btn-lg" onclick="javascript:history.back()">
 		             Volver al menu
 			</button>
+			<button style="text-align:center;"  class="btn btn-success btn-lg" onclick="javascript:location.reload();">
+		             Actualizar
+			</button>
 	</div>
+	
     <br>
 	<div id='calendar' ></div>
 	

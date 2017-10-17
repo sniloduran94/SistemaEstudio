@@ -1141,6 +1141,128 @@ public class SQLS_conexion {
 		return array;
 	}	
 	
+public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws SQLException, java.text.ParseException{
+		
+		String SQL = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[16_RESERVA].*,"
+				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
+				+ "  [DBO].[15_CLIENTE].[15_RUT], "
+				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
+				+ "  [DBO].[15_CLIENTE].[15_Apellido_Pat],"
+				+ "  [DBO].[15_CLIENTE].[15_Apellido_Mat], "
+				+ "  [DBO].[15_CLIENTE].[15_Mail], "
+				
+				+ "  [DBO].[17_CAMPANIA].[17_ID_CAMPANIA], "
+				+ "  [DBO].[17_CAMPANIA].[17_NOMBRE],"
+				+ "	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,"
+				+ "	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio],"
+				+ "  [DBO].[17_CAMPANIA].[17_Maximo_Personas],"
+				+ "  [DBO].[17_CAMPANIA].[17_Posee_CD],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_10x15],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_15x21],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_20x30],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_30x40],"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio_Adicional],"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],"
+				+ "  [DBO].[17_CAMPANIA].[17_Abono],"
+				
+				+ "  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],"
+				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
+				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
+				+ "  [dbo].[04_Trabajador].[04_Nombre] "
+				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
+				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+		
+		ResultSet rs = Consultar(SQL);
+			
+		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<Object> min = new ArrayList<Object>();
+				Reserva cc = new Reserva ();
+				cc.setId_Reserva(rs.getInt("16_ID_RESERVA"));
+				cc.setId_Agenda(rs.getInt("03_ID_AGENDA"));
+				cc.setId_Cliente(rs.getInt("15_ID_CLIENTE"));
+				cc.setTipo_Cliente(rs.getInt("05_ID_TIPO_CLIENTE"));
+				cc.setId_Campania(rs.getInt("17_ID_CAMPANIA"));
+				cc.setId_Ticket(rs.getInt("24_ID_TICKET"));
+				cc.setId_Trabajador(rs.getInt("04_ID_TRABAJADOR"));
+				cc.setCantidad_Personas(rs.getInt("16_CANTIDAD_PERSONAS"));
+				cc.setCantidad_Adicionales(rs.getInt("16_CANTIDAD_ADICIONALES"));
+				cc.setCantidad_Reagendamiento(rs.getInt("16_CANTIDAD_REAGENDAMIENTO"));
+				cc.setMonto_Pago_Estudio(rs.getInt("16_MONTO_PAGO_ESTUDIO"));
+				cc.setMonto_Pago_Adelantado(rs.getInt("16_MONTO_PAGO_ADELANTADO"));
+				cc.setId_Estado(rs.getInt("11_ID_ESTADO"));
+				if(rs.getString("FECHA")!=null){
+					cc.setFecha(this.ConvertirFecha(rs.getString("FECHA")));
+				}else{
+					cc.setFecha(null);
+				}
+				cc.setCodigo(rs.getString("16_CODIGO"));
+				cc.setValidado(rs.getBoolean("16_Validado"));
+				cc.setId_Tipo_Sesion(rs.getInt("34_ID_TIPO_SESION"));
+				cc.setPreReserva(rs.getBoolean("16_Pre_Reserva"));
+				cc.setVendedor(rs.getInt("38_Id_Vendedor"));
+				cc.setId_Metodo_Pago(rs.getInt("37_Id_Metodo_Pago"));
+				
+				cc.setObservacion(rs.getString("16_Observacion"));
+				
+				//ATRIBUTOS DE TABLA RESERVA
+				min.add(cc); //0
+				//ATRIBUTOS DE TABLA CLIENTE, CAMPAÑA Y TRABAJADOR
+				min.add(rs.getInt("15_RUT")); //1
+				min.add(rs.getString("15_NOMBRE")); //2
+				min.add(rs.getString("15_APELLIDO_PAT")); //3
+				min.add(rs.getString("15_APELLIDO_MAT")); //4
+				min.add(rs.getObject("17_NOMBRE")); //5
+				min.add(rs.getString("04_NOMBRE")); //6
+				min.add(rs.getString("17_Cant_10x15")); //7
+				min.add(rs.getString("17_Cant_15x21")); //8
+				min.add(rs.getString("17_Cant_20x30")); //9
+				min.add(rs.getString("17_Cant_30x40")); //10
+				min.add(rs.getString("15_MAIL")); //11
+				min.add(rs.getString("34_TIPO_SESION")); //12
+				
+				if(rs.getString("iniciovigencia")==null){
+					min.add(null);									    //13
+				}else{
+					min.add(sdf.parse(rs.getString("iniciovigencia"))); //13
+				}
+				if(rs.getString("finvigencia")==null){
+					min.add(null);                                       //14  
+				}else{ 
+					min.add(sdf.parse(rs.getString("finvigencia")));	 //14
+				}
+				
+				min.add(rs.getInt("17_MAXIMO_PERSONAS"));		 //15
+				min.add(rs.getInt("17_PRECIO"));				 //16
+				min.add(rs.getBoolean("17_POSEE_CD"));			 //17
+				min.add(rs.getInt("17_CANT_FOTOS_CD"));			 //18
+				min.add(rs.getInt("17_Precio_Adicional"));		 //19
+				min.add(rs.getInt("17_Precio_Reagendamiento"));	 //20
+				min.add(rs.getInt("17_ABONO"));				 	 //21
+				
+				array.add(min);
+			}
+		}
+		return array;
+	}	
+	
 	/**
 	 *  @author Advancing
 	 * @param int Columna que entrega el nombre de una columna de la tabla reserva
@@ -1482,6 +1604,99 @@ public class SQLS_conexion {
 				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
 				
 		ResultSet rs = Consultar(SQL);
+		
+		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<Object> min = new ArrayList<Object>();
+				Reserva cc = new Reserva ();
+				cc.setId_Reserva(rs.getInt("16_ID_RESERVA"));
+				cc.setId_Agenda(rs.getInt("03_ID_AGENDA"));
+				cc.setId_Cliente(rs.getInt("15_ID_CLIENTE"));
+				cc.setTipo_Cliente(rs.getInt("05_ID_TIPO_CLIENTE"));
+				cc.setId_Campania(rs.getInt("17_ID_CAMPANIA"));
+				cc.setId_Ticket(rs.getInt("24_ID_TICKET"));
+				cc.setId_Trabajador(rs.getInt("04_ID_TRABAJADOR"));
+				cc.setCantidad_Personas(rs.getInt("16_CANTIDAD_PERSONAS"));
+				cc.setCantidad_Adicionales(rs.getInt("16_CANTIDAD_ADICIONALES"));
+				cc.setCantidad_Reagendamiento(rs.getInt("16_CANTIDAD_REAGENDAMIENTO"));
+				cc.setMonto_Pago_Estudio(rs.getInt("16_MONTO_PAGO_ESTUDIO"));
+				cc.setMonto_Pago_Adelantado(rs.getInt("16_MONTO_PAGO_ADELANTADO"));
+				cc.setId_Estado(rs.getInt("11_ID_ESTADO"));				
+				if(rs.getString("FECHA")!=null){
+					cc.setFecha(this.ConvertirFecha(rs.getString("FECHA")));
+				}else{
+					
+					cc.setFecha(null);
+				}
+				cc.setCodigo(rs.getString("16_CODIGO"));
+				cc.setValidado(rs.getBoolean("16_Validado"));
+				cc.setId_Tipo_Sesion(rs.getInt("34_Id_TIPO_SESION"));
+				cc.setPreReserva(rs.getBoolean("16_Pre_Reserva"));
+				cc.setVendedor(rs.getInt("38_Id_Vendedor"));
+				cc.setId_Metodo_Pago(rs.getInt("37_Id_Metodo_Pago"));
+				
+				
+				//ATRIBUTOS DE TABLA RESERVA
+				min.add(cc);
+				//ATRIBUTOS DE TABLA CLIENTE, CAMPAÑA Y TRABAJADOR
+				min.add(rs.getInt("15_RUT"));
+				min.add(rs.getString("15_NOMBRE"));
+				min.add(rs.getString("15_APELLIDO_PAT"));
+				min.add(rs.getString("15_APELLIDO_MAT"));
+				min.add(rs.getObject("17_NOMBRE"));
+				min.add(rs.getString("04_NOMBRE"));
+				min.add(rs.getString("17_Cant_10x15"));
+				min.add(rs.getString("17_Cant_15x21"));
+				min.add(rs.getString("17_Cant_20x30"));
+				min.add(rs.getString("17_Cant_30x40"));
+				min.add(rs.getString("15_MAIL"));
+				min.add(rs.getString("34_Tipo_Sesion"));
+				
+				array.add(min);
+			}
+		}
+		return array;
+	}	
+	
+public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones) throws SQLException, java.text.ParseException{
+		
+		String SQL = "";
+				
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[16_RESERVA].*,"
+				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
+				+ "  [DBO].[15_CLIENTE].[15_RUT], "
+				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
+				+ "  [DBO].[15_CLIENTE].[15_Apellido_Pat],"
+				+ "  [DBO].[15_CLIENTE].[15_Apellido_Mat], "
+				+ "  [DBO].[15_CLIENTE].[15_Mail], "
+				+ "  [DBO].[17_CAMPANIA].[17_ID_CAMPANIA], "
+				+ "  [DBO].[17_CAMPANIA].[17_NOMBRE],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_10x15],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_15x21],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_20x30],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_30x40],"
+				+ "  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],"
+				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
+				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
+				+ "  [dbo].[04_Trabajador].[04_Nombre] "
+				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
+				+" WHERE [dbo].[16_Reserva].[16_Pre_Reserva] = 0 AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "
+				+ Excepciones
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				
+		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 		
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
