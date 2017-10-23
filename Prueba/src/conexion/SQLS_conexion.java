@@ -1061,7 +1061,7 @@ public class SQLS_conexion {
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 			
@@ -1183,7 +1183,7 @@ public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws S
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 			
@@ -1328,7 +1328,7 @@ public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws S
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -1471,7 +1471,7 @@ public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws S
 				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -1601,7 +1601,7 @@ public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws S
 				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -1662,8 +1662,10 @@ public ArrayList<ArrayList<Object>> getReservasSinId(String Excluyente) throws S
 		return array;
 	}	
 	
-public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones) throws SQLException, java.text.ParseException{
+	public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones) throws SQLException, java.text.ParseException{
 		
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		String SQL = "";
 				
 		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
@@ -1676,23 +1678,35 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 				+ "  [DBO].[15_CLIENTE].[15_Apellido_Pat],"
 				+ "  [DBO].[15_CLIENTE].[15_Apellido_Mat], "
 				+ "  [DBO].[15_CLIENTE].[15_Mail], "
+				
 				+ "  [DBO].[17_CAMPANIA].[17_ID_CAMPANIA], "
 				+ "  [DBO].[17_CAMPANIA].[17_NOMBRE],"
+				+ "	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,"
+				+ "	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio],"
+				+ "  [DBO].[17_CAMPANIA].[17_Maximo_Personas],"
+				+ "  [DBO].[17_CAMPANIA].[17_Posee_CD],"
+				+ "  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],"
 				+ "  [DBO].[17_CAMPANIA].[17_Cant_10x15],"
 				+ "  [DBO].[17_CAMPANIA].[17_Cant_15x21],"
 				+ "  [DBO].[17_CAMPANIA].[17_Cant_20x30],"
 				+ "  [DBO].[17_CAMPANIA].[17_Cant_30x40],"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio_Adicional],"
+				+ "  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],"
+				+ "  [DBO].[17_CAMPANIA].[17_Abono],"
+				
 				+ "  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],"
 				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
 				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
-				+" WHERE [dbo].[16_Reserva].[16_Pre_Reserva] = 0 AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
 				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "
+				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 				+ Excepciones
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -1748,6 +1762,25 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 				min.add(rs.getString("17_Cant_30x40"));
 				min.add(rs.getString("15_MAIL"));
 				min.add(rs.getString("34_Tipo_Sesion"));
+
+				if(rs.getString("iniciovigencia")==null){
+					min.add(null);									    //13
+				}else{
+					min.add(sdf.parse(rs.getString("iniciovigencia"))); //13
+				}
+				if(rs.getString("finvigencia")==null){
+					min.add(null);                                       //14  
+				}else{ 
+					min.add(sdf.parse(rs.getString("finvigencia")));	 //14
+				}
+				
+				min.add(rs.getInt("17_MAXIMO_PERSONAS"));		 //15
+				min.add(rs.getInt("17_PRECIO"));				 //16
+				min.add(rs.getBoolean("17_POSEE_CD"));			 //17
+				min.add(rs.getInt("17_CANT_FOTOS_CD"));			 //18
+				min.add(rs.getInt("17_Precio_Adicional"));		 //19
+				min.add(rs.getInt("17_Precio_Reagendamiento"));	 //20
+				min.add(rs.getInt("17_ABONO"));				 	 //21
 				
 				array.add(min);
 			}
@@ -1819,7 +1852,7 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+" [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0 "+Excluyente
-				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 				
 		System.out.println(SQL);
 		
@@ -1933,7 +1966,7 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 						+ "	[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 						+ "	[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] AND "
 						+ "	[dbo].[14_Canal_Venta].[14_Requiere_Cupon] = 0 "
-						+ "	ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+						+ "	ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -2303,7 +2336,7 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 			+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
 			+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 			+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
-			+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+			+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 	}
 		
 		
@@ -2472,7 +2505,7 @@ public ArrayList<ArrayList<Object>> getNoPreReservasSinIdLike(String Excepciones
 				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+ "[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+ "[dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0"
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] DESC;";
+				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
 		}
 				
 		ResultSet rs = Consultar(SQL);

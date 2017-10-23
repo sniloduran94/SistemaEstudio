@@ -183,7 +183,7 @@
 							<th ><h5>Cliente</h5></th>
 							<th ><h5>Campaña</h5></th>
 							<th style="width:15%" class="reserva"><h5>Descripción</h5></th>
-							<th class="reserva"><h5>Personas</h5></th>
+							<th class="reserva"><h5>Personas<br>que asisten</h5></th>
 							<th class="reserva"><h5>Personas<br>Adicionales</h5></th>
 							<th class="reserva"><h5>Veces<br>Reagendar</h5></th>
 							<th class="reserva"><h5>Monto Anticipo</h5></th>

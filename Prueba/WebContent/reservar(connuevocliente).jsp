@@ -1304,15 +1304,15 @@ function valEmail(valor){
 </script>
 
 <script>
-	function comprobarClave(){ 
-	   	clave1 =  document.getElementById("15_Contrasenia").value;
-	   	clave2 =  document.getElementById("R15_Contrasenia").value;
+	function comprobarClave() { 
+	    var clave1 =  document.getElementById("15_Contrasenia").value;
+        var clave2 =  document.getElementById("R15_Contrasenia").value;
 		
 		if((clave1.equals(""))&&(clave2.equals(""))){
 			return ;
 		}
 		
-	   	if (clave1 != clave2){
+	   	if (clave1 !== clave2){
 		  document.getElementById("R15_Contrasenia").value = "";
 	      alert("Las contraseñas no coinciden, intente nuevamente");
 		} 
