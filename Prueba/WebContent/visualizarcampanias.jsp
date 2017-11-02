@@ -122,31 +122,19 @@
   <%	} 
 	  } %>
   		<div><h2>Campañas</h2></div>
-  		<div class="col-lg-6">
-  		<form action="ServletLogin?opcion=GenerarNuevoCampania" method="post">	 
-				<div class="btn-group  btn-group-lg">
-					<button type="submit" class="btn btn-success" name="NuevoCampania" value="Nuevo" title="Crear nueva campaña">
-                		<i class="fa fa-plus-square fa-1x"></i> <i class="fa fa-camera fa-2x"></i>
-            		</button>
-				</div>
-		</form>	
-		</div>
-		<form action="ServletCampania?opcion=FiltroNombre" method="post">
+  		
+		<form action="ServletCampania?opcion=FiltroCampania" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-2 control-label" for="rango">Buscar por nombre de campaña <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-4">
 			  	<input class="form-control" type="text" id="17_Nombre" autocomplete="off" placeholder="Maternal" name="17_Nombre"/><br>
-			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-			  </div>
+			  	</div>
 			</div>
-			</form>
-			<br><br><br><br><br><br>
-			<form action="ServletCampania?opcion=FiltroCanalVenta" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-2 control-label" for="rango">Buscar por canal de venta<i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-4">
 			  	<select class="form-control"  name="14_Id_Canal_Venta" id="14_Id_Canal_Venta">
-					<option value="1"></option>
+					<option value="0"></option>
 					<%
 							Iterator<Canal_Venta> it = canalesventas.iterator();
 							while(it.hasNext())
@@ -157,10 +145,20 @@
 					<% 		}     %>
 				</select>	
 				<br>
-				<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-			  </div>
+				</div>
 			</div>
+			<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 			</form>
+			<br>
+		<div class="col-lg-6">
+  		<form action="ServletLogin?opcion=GenerarNuevoCampania" method="post">	 
+				<div class="btn-group  btn-group-lg">
+					<button type="submit" class="btn btn-success" name="NuevoCampania" value="Nuevo" title="Crear nueva campaña">
+                		<i class="fa fa-plus-square fa-1x"></i> <i class="fa fa-camera fa-2x"></i>
+            		</button>
+				</div>
+		</form>	
+		</div>
    <%
 				//Obtención de reservas para tabla de visualizacion de reservas 
 				ArrayList<ArrayList<Object>> campanias = (ArrayList<ArrayList<Object>>)(request.getAttribute("campanias"));

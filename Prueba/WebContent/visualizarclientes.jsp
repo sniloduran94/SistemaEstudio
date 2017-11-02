@@ -126,39 +126,34 @@
   		<div><h2>Clientes</h2></div>
   		
   		<div class="row">
-  		<div class="col-lg-4 col-md-4">
   		<form action="ServletCliente?opcion=FiltroCliente" method="post">
+  		<div class="col-lg-4 col-md-4">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-4 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-8">
 			  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
-			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-			  </div>
+			   </div>
 			</div>
-			</form>
 			</div>
 		<div class="col-lg-4 col-md-4">
-			<form action="ServletCliente?opcion=FiltroCliente" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-4 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-8">
 			  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
-			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 			  </div>
 			</div>
-			</form>
   		</div>
   		<div class="col-lg-4 col-md-4">
-			<form action="ServletCliente?opcion=FiltroClienteFono" method="post">
 			<div class="form-group wowload fadeInUp">
 			  <label class="col-md-4 control-label" for="rango">Buscar por teléfono o celular <i class="fa fa-phone fa-1x"></i></label>
 			  <div class="col-md-8">
 			  	<input class="form-control" type="Number" id="15_FoT" autocomplete="off" placeholder="1234567" name="15_FoT"/><br>
-			  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-phone fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
 			  </div>
 			</div>
-			</form>
-  		</div>
+		</div>
+		<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-phone fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
+  		</form>
+  		<br>
   		<div class="col-lg-6 col-md-6">
   		<form action="ServletLogin?opcion=GenerarNuevoCliente" method="post">	 
 				<div class="btn-group  btn-group-lg">

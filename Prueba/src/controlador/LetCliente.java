@@ -373,7 +373,7 @@ public class LetCliente extends HttpServlet {
 		    	rd.forward(request, response);
 	    	  }
 		  
-		  if (llegoSolicitud.equals("FiltroCliente")) {
+		  if (llegoSolicitud.equals("FiltroCliente2")) {
 	  	    	
 	  	    	Trabajador usuario =  null;
 	  	    	usuario = (Trabajador) sesion.getAttribute("usuario");
@@ -392,6 +392,53 @@ public class LetCliente extends HttpServlet {
 	  			System.out.println(columna +request.getParameter(columna) );
 	  			
 	  			ArrayList<ArrayList<Object>> clientes = (ArrayList<ArrayList<Object>>)gd.getClientesSinIdLike(columna, request.getParameter(columna), "String");	
+	  	    	request.setAttribute("clientes", clientes);
+	  			
+	  	    	rd = request.getRequestDispatcher("/visualizarclientes.jsp");
+	  	    	rd.forward(request, response);
+	  	    }
+		  
+		  if (llegoSolicitud.equals("FiltroCliente")) {
+	  	    	
+	  	    	Trabajador usuario =  null;
+	  	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+	  	    	//request.setAttribute("usuario", usuario);
+	  			System.out.println("Nombre en LetCliente - Visualizar Clientes: "+ usuario.getNombre());
+	  			
+	  			String CondicionDeBusqueda = "";
+	  			boolean and = false;
+	  			
+	  			
+	  			String columna = "";
+	  			
+	  			String llegoNombre = request.getParameter("15_Nombre");
+	  			String llegoApellido = request.getParameter("15_Apellido_Pat");
+	  			String llegoNumero = request.getParameter("15_FoT");
+	  			
+
+				if(!llegoNombre.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [15_Nombre] LIKE '%"+llegoNombre+"%' ";
+					and = true;
+				}
+				
+				if(!llegoApellido.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [15_Apellido_Pat] LIKE '%"+llegoApellido+"%' ";
+					and = true;
+				}
+				
+				if(!llegoNumero.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += "(CAST([15_Fono] AS VARCHAR(17)) LIKE '%"+llegoNumero+"%' OR CAST([15_Celular] AS VARCHAR(17)) LIKE '%"+llegoNumero+"%')";
+					and = true;
+				}
+	  			  			
+				if(!CondicionDeBusqueda.isEmpty()){
+					CondicionDeBusqueda = "WHERE "+CondicionDeBusqueda;
+				}
+					
+	  			ArrayList<ArrayList<Object>> clientes = (ArrayList<ArrayList<Object>>)gd.getClientesSinIdLike(CondicionDeBusqueda);	
 	  	    	request.setAttribute("clientes", clientes);
 	  			
 	  	    	rd = request.getRequestDispatcher("/visualizarclientes.jsp");

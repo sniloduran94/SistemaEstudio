@@ -259,7 +259,7 @@ public class LetCampania extends HttpServlet {
 		    	rd.forward(request, response);
 	    	  }
 		    
-		    if (llegoSolicitud.equals("FiltroCanalVenta")) {
+		    if (llegoSolicitud.equals("FiltroCampania")) {
 		    	
 		    	Trabajador usuario =  null;
 		    	usuario = (Trabajador) sesion.getAttribute("usuario");
@@ -267,46 +267,45 @@ public class LetCampania extends HttpServlet {
 		    	
 				this.InvalidarFiltros();
     			
-    			String columna = "";
-    			String parametro = "";
+				String CondicionDeBusqueda = "";
+	  			boolean and = false;
+				
+    			String llegoCanal = "";
+    			String llegoNombre = "";
+    			
+    			llegoCanal = request.getParameter("14_Id_Canal_Venta");
+    			llegoNombre = request.getParameter("17_Nombre");
+    			
+    			if(!llegoCanal.equals("") && !llegoCanal.equals("0")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [14_Canal_Venta].[14_Id_Canal_Venta] = "+llegoCanal+" ";
+					and = true;
+				}
+    			if(!llegoNombre.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [17_Nombre] LIKE '%"+llegoNombre+"%' ";
+					and = true;
+				}
+    			if(!CondicionDeBusqueda.isEmpty()){
+					CondicionDeBusqueda = "AND "+CondicionDeBusqueda;
+				}
+    			
+    			/*
 				if(request.getParameter("14_Id_Canal_Venta")!=null){
-    				columna = "14_Id_Canal_Venta";
-    				parametro = request.getParameter(columna);
     	  			sesion.setAttribute("14_Id_Canal_Venta", request.getParameter("14_Id_Canal_Venta"));
 				}
 				
-		    	ArrayList<ArrayList<Object>> campanias = (ArrayList<ArrayList<Object>>)gd.getCampañasSinId("17_Campania].[14_Id_Canal_Venta", parametro, "Int");	
+				if(request.getParameter("17_Nombre")!=null){
+    	  			sesion.setAttribute("17_Nombre", request.getParameter("17_Nombre"));
+				}*/
+    			
+				
+		    	ArrayList<ArrayList<Object>> campanias = (ArrayList<ArrayList<Object>>)gd.getCampañasSinId(CondicionDeBusqueda);	
 				request.setAttribute("campanias", campanias);
 				
 				ArrayList<Canal_Venta> canalesdeventa = (ArrayList<Canal_Venta>)gd.getCanalesVentas();	
 				request.setAttribute("canalesventas", canalesdeventa);
 							
-		    	rd = request.getRequestDispatcher("/visualizarcampanias.jsp");
-		    	rd.forward(request, response);
-		    }
-		    
-		    if (llegoSolicitud.equals("FiltroNombre")) {
-		    	
-		    	Trabajador usuario =  null;
-		    	usuario = (Trabajador) sesion.getAttribute("usuario");
-				System.out.println("Nombre en LetSesion - Visualizar Campanias: "+ usuario.getNombre());
-		    	
-				this.InvalidarFiltros();
-    			
-    			String columna = "";
-    			String parametro = "";
-				if(request.getParameter("17_Nombre")!=null){
-    				columna = "17_Nombre";
-    				parametro = request.getParameter(columna);
-    	  			sesion.setAttribute("17_Nombre", request.getParameter("17_Nombre"));
-				}
-				
-		    	ArrayList<ArrayList<Object>> campanias = (ArrayList<ArrayList<Object>>)gd.getCampañasSinIdLike("17_Campania].[17_Nombre", parametro, "String");	
-				request.setAttribute("campanias", campanias);
-				
-				ArrayList<Canal_Venta> canalesdeventa = (ArrayList<Canal_Venta>)gd.getCanalesVentas();	
-				request.setAttribute("canalesventas", canalesdeventa);
-				
 		    	rd = request.getRequestDispatcher("/visualizarcampanias.jsp");
 		    	rd.forward(request, response);
 		    }

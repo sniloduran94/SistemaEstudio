@@ -653,6 +653,65 @@ public class SQLS_conexion {
 		return array;
 	}
 	
+	public ArrayList<ArrayList<Object>> getCampañasSinId(String Excepciones) throws SQLException, java.text.ParseException{
+		String SQL = "";
+		
+		if(!Excepciones.equals("")){
+			SQL = " SELECT [17_Campania].*,[14_Canal_Venta].[14_Id_Canal_Venta],[14_Canal_Venta].[14_Canal]"
+					+ "  ,CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS fecha1"
+					+ "  ,CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS fecha2"
+					+ "  FROM [dbo].[17_Campania], [dbo].[14_Canal_Venta] "
+					+ "  WHERE [17_Campania].[14_Id_Canal_Venta]=[14_Canal_Venta].[14_Id_Canal_Venta] "+ Excepciones
+					+ "		ORDER BY [17_Fin_Vigencia] DESC";
+		}else{
+			SQL = "  SELECT [17_Campania].*,[14_Canal_Venta].[14_Id_Canal_Venta],[14_Canal_Venta].[14_Canal]"
+					+ "  ,CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS fecha1"
+					+ "  ,CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS fecha2"
+					+ "  FROM [dbo].[17_Campania], [dbo].[14_Canal_Venta]"
+					+ "  WHERE [17_Campania].[14_Id_Canal_Venta]=[14_Canal_Venta].[14_Id_Canal_Venta]"
+					+ " ORDER BY [17_Fin_Vigencia] DESC";
+		}
+		System.out.println(SQL);
+		
+		ResultSet rs = Consultar(SQL);
+		
+		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
+	
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			ArrayList<Object> min = new ArrayList<Object>();
+			Campania cc = new Campania ();
+			cc.setDescripcion(rs.getString("17_DESCRIPCION"));
+			cc.setFin_Vigencia(this.ConvertirDia(rs.getString("FECHA2")));
+			cc.setId_Campania(rs.getInt("17_ID_CAMPANIA"));
+			cc.setId_Canal_Venta(rs.getInt("14_ID_CANAL_VENTA"));
+			cc.setId_Estado(rs.getInt("11_ID_ESTADO"));
+			cc.setInicio_Vigencia(this.ConvertirDia(rs.getString("FECHA1")));
+			cc.setMaximo_Personas(rs.getInt("17_MAXIMO_PERSONAS"));
+			cc.setPrecio(rs.getInt("17_PRECIO"));
+			cc.setNombre(rs.getString("17_NOMBRE"));
+			cc.setCD(rs.getBoolean("17_Posee_CD"));
+			cc.setCant_Fotos_CD(rs.getInt("17_Cant_Fotos_CD"));
+			cc.setCant_10x15(rs.getInt("17_Cant_10x15"));
+			cc.setCant_15x21(rs.getInt("17_Cant_15x21"));
+			cc.setCant_20x30(rs.getInt("17_Cant_20x30"));
+			cc.setCant_30x40(rs.getInt("17_Cant_30x40"));
+			cc.setPrecio_Adicional(rs.getInt("17_Precio_Adicional"));
+			cc.setPrecio_Reagendamiento(rs.getInt("17_Precio_Reagendamiento"));
+			cc.setDescripcion_Adicional(rs.getString("17_Descripcion_Adicional"));
+			cc.setAbono(rs.getInt("17_ABONO"));
+			
+			//ATRIBUTOS DE TABLA CAMPAÑA
+			min.add(cc);
+			//ATRIBUTOS DE TABLA CANALVENTA
+			min.add(rs.getString("14_CANAL"));
+			array.add(min);
+		}
+		return array;
+	}
+	
 	public ArrayList<ArrayList<Object>> getCampañasSinIdLike(String Columna, String Valor, String Tipo) throws SQLException, java.text.ParseException{
 		String SQL = "";
 		
@@ -850,6 +909,51 @@ public class SQLS_conexion {
 			}else{
 				System.out.println("ERROR DE FORMATO");
 			}
+			SQL = SQL + ";";
+		}else{
+			SQL = "SELECT * "
+					+ " FROM [DBO].[15_CLIENTE]; ";
+		}
+		
+		ResultSet rs = Consultar(SQL);
+		System.out.println(SQL);
+		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			ArrayList<Object> min = new ArrayList<Object>();
+			Cliente cc = new Cliente ();
+			cc.setId_Cliente(rs.getInt("15_ID_CLIENTE"));
+			cc.setRut(rs.getInt("15_RUT"));
+			cc.setNombre(rs.getString("15_NOMBRE"));
+			cc.setApellido_Pat(rs.getString("15_APELLIDO_PAT"));
+			cc.setApellido_Mat(rs.getString("15_APELLIDO_MAT"));
+			cc.setDireccion(rs.getString("15_DIRECCION"));
+			cc.setId_Comuna(rs.getInt("08_ID_COMUNA"));
+			cc.setId_Ciudad(rs.getInt("06_ID_CIUDAD"));
+			cc.setFono(rs.getInt("15_FONO"));
+			cc.setCelular(rs.getInt("15_CELULAR"));
+			cc.setMail(rs.getString("15_MAIL"));
+			cc.setId_Tipo_Cliente(rs.getInt("05_ID_TIPO_CLIENTE"));
+			cc.setReclamo(rs.getBoolean("15_OBSERVACION"));
+			cc.setObservacion(rs.getString("15_OBSERVACION"));
+			cc.setId_Estado(rs.getInt("11_ID_ESTADO"));
+			
+			//ATRIBUTOS DE TABLA RESERVA
+			min.add(cc);
+			//ATRIBUTOS DE TABLA COMUNA Y CIUDAD
+			array.add(min);
+		}
+		return array;		
+	}
+	
+	public ArrayList<ArrayList<Object>> getClientesSinIdLike(String Excepciones) throws SQLException{
+		String SQL = "";
+		if(!Excepciones.equals("")){
+			SQL = "SELECT [DBO].[15_CLIENTE].* "
+					+ "FROM [DBO].[15_CLIENTE] "+Excepciones;
 			SQL = SQL + ";";
 		}else{
 			SQL = "SELECT * "
