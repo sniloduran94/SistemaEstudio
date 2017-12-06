@@ -103,7 +103,7 @@
 <body>
 
 
-<div class="container-fluid spacer wowload fadeInUp">
+<div class="container-fluid spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -121,7 +121,7 @@
 	  } %>
   <h2>Envío de mails por evento</h2>
   <form action="ServletSesion?opcion=FiltroClienteSesiones" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
@@ -131,7 +131,7 @@
 	</form>
 	<br><br><br><br><br><br>
 	<form action="ServletSesion?opcion=FiltroClienteSesiones" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
@@ -147,11 +147,11 @@
 						<h3>No existen datos para mostrar </h3>
 						</div>
 	<%			}else{	%>
-				  <div class="col-md-6 wowload fadeInUp">
+				  <div class="col-md-6">
 					<h4>Resultado(s): <%=sesiones.size()%></h4><br>
 					<div class = "col-md-4"></div>
             	  </div>
-            		<table class="table table-hover wowload fadeInUp">
+            		<table class="table table-hover">
 					    <thead>
 						  <tr style="font-size:13px;">
 							<th><h5>Fecha<br>sesión<br>(Día/Mes/Año)</h5></th>
@@ -253,7 +253,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p >Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -276,10 +276,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

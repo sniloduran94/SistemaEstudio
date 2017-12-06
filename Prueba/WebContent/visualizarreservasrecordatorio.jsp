@@ -65,20 +65,20 @@
  
 <div class="modal" id="correomasivo"> <!-- Mision-->
 
-	-<form class="form-horizontal wowload fadeInUp" id="Reserva"
+	-<form class="form-horizontal" id="Reserva"
 		action="ServletReserva?opcion=RecordatorioMasivo" method="post">
 		
-	<div class="modal-dialog wowload flipInX">
+	<div class="modal-dialog ">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<br>				
-				<h4 class="modal-title bounceInUp">Enviar recordatorio masivo</h4>
+				<h4 class="modal-title ">Enviar recordatorio masivo</h4>
 			</div>
 			
-			<div class="modal-body bounceInUp">
+			<div class="modal-body ">
 							
-			<div class="form-group wowload fadeInUp">
+			<div class="form-group ">
 			  <label class="col-md-4 control-label" for="rango">Fecha <i class="fa fa-calendar fa-1x"></i></label>
 			  <div class="col-md-8">
 			  	<input class="form-control" type="text" id="datetimepicker211" autocomplete="off" placeholder="2017/07/30" name="Fecha"/><br>
@@ -150,7 +150,7 @@
 <body>
 
 
-<div class="container spacer wowload fadeInUp">
+<div class="container spacer ">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -168,7 +168,7 @@
 	  } %>
   <h2>Enviar recordatorio de sesiones</h2>
 		  	<form action="ServletReserva?opcion=FiltroFechasRecordatorio" method="post">
-			<div class="form-group wowload fadeInUp">
+			<div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
 			  <div class="col-md-4">
 			  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
@@ -178,7 +178,7 @@
 			</div>
 			</form>
 			<form action="ServletReserva?opcion=FiltroClienteRecordatorio" method="post">
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group ">
 				  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 				  <div class="col-md-4">
 				  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
@@ -188,7 +188,7 @@
 				</form>
 				<br><br><br><br><br><br>
 				<form action="ServletReserva?opcion=FiltroClienteRecordatorio" method="post">
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group ">
 				  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 				  <div class="col-md-4">
 				  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
@@ -202,7 +202,7 @@
 				<hr>
 				
 				<form action="ServletLogin?opcion=VisualizarPreReservasRecordatorio" method="post">
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group">
 				  <div class="col-md-6">
 				  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Mostrar sólo pre reservas <i class="fa fa-search fa-1x"></i></button>
 				  </div>
@@ -210,7 +210,7 @@
 				</form>
 				
 				
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group">
 				  <div class="col-md-6">
 				  	<a href="#correomasivo" class="btn btn-warning btn-block" data-toggle="modal"><strong>Enviar correo masivo</strong></a>
 				  </div>
@@ -223,7 +223,7 @@
 						<h3>No existen datos para mostrar </h3>
 						</div>
 	<%			}else{	%>
-				  <div class="col-md-6 wowload fadeInUp">
+				  <div class="col-md-6">
 					<h4>Resultado(s): <%=reservas.size()%></h4><br>
 					<div class = "col-md-4"></div>
 					<a href="ServletLogin?opcion=MirarCalendario" method="post">
@@ -232,7 +232,7 @@
             			</button>
             		</a>
             	  </div>
-            		<table class="table table-hover wowload fadeInUp">
+            		<table class="table table-hover">
 					    <thead>
 						  <tr style="font-size:13px;">
 							<th><h5>Fecha<br>Año/Mes/Día</h5></th>
@@ -300,7 +300,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -323,10 +323,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

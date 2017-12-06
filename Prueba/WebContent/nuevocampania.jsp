@@ -165,8 +165,8 @@
 <!--FORMULARIO-->
 <br><br>
 <div id="home"  class="container spacer about">
-<h2 class="text-center wowload fadeInUp">Nueva Campaña</h2> 
-	<form name="formcliente" class="form-horizontal wowload fadeInUp" action="ServletCampania?opcion=NuevoCampania" method="post">
+<h2 class="text-center">Nueva Campaña</h2> 
+	<form name="formcliente" class="form-horizontal" action="ServletCampania?opcion=NuevoCampania" method="post">
 	<fieldset>
 
 <!-- Form Name -->
@@ -332,7 +332,7 @@
 		
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p >Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -363,10 +363,6 @@
 
 <!-- jquery -->
 <!--<script src="assets/jquery.js"></script>-->
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

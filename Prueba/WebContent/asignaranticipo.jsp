@@ -188,8 +188,8 @@ select {
 <br>
 <br>
 <div id="home" class="container spacer about">
-	<h2 class="text-center wowload fadeInUp">Asignar anticipo</h2>
-	<form class="form-horizontal wowload fadeInUp"
+	<h2 class="text-center">Asignar anticipo</h2>
+	<form class="form-horizontal"
 		action="ServletReserva?opcion=AsignarAnticipo" method="post">
 		<fieldset>
 			<%	
@@ -456,7 +456,7 @@ select {
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p class="">Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -484,9 +484,6 @@ select {
     $( "#dialog" ).dialog();
   });
 </script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
 
 
 <!-- boostrap -->

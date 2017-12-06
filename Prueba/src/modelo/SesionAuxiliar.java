@@ -30,6 +30,7 @@ public class SesionAuxiliar {
 	private String Nombre_Retira = "";
 	private boolean Lista_Para_Entregar;
 	private java.util.Date Fecha_Sesion;
+	private int CampaniaConvetida = 0;
 	
     
 	public SesionAuxiliar() {
@@ -209,5 +210,13 @@ public class SesionAuxiliar {
 
 	public void setFecha_Sesion(java.util.Date fecha_Sesion) {
 		Fecha_Sesion = fecha_Sesion;
+	}
+
+	public int getCampaniaConvetida() {
+		return CampaniaConvetida;
+	}
+
+	public void setCampaniaConvetida(int campaniaConvetida) {
+		CampaniaConvetida = campaniaConvetida;
 	}
 }

@@ -179,7 +179,7 @@ input.es-input.open {
 
 <div class="topbar animated fadeInLeftBig"></div>
 <div class="modal" id="nuevocliente"> <!-- Mision-->
-	<div class="modal-dialog wowload flipInX">
+	<div class="modal-dialog ">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -360,8 +360,8 @@ input.es-input.open {
 <br>
 <br>
 <div id="home" class="container spacer about">
-	<h2 class="text-center wowload fadeInUp">Nueva reserva</h2>
-	<form class="form-horizontal wowload fadeInUp" id="Reserva"
+	<h2 class="text-center">Nueva reserva</h2>
+	<form class="form-horizontal" id="Reserva"
 		action="ServletReserva?opcion=Reservar" method="post">
 		<fieldset>
 
@@ -630,7 +630,7 @@ input.es-input.open {
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -961,10 +961,6 @@ function CuponOcupado(){
 		}
 	}
 </script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>

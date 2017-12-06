@@ -149,9 +149,9 @@
 	</div>
 	<% } %>
 	
-	<h3 class="text-center  wowload fadeInLeft">Opciones</h3>
-	<p class="text-center  wowload fadeInLeft">Selecciona una acción</p>
-	<div class="row wowload fadeInLeft">
+	<h3 class="text-center">Opciones</h3>
+	<p class="text-center">Selecciona una acción</p>
+	<div class="row">
 				<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -343,7 +343,7 @@
                     </div>
                 </div>
          </div>
-         <div class="row wowload fadeInLeft">
+         <div class="row">
 				<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#009999; border-color:#009999;">
@@ -409,7 +409,7 @@
                     </div>
                 </div>
          </div>
-         <div class="row wowload fadeInLeft">
+         <div class="row">
          		<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#9933ff; border-color:#9933ff;">
@@ -454,9 +454,54 @@
                 </div>     
 	</div>
 	
-	<h3 class="text-center  wowload fadeInLeft">Exportar datos a Microsoft Excel</h3>
-	<p class="text-center  wowload fadeInLeft">Selecciona una acción</p>
-	<div class="row wowload fadeInLeft">
+	<div class="row ">
+         		<div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:#cc2900; border-color:#cc2900;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-ticket fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>Generar un<br>nuevo ingreso/egreso</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="ServletLogin?opcion=GenerarNuevoEvento" method="post">
+                            <div class="panel-footer" style="background-color:green;">
+                                <span class="pull-left" style="color:white;">¡Generar!</span>
+                                <span class="pull-right" style="color:white;"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+				<div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:#cc2900; border-color:#cc2900;" >
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-ticket fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>Administrar<br>ingresos/egresos</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="ServletLogin?opcion=VisualizarEvento" method="post">
+                            <div class="panel-footer">
+                                <span class="pull-left">¡Administrar!</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>     
+	</div>
+	
+	<h3 class="text-center  ">Exportar datos a Microsoft Excel</h3>
+	<p class="text-center  ">Selecciona una acción</p>
+	<div class="row ">
 				<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:green; border-color:#003300;">
@@ -546,9 +591,9 @@
                     </div>
                 </div>
 	</div>
-	<h3 class="text-center  wowload fadeInLeft">Administración</h3>
-	<p class="text-center  wowload fadeInLeft">Selecciona una acción</p>
-	<div class="row wowload fadeInLeft">
+	<h3 class="text-center  ">Administración</h3>
+	<p class="text-center  ">Selecciona una acción</p>
+	<div class="row">
 				<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -592,7 +637,7 @@
                     </div>
                 </div>
 	   </div>
-       <div class="row wowload fadeInLeft">
+       <div class="row ">
        			<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -658,7 +703,7 @@
                     </div>
                 </div>
 	</div>
-	<div class="row wowload fadeInLeft">
+	<div class="row ">
        			<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -703,7 +748,7 @@
                     </div>
                 </div>
 	</div>
-	<div class="row wowload fadeInLeft">
+	<div class="row ">
        			<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -749,7 +794,7 @@
                 </div>
                 
 	</div>
-	<div class="row wowload fadeInLeft">
+	<div class="row ">
        			<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -795,7 +840,7 @@
                 </div>
                 
 	</div>
-	<div class="row wowload fadeInLeft">
+	<div class="row ">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
@@ -826,7 +871,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -850,10 +895,6 @@
 <!-- jquery -->
 
 <script src="assets/bootstrap/js/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

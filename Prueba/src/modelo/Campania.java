@@ -23,7 +23,7 @@ public class Campania {
     private int Precio_Reagendamiento = 0;
     private String Descripcion_Adicional = "";
     private int Abono = 0;
-   
+    
 	public int getAbono() {
 		return Abono;
 	}

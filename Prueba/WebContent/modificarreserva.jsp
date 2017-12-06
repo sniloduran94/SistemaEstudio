@@ -208,8 +208,8 @@ select {
 <br>
 <br>
 <div id="home" class="container spacer about">
-	<h2 class="text-center wowload fadeInUp">Modificar reserva</h2>
-	<form class="form-horizontal wowload fadeInUp"
+	<h2 class="text-center">Modificar reserva</h2>
+	<form class="form-horizontal"
 		action="ServletReserva?opcion=ModificarReserva" method="post">
 		<fieldset>
 			<%	
@@ -514,7 +514,7 @@ select {
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -698,10 +698,6 @@ select {
 
 <!-- jquery -->
 <!--<script src="assets/jquery.js"></script>-->
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>

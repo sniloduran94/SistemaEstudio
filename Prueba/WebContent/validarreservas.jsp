@@ -117,7 +117,7 @@
 	  } %>
   <h2>Validar reservas</h2>
   	<form action="ServletReserva?opcion=FiltroClienteValidar" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
@@ -127,7 +127,7 @@
 	</form>
 	<br><br><br><br><br><br>
 	<form action="ServletReserva?opcion=FiltroClienteValidar" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group ">
 	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
@@ -209,7 +209,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -232,10 +232,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

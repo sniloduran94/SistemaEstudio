@@ -744,8 +744,12 @@ public class LetReserva extends HttpServlet {
     				if((llegoAgregarSesion!=null)&&(!llegoAgregarSesion.equals(""))){
     					//Caso de asignar datos a una sesion	
     					
-    					ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_ID_RESERVA", Integer.toString(reserv.getId_Reserva()), "Int");
+    					ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_RESERVA].[16_ID_RESERVA", Integer.toString(reserv.getId_Reserva()), "Int");
     					request.setAttribute("reserva", reservas.get(0));
+
+    					ArrayList<Campania> Campanias = (ArrayList<Campania>)gd.getCampañasVigentes();	
+    					request.setAttribute("campanias", Campanias);
+    					request.setAttribute("canalesventasarray", (ArrayList<ArrayList<String>>)(gd.getCanalesVentasArray()));
     					
     					SesionAuxiliar sa = (SesionAuxiliar) (gd.getSesionAuxiliar(reserv.getId_Reserva()));
     					request.setAttribute("sesionauxiliar", sa); 
@@ -1050,7 +1054,7 @@ public class LetReserva extends HttpServlet {
     	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
     	    	rd.forward(request, response);
     	    }
-    	  
+    	  /*
     	  if (llegoSolicitud.equals("FiltroPreReserva")){
   	    	
   	    	Trabajador usuario =  null;
@@ -1063,7 +1067,7 @@ public class LetReserva extends HttpServlet {
   			
   	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
   	    	rd.forward(request, response);
-  	    }
+  	    }*/
     	  
     	  if (llegoSolicitud.equals("FiltroClienteAnticipo")) {
   	    	
@@ -1173,7 +1177,7 @@ public class LetReserva extends HttpServlet {
     	    	rd.forward(request, response);
     	    }
     	  
-    	  if (llegoSolicitud.equals("FiltroClienteNuevoSesiones")) {
+    	 /* if (llegoSolicitud.equals("FiltroClienteNuevoSesiones")) {
     	    	
     	    	Trabajador usuario =  null;
     	    	usuario = (Trabajador) sesion.getAttribute("usuario");
@@ -1212,7 +1216,7 @@ public class LetReserva extends HttpServlet {
     						
     	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
     	    	rd.forward(request, response);
-    	    }
+    	    }*/
 
     	  
     	  if (llegoSolicitud.equals("FiltroFechasRecordatorio")) {
@@ -1239,7 +1243,7 @@ public class LetReserva extends HttpServlet {
     	    	rd.forward(request, response);
     	}
     	  
-    	  if (llegoSolicitud.equals("FiltroFechasC")) {
+    	 /* if (llegoSolicitud.equals("FiltroFechasC")) {
   	    	
     		  Trabajador usuario =  null;
     	    	usuario = (Trabajador) sesion.getAttribute("usuario");
@@ -1261,9 +1265,9 @@ public class LetReserva extends HttpServlet {
     			
     	    	rd = request.getRequestDispatcher("/visualizarreservasc.jsp");
     	    	rd.forward(request, response);
-    	}
+    	}*/
     	  
-    	  if (llegoSolicitud.equals("FiltroFechasSesiones")) {
+    	  /*if (llegoSolicitud.equals("FiltroFechasSesiones")) {
     	    	
     		  Trabajador usuario =  null;
     	    	usuario = (Trabajador) sesion.getAttribute("usuario");
@@ -1281,6 +1285,105 @@ public class LetReserva extends HttpServlet {
     	    	sesion.setAttribute("16_Fecha2", Fecha2);
     			    			
     	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdConFechas("", "", "", Fecha1, Fecha2);	
+    			request.setAttribute("reservas", reservas);
+    			
+    	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
+    	    	rd.forward(request, response);
+    	}*/
+    	  
+    	if (llegoSolicitud.equals("FiltroSesiones")) {
+  	    	
+    		  Trabajador usuario =  null;
+    		  boolean and = true ; //forzado el valor para ingresar un and
+    	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+    	    	//request.setAttribute("usuario", usuario);
+    			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
+    			
+    			this.InvalidarFiltros();
+    			
+    			String Fecha1 = "";
+    			String Fecha2 = "";
+    			String Nombre = "";
+    			String Apellido = "";
+    			String Ticket = "";
+    			
+    			Fecha1 = request.getParameter("Inicio");
+    			Fecha2 = request.getParameter("Fin");
+    			Nombre = request.getParameter("15_Nombre");
+    			Apellido = request.getParameter("15_Apellido_Pat");
+    			Ticket = request.getParameter("39_Numero_Boleta");
+    			
+    			sesion.setAttribute("16_Fecha1", Fecha1);
+    	    	sesion.setAttribute("16_Fecha2", Fecha2);
+    	    	
+
+    	    	if(request.getParameter("Inicio")!=null){
+    				sesion.setAttribute("Inicio", request.getParameter("Inicio"));
+    			}
+    	    	if(request.getParameter("Fin")!=null){
+    				sesion.setAttribute("Fin", request.getParameter("Fin"));
+    			}
+    	    	if(request.getParameter("15_Nombre")!=null){
+    				sesion.setAttribute("15_Nombre", request.getParameter("15_Nombre"));
+    			}
+    			if(request.getParameter("15_Apellido_Pat")!=null){
+    				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
+    			}
+    			
+    			String CondicionDeBusqueda = " [16_Pre_Reserva] = 0 ";
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				String Fecha12 = null;
+				
+				if(!(Fecha1.equals(""))){
+					java.util.Date DiaSiguiente = (java.util.Date) sdf.parse(Fecha1);
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(DiaSiguiente); // Configuramos la fecha que se recibe
+					calendar.add(Calendar.DAY_OF_YEAR, 1);  // numero de días a añadir, o restar en caso de días<0
+					Fecha12 = sdf.format(calendar.getTime());	
+				}
+						
+				if((!(Fecha1.equals("")))||(!(Fecha2.equals("")))){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					if((!(Fecha1.equals("")))&&(Fecha2.equals(""))){
+						 CondicionDeBusqueda += " [16_FECHA] BETWEEN '"+Fecha1+"' AND '"+Fecha12+"' ";
+					}
+					if((!(Fecha2.equals("")))&&(!(Fecha1.equals("")))){
+						CondicionDeBusqueda += " [16_FECHA] BETWEEN '"+Fecha1+"' AND '"+Fecha2+"' ";
+					} 
+					and = true;
+				}else{
+					CondicionDeBusqueda += " ";
+				}
+				
+				if(!Nombre.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [15_Nombre] LIKE '%"+Nombre+"%' ";
+					and = true;
+				}
+				
+				if(!Apellido.equals("")){
+					CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [15_Apellido_Pat] LIKE '%"+Apellido+"%' OR [15_Apellido_Mat] LIKE '%"+Apellido+"%' ";
+					and = true;
+				}
+    	    	
+    			if(!Ticket.equals("")){
+    	  			    				
+    				if(Ticket.equals("0") || Ticket.equals("N/A")){
+    					Ticket = "-1";
+    				}
+    				
+    				CondicionDeBusqueda += (and)?" AND ":"";
+					CondicionDeBusqueda += " [39_Numero_Boleta] LIKE '%"+Apellido+"%' ";
+					and = true;
+    			}
+    			
+    			if(!CondicionDeBusqueda.isEmpty()){
+					CondicionDeBusqueda = "WHERE "+CondicionDeBusqueda;
+				}
+    			    			
+    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(CondicionDeBusqueda);	
     			request.setAttribute("reservas", reservas);
     			
     	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
@@ -1698,6 +1801,10 @@ public class LetReserva extends HttpServlet {
 					CondicionDeBusqueda += " [15_Apellido_Pat] LIKE '%"+Apellido+"%' ";
 					and = true;
 				}
+				
+				/*if(!CondicionDeBusqueda.isEmpty()){
+					CondicionDeBusqueda = "AND "+CondicionDeBusqueda;
+				}*/
   			    			
   	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(CondicionDeBusqueda);	
   			request.setAttribute("reservas", reservas);

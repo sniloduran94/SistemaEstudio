@@ -33,6 +33,7 @@ import conexion.JavaMail;
 import conexion.SQLS_conexion;
 import modelo.Campania;
 import modelo.Cliente;
+import modelo.Evento;
 import modelo.Reserva;
 import modelo.SesionAuxiliar;
 import modelo.Trabajador;
@@ -68,7 +69,7 @@ public class LetSesion extends HttpServlet {
     	    	//Obtencion de parámetros de formulario
     	    	int llegoIdReserva = Integer.parseInt(request.getParameter("16_Id_Reserva"));
     	    	
-    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_ID_RESERVA", Integer.toString(llegoIdReserva), "Int");
+    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_RESERVA].[16_ID_RESERVA", Integer.toString(llegoIdReserva), "Int");
 				Reserva reserv = (Reserva) reservas.get(0).get(0);
     	    	
 				ArrayList<Cliente> cli = gd.getClientesFiltro("15_ID_CLIENTE", Integer.toString(reserv.getId_Cliente()), "Int");
@@ -115,6 +116,15 @@ public class LetSesion extends HttpServlet {
 		    	//String llegoListaParaEntregar = request.getParameter("35_Lista_Para_Entregar");
 		    	String llegoFechaSesion = request.getParameter("35_Fecha_Sesion");
     	    	
+		    	int llegoCampaniaModificada = Integer.parseInt(request.getParameter("17_Id_Campania"));
+		    	
+		    	//Atributos de evento
+		    	String llegoFormaPago = request.getParameter("39_Forma_Pago");
+		    	String llegoValor = request.getParameter("");
+		    	String llegoItem = "Sesion";
+		    	int llegoEstado = 1;
+		    	String llegoMovimiento = "Ingreso";
+		    	
     	    	SesionAuxiliar saux = new SesionAuxiliar();
     	    	
     	    	if((llegoContador!=null)&&(!llegoContador.equals(""))){
@@ -158,7 +168,7 @@ public class LetSesion extends HttpServlet {
     			
     	    	saux.setNumero_Ticket(llegoNumeroTicket);
     	    	
-    	    	gd.ActualizarTicket(llegoNumeroTicket, llegoIdReserva);
+    	    	//gd.ActualizarTicket(llegoNumeroTicket, llegoIdReserva);
     	    	
     	    	saux.setValor_Por_Cobrar(llegoValorPorCobrar);
     	    	saux.setCD(llegoCD);
@@ -172,6 +182,7 @@ public class LetSesion extends HttpServlet {
     	    	//saux.setMonto_Impresion(llegoMontoImpresion);
     	    	//saux.setNumero_Factura(llegoNumeroFactura);
     	    	saux.setId_Reserva_Asoc(llegoIdReserva);
+    	    	saux.setCampaniaConvetida(llegoCampaniaModificada);
     	    	
     	    	if(llegoCant10x15>llego17Cant10x15){
     	    		saux.setCant_10x15(llegoCant10x15-llego17Cant10x15);
@@ -199,8 +210,24 @@ public class LetSesion extends HttpServlet {
     	    	
     	    	//Ingreso de la sesión auxiliar
     			
-    	    	gd.IngresarSesionAuxiliar(saux);
-    			
+    	    	
+    	    	
+    	    	Evento ev = new Evento ();
+    	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    	    	Date ahora = new Date();
+    	    	
+    	    	ev.setFecha(sdf.format(ahora));
+    	    	ev.setForma_Pago(llegoFormaPago);
+    	    	ev.setValor(llegoMontoExtras);
+    	    	ev.setTrabajador(trab.getId_Trabajador());
+    	    	ev.setItem(llegoItem);
+    	    	//ev.setDescripcion();
+    	    	ev.setEstado(llegoEstado);
+    	    	ev.setNumero_Boleta(llegoNumeroTicket);
+    	    	ev.setMovimiento(llegoMovimiento);    			
+    	    	
+    	    	gd.IngresarSesionAuxiliar(saux, ev);
+    	    	
     	    	if((sa!=null) && (sa.isLista_Para_Entregar()==false && saux.isLista_Para_Entregar())){
     	    		JavaMail mail = new JavaMail();
     	    		
@@ -570,7 +597,7 @@ public class LetSesion extends HttpServlet {
     						sa.setFecha_Retiro(null);
     					}
     					
-    					gd.IngresarSesionAuxiliar(sa);    					    					
+    					gd.ModificarSesionAuxiliar(sa);    					    					
     					
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  
@@ -605,7 +632,7 @@ public class LetSesion extends HttpServlet {
     						sa.setFecha_Retiro(null);
     					}    					
     					
-    					gd.IngresarSesionAuxiliar(sa);  
+    					gd.ModificarSesionAuxiliar(sa);  
     					
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  
@@ -642,7 +669,7 @@ public class LetSesion extends HttpServlet {
     						sa.setFecha_Retiro(null);
     					}   
     					
-    					gd.IngresarSesionAuxiliar(sa); 
+    					gd.ModificarSesionAuxiliar(sa); 
     					
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  

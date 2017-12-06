@@ -130,26 +130,26 @@
 	  } %>
   		<div><h2>Estadísticas de campañas</h2></div>
   		<form action="ServletCampania?opcion=FiltroEstadistica" method="post">
-			<div class="form-group wowload fadeInUp">
+			<div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
 			  <div class="col-md-2">
 			  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2018/01/30" name="Inicio"/><br>
 			  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2018/01/31" name="Fin" /><br>
 			  </div>
 			 </div>
-			 <div class="form-group wowload fadeInUp">
+			 <div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar por nombre de campaña <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-2">
 			  	<input class="form-control" type="text" id="17_Nombre" autocomplete="off" placeholder="Maternal" name="17_Nombre"/><br>
 			  </div>
 			 </div>
-			 <div class="form-group wowload fadeInUp">
+			 <div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar por precio <i class="fa fa-money fa-1x"></i></label>
 			  <div class="col-md-2">
 			  	<input class="form-control" type="text" id="17_Precio" autocomplete="off" placeholder="15990" name="17_Precio"/><br>
 			  </div>
 			 </div>
-			 <div class="form-group wowload fadeInUp">
+			 <div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar por canal de venta <i class="fa fa-user fa-1x"></i></label>
 			  <div class="col-md-2">
 			  	<select class="form-control"  name="14_Id_Canal_Venta" id="14_Id_Canal_Venta">
@@ -214,7 +214,7 @@
 <!-- Footer Starts -->
 <div class="row"></div>
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</p>
+	<p>Sistema Estudio. Advancing Group Ltda.</p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -237,10 +237,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

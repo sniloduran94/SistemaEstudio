@@ -165,8 +165,8 @@
 <!--FORMULARIO-->
 <br><br>
 <div id="home"  class="container spacer about">
-<h2 class="text-center wowload fadeInUp">Modificar canal de venta</h2> 
-	<form name="formcliente" class="form-horizontal wowload fadeInUp" action="ServletCanalDeVenta?opcion=ModificarCanalDeVenta" method="post">
+<h2 class="text-center">Modificar canal de venta</h2> 
+	<form name="formcliente" class="form-horizontal" action="ServletCanalDeVenta?opcion=ModificarCanalDeVenta" method="post">
 	<fieldset>
 		<input class="form-control" style="display:none;" type="text" name="14_Id_Canal_Venta" id="14_Id_Canal_Venta" value="<%=cv.getId_Canal_Venta()%>"/>
 <!-- Form Name -->
@@ -217,7 +217,7 @@
 		
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -248,10 +248,6 @@
 
 <!-- jquery -->
 <!--<script src="assets/jquery.js"></script>-->
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

@@ -46,6 +46,40 @@
 
 <!-- Fin Calendario -->
 
+<link rel="stylesheet" href="assets/tablesorter/css/theme.blue.css" type="text/css" />
+
+<link rel="stylesheet" href="assets/tablesorter/addons/pager/jquery.tablesorter.pager.css">
+
+<style>
+    .tablesorter thead .disabled {
+        display:none !important;
+    }
+    th.tablesorter-header.resizable-false {
+  background-color: #e6bf99;
+}
+
+.wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 450px;
+}
+.wrapper table {
+  width: auto;
+  table-layout: fixed;
+}
+.wrapper .tablesorter td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 10px;
+}
+.wrapper .tablesorter th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 10px;
+}
+</style>
+
 </head>
 
 	<% 
@@ -104,7 +138,7 @@
 <body>
 
 
-<div class="container spacer wowload fadeInUp">
+<div class="container spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -121,49 +155,38 @@
   <%	} 
 	  } %>
   <h2>Generar y administrar sesiones fotográficas</h2>
-	<div class="alert alert-info alert-dismissable wowload fadeInUp">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <strong> <i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Presionar &nbsp;  <i class="fa fa-plus fa-1x"></i> &nbsp; para agregar/modificar datos de una sesión.  </strong>
+  <div class="row">
+		<div class="alert alert-info alert-dismissable ">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <strong> <i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Presionar &nbsp;  <i class="fa fa-plus fa-1x"></i> &nbsp; para agregar/modificar datos de una sesión.  </strong>
+		</div>
+  </div>
+  <div class="row">
+  	<div class="col-lg-6 col-md-6">
+		<form action="ServletReserva?opcion=FiltroSesiones" method="post">
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
+		  <div class="col-md-8">
+		  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
+		  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
+		  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
+		  </div>
+		</div>
+		</form>
 	</div>
-	<form action="ServletReserva?opcion=FiltroFechasSesiones" method="post">
-			<div class="form-group wowload fadeInUp">
-			  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
-			  <div class="col-md-4">
-			  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
-			  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
-			  	<button type="submit" id="adelanto" name="boton" onClick="MayorOIgual()" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-			  </div>
-			</div>
-			</form>
-	<form action="ServletReserva?opcion=FiltroClienteNuevoSesiones" method="post">
-	<div class="form-group wowload fadeInUp">
-	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
-	  <div class="col-md-4">
-	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
+	<div class="col-lg-6 col-md-6">
+		<br>
+				<a href="ServletLogin?opcion=MirarCalendario" method="post">
+				<button type="submit" class="btn btn-success btn-block" name="Calendario" title="Mirar en un calendario todas las reservas" value="Calendario" >
+                	<i class="fa fa-calendar fa-1x"></i> Ver reservas en calendario
+            	</button>
+         </a>
+		 <br>
+		 <button type="button"  class="reset btn btn-success btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros </button>
+			
 	</div>
-	</form>	
-	<br><br><br><br><br><br>
-	<form action="ServletReserva?opcion=FiltroClienteNuevoSesiones" method="post">
-	<div class="form-group wowload fadeInUp">
-	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
-	  <div class="col-md-4">
-	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Pérez" name="15_Apellido_Pat"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
-	</div>
-	</form>
-	<form action="ServletReserva?opcion=FiltroClienteNuevoSesiones" method="post">
-	<div class="form-group wowload fadeInUp">
-	  <label class="col-md-2 control-label" for="rango">Buscar por número de ticket <i class="fa fa-ticket fa-1x"></i></label>
-	  <div class="col-md-4">
-	  	<input class="form-control" type="number" id="24_Id_Ticket" autocomplete="off" placeholder="238" name="24_Id_Ticket"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
-	</div>
-	</form>
-	<br><br><br><br><br><br>
+  </div>
+	
 	<%
 				//Obtención de reservas para tabla de visualizacion de reservas 
 				ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)(request.getAttribute("reservas"));
@@ -172,16 +195,10 @@
 						<h3>No existen datos para mostrar </h3>
 						</div>
 	<%			}else{	%>
-				  <div class="col-md-6 wowload fadeInUp">
+				  <div class="col-md-6">
 					<h4>Resultados: <%=reservas.size()%></h4><br>
-					<div class = "col-md-4"></div>
-					<a href="ServletLogin?opcion=MirarCalendario" method="post">
-						<button type="submit" class="btn btn-success btn-sm" name="Calendario" title="Mirar en un calendario todas las reservas" value="Calendario" >
-                			<i class="fa fa-calendar fa-1x"></i> Ver reservas en calendario
-            			</button>
-            		</a>
-            	  </div>
-            		<table class="table table-hover wowload fadeInUp">
+				  </div>
+            		<table class="table">
 					    <thead>
 						  <tr style="font-size:13px;">
 							<th><h5>N° Ticket</h5></th>
@@ -191,12 +208,11 @@
 							<th><h5>Personas</h5></th>
 							<th><h5>Personas<br>Adicionales</h5></th>
 							<th><h5>Veces<br>Reagendar</h5></th>
-							<th><h5>Precio</h5></th>
 							<th><h5>Monto Anticipo</h5></th>
 							<th><h5>Código<br>Cupón</h5></th>
 							<th><h5>¿Validado?</h5></th>
 							<th><h5>¿Agendador?</h5></th>
-							<th><h5>Sesión</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Sesión</h5></th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -212,7 +228,7 @@
 							fecha = "Pendiente";
 						}	
 						
-						int ticketid = res.getId_Ticket();
+						int ticketid = (int)nueva.get(22);
 						int reservaid = res.getId_Reserva();
 						int rut = Integer.parseInt((nueva.get(1).toString()));
 						String nombre = res.getId_Cliente()+"-"+(String) nueva.get(2)+" "+(String)nueva.get(3)+" "+(String)nueva.get(4);
@@ -220,14 +236,13 @@
 						int personas;
 						%>
 						<tr>
-							<td><h5><%=(ticketid==-1)?"<p class=\"text-danger\">N/A</p>":ticketid%></h5></td>
+							<td><h5><%=(ticketid==0)?"<p class=\"text-danger\">N/A</p>":ticketid%></h5></td>
 							<td><h5><%=fecha%></h5></td>
 							<td><h5><%=nombre%></h5></td>
 							<td><h5><%=campaniamostrar%></h5></td>
 							<td><h5><%=res.getCantidad_Personas()%></h5></td>
 							<td><h5><%=res.getCantidad_Adicionales()%></h5></td>
 							<td><h5><%=res.getCantidad_Reagendamiento() %></h5></td>
-							<td><h5><%=(res.getMonto_Pago_Estudio()==-1)?"N/A":res.getMonto_Pago_Estudio()%></h5></td>
 							<td><h5><%=(res.getMonto_Pago_Adelantado()==-1)?"N/A":res.getMonto_Pago_Adelantado()%></h5></td>
 							<td><h5><%=((res.getCodigo()).equals("null"))?"N/A":res.getCodigo()%></h5></td>
 							<td><h5><%=(res.isValidado())?"SI":"NO"%></h5></td>
@@ -235,24 +250,21 @@
 							<form action="ServletReserva?opcion=CambiarReserva" method="post">
 									<input type="hidden" value="<%=res.getId_Reserva()%>" name="16_Id_Reserva">
 							<td>	 
-							<% if(!fecha.equals("Pendiente")){ %>
+							<% if(!fecha.equals("Pendiente") && ticketid==0){ %>
 							<div class="btn-group  btn-group-lg">
 									 <button type="submit" class="btn btn-success" name="AgregarSesion" value="Agregar" title="Agregar datos de una nueva sesión">
                 						<i class="fa fa-plus fa-1x"></i>
             						 </button>
             				</div>
-            				<% }else{ %>
+            				<% }else if(ticketid!=0){ %>
+            				<div class="btn-group  btn-group-lg">
+									 <button type="submit" disabled class="btn btn-success" name="AgregarSesion" value="Agregar" title="Agregar datos de una nueva sesión">
+                						<i class="fa fa-plus fa-1x"></i>
+            						 </button>
+            				</div>
+            				<%}else{ %>
             					<center>Sin<br>Fecha<br><i class="fa fa-clock-o fa-2x"></i></center>
             				<% } %>
-									 <button style="display:none;" type="submit" class="btn btn-success" name="ModificarReserva" value="Modificar" >
-                						<i class="fa fa-pencil-square-o fa-1x"></i>
-            						 </button>
-								     <button style="display:none;" type="submit" class="btn btn-danger" name="EliminarReserva" value="Eliminar" onclick="return confirm('¿Estás seguro que deseas eliminar esta reserva?')">
-                						<i class="fa fa-trash fa-1x"></i>
-            						 </button>
-									 <button style="display:none;" type="submit" class="btn btn-success" name="ReenviarMail" value="ReenviarMail" >
-                						<i class="fa fa-envelope fa-1x"></i>
-            						 </button>
             				
             				</td>
 							</form>		
@@ -269,12 +281,12 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p >Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
 <!-- # Footer Ends -->
-<a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
+<a href="#home" class="gototop"><i class="fa fa-angle-up  fa-3x"></i></a>
 
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
@@ -292,10 +304,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
@@ -456,6 +464,74 @@ $('#datetimepicker_dark').datetimepicker({theme:'dark'})
 			} 
 		}
 	} 
+</script>
+
+<script type="text/javascript" src="assets/tablesorter/js/jquery.tablesorter.combined.js"></script> 
+
+<script src="assets/tablesorter/js/jquery.tablesorter.js"></script>
+<script src="assets/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+<script src="assets/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+<script id="js">
+$(function(){
+
+  var $table = $('table'),
+  // define pager options
+  pagerOptions = {
+  	
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+    // output string - default is '{page}/{totalPages}';
+    // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+    // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
+    // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+    // go to page selector - select dropdown that sets the current page
+    cssGoto: '.gotoPage'
+  };
+  
+  // Initialize tablesorter
+  // ***********************
+  $table
+    .tablesorter({
+      theme: 'blue',
+      headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+      widthFixed: true,
+      widgets: ['zebra', 'filter','resizable'],
+      widgetOptions : {
+			filter_columnFilters: true,
+			filter_placeholder: { search : 'Buscar...' },
+			filter_saveFilters : true,
+			filter_reset: '.reset',
+		    resizable_addLastColumn : true,
+      		resizable_widths : [ '100px', '60px', '30px', '50px', '60px', '140px' ]
+    }
+      
+    })/*.bind('filterInit', function(){
+        $table.find('.tablesorter-filter').hide().each(function(){
+            var w, $t = $(this);
+            w = $t.closest('td').innerWidth();
+            $t
+                .show()
+                .css({
+                    'min-width': w,
+                    width: w // 'auto' makes it wide again
+                });
+        });
+    })*/
+    
+
+    // initialize the pager plugin
+    // ****************************
+    //.tablesorterPager(pagerOptions);
+     
+
+});	
 </script>
 
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>

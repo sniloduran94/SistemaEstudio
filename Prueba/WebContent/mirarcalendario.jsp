@@ -79,7 +79,16 @@
 		var array = <%=fechas%>;
 		var HorasOcupadas = [];
 		for(var i=0; i<array.length; i++){
-			if(array[i][3].toString()=='0'){
+			if(String(array[i][0]).includes("NO RESERVAR")){
+				HorasOcupadas.push(
+				{
+					title: (array[i][0]).toString(),
+					start: (array[i][1]).toString(),
+					end: (array[i][2]).toString(),
+					color: '#3333ff'
+				});
+			}
+			else if(array[i][3].toString()=='0'){
 				HorasOcupadas.push(
 				{
 					title: (array[i][0]).toString(),
@@ -105,7 +114,7 @@
 					center:'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
-				displayEventTime : false,		
+				displayEventTime : false,	
 				selectable: true,
 				selectHelper: true,
 				minTime: '09:00:00',

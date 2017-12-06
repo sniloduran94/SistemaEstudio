@@ -149,9 +149,9 @@
 	</div>
 	<% } %>
 	
-	<h3 class="text-center  wowload fadeInLeft">Opciones</h3>
-	<p class="text-center  wowload fadeInLeft">Selecciona una acción</p>
-	<div class="row wowload fadeInLeft">
+	<h3 class="text-center  ">Opciones</h3>
+	<p class="text-center  ">Selecciona una acción</p>
+	<div class="row ">
 				<div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -202,7 +202,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -226,10 +226,6 @@
 <!-- jquery -->
 
 <script src="assets/bootstrap/js/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

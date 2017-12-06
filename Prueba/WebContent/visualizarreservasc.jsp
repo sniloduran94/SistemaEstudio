@@ -104,7 +104,7 @@
 <body>
 
 
-<div class="container spacer wowload fadeInUp">
+<div class="container spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -122,7 +122,7 @@
 	  } %>
   <h2>Reservas</h2>
   		<form action="ServletReserva?opcion=FiltroFechasC" method="post">
-			<div class="form-group wowload fadeInUp">
+			<div class="form-group">
 			  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
 			  <div class="col-md-4">
 			  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
@@ -132,7 +132,7 @@
 			</div>
 			</form>
 			<form action="ServletReserva?opcion=FiltroClienteC" method="post">
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group">
 				  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 				  <div class="col-md-4">
 				  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
@@ -142,7 +142,7 @@
 				</form>
 				<br><br><br><br><br><br>
 				<form action="ServletReserva?opcion=FiltroClienteC" method="post">
-				<div class="form-group wowload fadeInUp">
+				<div class="form-group ">
 				  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 				  <div class="col-md-4">
 				  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
@@ -158,7 +158,7 @@
 						<h3>No existen datos para mostrar </h3>
 						</div>
 	<%			}else{	%>
-				  <div class="col-md-6 wowload fadeInUp">
+				  <div class="col-md-6">
 					<h4>Resultado(s): <%=reservas.size()%></h4><br>
 					<div class = "col-md-4"></div>
 					<a href="ServletLogin?opcion=MirarCalendario" method="post">
@@ -167,7 +167,7 @@
             			</button>
             		</a>
             	  </div>
-            		<table class="table table-hover wowload fadeInUp">
+            		<table class="table table-hover">
 					    <thead>
 						  <tr style="font-size:13px;">
 							<th><h5>Fecha<br>Año/Mes/Día</h5></th>
@@ -240,7 +240,7 @@
 </body>
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -268,10 +268,6 @@
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>

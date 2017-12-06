@@ -165,8 +165,8 @@
 <!--FORMULARIO-->
 <br><br>
 <div id="home"  class="container spacer about">
-<h2 class="text-center wowload fadeInUp">Nuevo tipo de sesión</h2> 
-	<form name="formcliente" class="form-horizontal wowload fadeInUp" action="ServletTipoSesion?opcion=NuevoTipoSesion" method="post">
+<h2 class="text-center">Nuevo tipo de sesión</h2> 
+	<form name="formcliente" class="form-horizontal" action="ServletTipoSesion?opcion=NuevoTipoSesion" method="post">
 	<fieldset>
 
 <!-- Form Name -->
@@ -197,7 +197,7 @@
 		
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -228,9 +228,6 @@
 
 <!-- jquery -->
 <!--<script src="assets/jquery.js"></script>-->
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
 
 
 <!-- boostrap -->

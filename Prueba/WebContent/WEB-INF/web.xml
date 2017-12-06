@@ -44,6 +44,14 @@
     <servlet-name>LetMetodoPago</servlet-name>
     <servlet-class>controlador.LetMetodoPago</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LetEvento</servlet-name>
+    <servlet-class>controlador.LetEvento</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetEvento</servlet-name>
+    <url-pattern>/ServletEvento</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>LetMetodoPago</servlet-name>
     <url-pattern>/ServletMetodoPago</url-pattern>

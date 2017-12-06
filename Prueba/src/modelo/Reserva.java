@@ -8,7 +8,6 @@ public class Reserva {
 	private int Id_Cliente = -1;
 	private int Tipo_Cliente = -1;
 	private int Id_Campania = -1;
-	private int Id_Ticket = -1;
 	private int Id_Trabajador = -1;
 	private int Cantidad_Personas;
 	private int Cantidad_Adicionales;
@@ -47,7 +46,6 @@ public class Reserva {
 		Id_Cliente = id_Cliente;
 		Tipo_Cliente = tipo_Cliente;
 		Id_Campania = id_Campania;
-		Id_Ticket = id_Ticket;
 		Id_Trabajador = id_Trabajador;
 		Cantidad_Personas = cantidad_Personas;
 		Cantidad_Adicionales = cantidad_Adicionales;
@@ -91,12 +89,6 @@ public class Reserva {
 	}
 	public void setId_Campania(int id_Campania) {
 		Id_Campania = id_Campania;
-	}
-	public int getId_Ticket() {
-		return Id_Ticket;
-	}
-	public void setId_Ticket(int id_Ticket) {
-		Id_Ticket = id_Ticket;
 	}
 	public int getId_Trabajador() {
 		return Id_Trabajador;

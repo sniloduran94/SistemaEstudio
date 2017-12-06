@@ -338,6 +338,17 @@ public class LetInicioSesion extends HttpServlet {
 	    	rd.forward(request, response);
 	    }
 	    
+	    if (llegoSolicitud.equals("GenerarNuevoEvento")) {
+	    	
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+	    	//request.setAttribute("usuario", usuario);
+			System.out.println("Nombre en LetSesion - Generar Nuevo Evento: "+ usuario.getNombre());
+	    				
+	    	rd = request.getRequestDispatcher("/nuevoevento.jsp");
+	    	rd.forward(request, response);
+	    }
+	    
 	    if (llegoSolicitud.equals("VisualizarCliente")) {
 	    	
 	    	Trabajador usuario =  null;
@@ -354,6 +365,19 @@ public class LetInicioSesion extends HttpServlet {
 			request.setAttribute("ciudades", ciudades);
 			
 	    	rd = request.getRequestDispatcher("/visualizarclientes.jsp");
+	    	rd.forward(request, response);
+	    }
+	    
+	    if (llegoSolicitud.equals("VisualizarEvento")) {
+	    	
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+			System.out.println("Nombre en LetSesion - VisualizarEvento: "+ usuario.getNombre());
+	    	
+	    	ArrayList<ArrayList<Object>> eventos = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
+			request.setAttribute("eventos", eventos);
+			
+	    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
 	    	rd.forward(request, response);
 	    }
 	    

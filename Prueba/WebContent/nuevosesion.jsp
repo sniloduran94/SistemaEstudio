@@ -125,6 +125,11 @@ select {
 		ArrayList<Object> reservas = (ArrayList<Object>)(request.getAttribute("reserva"));
 		
 		Campania camp = (Campania)(request.getAttribute("campania"));
+				
+		// Obtención de campañas para combobox para el formulario de reservas
+		ArrayList<Campania> campa = (ArrayList<Campania>)(request.getAttribute("campanias"));
+			
+		SesionAuxiliar sa = (SesionAuxiliar) (request.getAttribute("sesionauxiliar"));	
 			
 		String[] fechasjs = (String[])(request.getAttribute("fechasdeshabilitadas"));		
 		
@@ -137,6 +142,8 @@ select {
 	<%  }else{
 				sesion.setAttribute("usuario", usuario);
     %>
+
+<script type="text/javascript">var CampPrecios = []; </script>
 
 <div class="topbar animated fadeInLeftBig"></div>
 
@@ -187,7 +194,7 @@ select {
 <br>
 <br>
 <div id="home" class="container spacer about">
-	<h2 class="text-center wowload fadeInUp">Nueva/Modificar Sesión</h2>
+	<h2 class="text-center">Nueva/Modificar Sesión</h2>
 	
 	
 	<!-- Información de la reserva -->
@@ -201,7 +208,7 @@ select {
 		String campaniamostrar = res.getId_Campania()+" - "+(String)reservas.get(5);
 		int personas;
 		%>
-   	<div class="col-md-5 wowload fadeInUp">
+   	<div class="col-md-5 ">
 	<div class="panel panel-info">
 			<div class="panel-heading text-center "><i
 			class="fa fa-calendar fa-1x"></i> &nbsp;<strong><font size=3>Información de la reserva</font></strong></div>
@@ -262,7 +269,7 @@ select {
 				</div><br>
 		</div>
 	</div>
-		<div class="panel panel-info wowload fadeInUp">
+		<div class="panel panel-info ">
 			<div class="panel-heading text-center "><i
 			class="fa fa-camera fa-1x"></i> &nbsp;<strong><font size=3>Información de la campaña</font></strong></div>
 		<div class="panel-body">
@@ -330,17 +337,17 @@ select {
 	<div class="col-md-1">
 	</div>
 			
-	<form class="form-horizontal wowload fadeInUp"
+	<form class="form-horizontal "
 		action="ServletSesion?opcion=NuevoSesion" method="post">
 		<fieldset>
 		
-			<%	SesionAuxiliar sa = (SesionAuxiliar) (request.getAttribute("sesionauxiliar"));
+			<%	
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
-				String FechaAntigua = ""; 
+				String FechaAntigua = "";
 				
 				String fechareserva = sdf.format(res.getFecha());
 				
-				if((sa!=null) && (sa.getFecha_Entrega()!=null)){ 
+				if((sa!=null) && (sa.getFecha_Entrega()!=null)){
 							FechaAntigua = sdf2.format(sa.getFecha_Entrega());
 				}
 				if((sa!=null)&&(sa.getCont_Fecha_Entrega()>=0)){%>
@@ -362,14 +369,14 @@ select {
 			<!-- Form Name -->
 			
 				<%	if(sa==null){ %>
-						<div class="alert alert-info alert-dismissable wowload fadeInUp">
+						<div class="alert alert-info alert-dismissable ">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  <strong><i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Esta reserva aún no posee sesión asignada.</strong>
 						</div>
 					<%
 				}else{
 					%>
-						<div class="alert alert-warning alert-dismissable wowload fadeInUp">
+						<div class="alert alert-warning alert-dismissable ">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  <strong><i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Esta reserva ya posee 
 						  sesión asignada, por lo tanto, se sobreescribirá con los datos de este formulario.</strong>
@@ -433,14 +440,48 @@ select {
 				</div>
 			</div>
 			
+			<!-- Select Basic -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="17_Id_Campania">Campaña</label>
+				<div class="col-md-8">
+				
+					<select name="17_Id_Campania" id="17_Id_Campania" OnChange="CambiarCampania()"
+						class="form-control" required>
+						<option value="0"></option>
+						<%
+				Iterator<Campania> it = campa.iterator();
+				while(it.hasNext())
+				{
+					Campania f = (Campania)it.next();
+		%>
+				
+						<option value="<%=f.getId_Campania()%>"><%=f.getNombre()%></option>
+					
+						<% 			} %>
+					</select>
+					<% Iterator<Campania> itcampanias = campa.iterator();
+						while(itcampanias.hasNext())
+						{
+						Campania f = (Campania)itcampanias.next();
+					%>
+							<script type="text/javascript">
+							CampPrecios.push({Id:"<%=f.getId_Campania()%>",Precio:"<%=f.getPrecio()%>"});
+							</script>
+					<% 	}
+					%>
+					
+				</div>
+			</div>
+						
 			<br><hr><br>
-			<h4 class="text-center wowload fadeInUp">Boleta</h4>
+			<h4 class="text-center ">Boleta</h4>
 						
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="35_Valor_Por_Cobrar">Valor por cobrar&nbsp; <i
 			class="fa fa-money fa-1x"></i></label>
 				<div class="col-md-8">
+				
 					<% if(sa!=null && sa.getValor_Por_Cobrar()!=-1){ %>
 						<input id="35_Valor_Por_Cobrar" name="35_Valor_Por_Cobrar"
 						type="number" value="<%=sa.getValor_Por_Cobrar()%>" class="form-control input-md" onKeyUp="sumarExtras()">
@@ -537,10 +578,23 @@ select {
 				</div>
 			</div>
 			
+			<div class="form-group">
+			<label class="col-md-4 control-label" for="39_Forma_Pago">Forma de pago</label>
+				<div class="col-md-8">
+				<select name="39_Forma_Pago" id="39_Forma_Pago"
+					class="form-control" required>
+						<option selected value="Transferencia" selected>Transferencia</option>
+						<option value="TDebito" >Tarjeta de débito</option>
+						<option value="TCredito" >Tarjeta de crédito</option>
+						<option value="Efectivo" >Efectivo</option>
+					</select>
+					</div>
+			</div>
+			
 			<!-- Text input-->
 			<div class="panel panel-success ">
 			<div class="panel-heading text-center"><i
-			class="fa fa-money fa-1x"></i> &nbsp;<strong><font size=3>Monto total extras</font></strong></div>
+			class="fa fa-money fa-1x"></i> &nbsp;<strong><font size=3>Monto total a pagar</font></strong></div>
  			<div class="panel-body">
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="35_Monto_Extras"><i
@@ -612,7 +666,7 @@ select {
 			</div>
 			
 			</div></div>
-			
+						
 			<div class="form-group">
 				<label class="col-md-12 control-label" for="espaciado"></label>
 				<div class="col-md-12">
@@ -708,7 +762,7 @@ select {
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -734,10 +788,6 @@ select {
     $( "#dialog" ).dialog();
   });
 </script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
 
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
@@ -1150,6 +1200,43 @@ select {
         document.activeElement.blur();
     }
 });
+</script>
+<script type="text/javascript">
+function findWithAttr(array, attr, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attr] === value) {
+            return array[i]['Precio'];
+        }
+    }
+    return -1;
+}
+function CambiarCampania(){
+	try{
+		var PrecioCampAntigua = 0;
+		var IdCamp = document.getElementById("17_Id_Campania").value;
+		if(IdCamp!=0){
+			if(!Cupon){
+				PrecioCampAntigua = <%=camp.getPrecio()%>;
+			}
+			var PorCobrar = document.getElementById("35_Valor_Por_Cobrar").value;
+			PrecioCampNueva = findWithAttr(CampPrecios,'Id',IdCamp);
+			PorCobrar = PorCobrar - PrecioCampAntigua + parseInt(PrecioCampNueva);
+			document.getElementById("35_Valor_Por_Cobrar").value = PorCobrar;
+			sumarExtras();
+		}else{
+			var Cupon = <%=(sa!=null && sa.getValor_Por_Cobrar()!=-1)?1:0%>
+			if(Cupon){
+				document.getElementById("35_Valor_Por_Cobrar").value = 0;
+			}else{
+				document.getElementById("35_Valor_Por_Cobrar").value = PrecioCampAntigua;
+			}
+			sumarExtras();
+		}
+	}catch(e){
+		alert(e);
+	}
+	
+}
 </script>
 
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>

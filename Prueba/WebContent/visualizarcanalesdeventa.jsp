@@ -41,9 +41,17 @@
 
 <link rel="stylesheet" href="assets/style.css">
 
-<script type="text/javascript" src="assets/tablesorter/jquery-latest.js"></script> 
-<script type="text/javascript" src="assets/tablesorter/jquery.tablesorter.js"></script> 
 
+<link rel="stylesheet" href="assets/tablesorter/css/theme.blue.css" type="text/css" />
+<link rel="stylesheet" href="assets/tablesorter/css/theme.green.css" type="text/css" />
+
+<link rel="stylesheet" href="assets/tablesorter/addons/pager/jquery.tablesorter.pager.css">
+
+<style>
+    .tablesorter thead .disabled {
+        display:none !important;
+    }
+</style>
 </head>
 
 	<% 
@@ -131,6 +139,10 @@
 				</div>
 		</form>	
 		</div>
+		<div class="col-lg-6">
+				<button type="button"  class="reset btn btn-success btn-sm btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros </button>
+		</div>
+		<br>
    <%
 				Iterator<Canal_Venta> iterres1 = canalesdeventa.iterator();
 				if(!iterres1.hasNext()){  %>
@@ -143,13 +155,13 @@
 					<table id="tabladedatos" class="tablesorter table-hover table">
 					    <thead>
 						  <tr style="font-size:13px;">
-						  	<th></th>
+						  	<th data-sorter="false" data-filter="false"></th>
 							<th><h5>ID</h5></th>
 							<th><h5>Nombre</h5></th>
 							<th><h5>Descripción</h5></th>
 							<th><h5>¿Requiere<br>cupón?</h5></th>
-							<th><h5>Modificar</h5></th>
-							<th><h5>Eliminar</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Modificar</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Eliminar</h5></th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -193,7 +205,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -217,10 +229,6 @@
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
 
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
-
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
 
@@ -233,7 +241,69 @@
 
 <!-- custom script -->
 <script src="assets/script.js"></script>
+<script type="text/javascript" src="assets/tablesorter/js/jquery.tablesorter.combined.js"></script> 
 
+<!-- <script type="text/javascript" src="assets/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> -->
+
+
+<script src="assets/tablesorter/js/jquery.tablesorter.js"></script>
+<script src="assets/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+<script src="assets/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+
+<script id="js">
+$(function(){
+
+  var $table = $('table'),
+  // define pager options
+  pagerOptions = {
+  	
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+    // output string - default is '{page}/{totalPages}';
+    // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+    // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
+    // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+    // go to page selector - select dropdown that sets the current page
+    cssGoto: '.gotoPage'
+  };
+
+  // Initialize tablesorter
+  // ***********************
+  $table
+    .tablesorter({
+      theme: 'blue',
+      headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+      widthFixed: true,
+      widgets: ['zebra', 'filter']
+      
+    }).bind('filterInit', function(){
+        $table.find('.tablesorter-filter').hide().each(function(){
+            var w, $t = $(this);
+            w = $t.closest('td').innerWidth();
+            $t
+                .show()
+                .css({
+                    'min-width': w,
+                    width: w // 'auto' makes it wide again
+                });
+        });
+    })
+
+    // initialize the pager plugin
+    // ****************************
+    //.tablesorterPager(pagerOptions);
+
+});
+
+	
+</script>
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
 </body>

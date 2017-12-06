@@ -187,7 +187,7 @@ select {
 <br>
 <br>
 <div id="home" class="container spacer about">
-	<h2 class="text-center wowload fadeInUp">Nueva/Modificar Sesión</h2>
+	<h2 class="text-center">Nueva/Modificar Sesión</h2>
 	
 	
 	<!-- Información de la reserva -->
@@ -201,7 +201,7 @@ select {
 		String campaniamostrar = res.getId_Campania()+" - "+(String)reservas.get(5);
 		int personas;
 		%>
-   	<div class="col-md-5 wowload fadeInUp">
+   	<div class="col-md-5">
 	<div class="panel panel-info">
 			<div class="panel-heading text-center "><i
 			class="fa fa-calendar fa-1x"></i> &nbsp;<strong><font size=3>Información de la reserva</font></strong></div>
@@ -262,7 +262,7 @@ select {
 				</div><br>
 		</div>
 	</div>
-		<div class="panel panel-info wowload fadeInUp">
+		<div class="panel panel-info ">
 			<div class="panel-heading text-center "><i
 			class="fa fa-camera fa-1x"></i> &nbsp;<strong><font size=3>Información de la campaña</font></strong></div>
 		<div class="panel-body">
@@ -335,7 +335,7 @@ select {
 	</div>
 			
 				
-	<form class="form-horizontal wowload fadeInUp"
+	<form class="form-horizontal "
 		action="ServletSesion?opcion=NuevoSesion" method="post">
 		<fieldset>
 		
@@ -365,14 +365,14 @@ select {
 			
 			<%	if(sa==null){
 					%>
-						<div class="alert alert-info alert-dismissable wowload fadeInUp">
+						<div class="alert alert-info alert-dismissable ">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  <strong><i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Esta reserva aún no posee sesión asignada.</strong>
 						</div>
 					<%
 				}else{
 					%>
-						<div class="alert alert-warning alert-dismissable wowload fadeInUp">
+						<div class="alert alert-warning alert-dismissable ">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  <strong><i class="fa fa-info-circle fa-1x"></i>&nbsp;&nbsp; Esta reserva ya posee 
 						  sesión asignada, por lo tanto, se sobreescribirá con los datos de este formulario.</strong>
@@ -705,7 +705,7 @@ select {
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
