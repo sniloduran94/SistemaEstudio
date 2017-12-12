@@ -1654,40 +1654,40 @@ public class LetReserva extends HttpServlet {
 	      }
     	  
     	  if (llegoSolicitud.equals("FiltroReservas")) {
-  	    	
-    		  	Trabajador usuario =  null;
-    		  	boolean and = false;
-    	    	usuario = (Trabajador) sesion.getAttribute("usuario");
-    	    	//request.setAttribute("usuario", usuario);
-    			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
-    			
-    			this.InvalidarFiltros();
-    			
-    			String Fecha1 = "";
-    			String Fecha2 = "";
-    			String Nombre = "";
-    			String Apellido = "";
-    		
-    			Fecha1 = request.getParameter("Inicio");
-    			Fecha2 = request.getParameter("Fin");
-    			Nombre = request.getParameter("15_Nombre");
-    			Apellido = request.getParameter("15_Apellido_Pat");
-    			    			    	    	
-    	    	if(request.getParameter("Inicio")!=null){
-    				sesion.setAttribute("Inicio", request.getParameter("Inicio"));
-    			}
-    	    	if(request.getParameter("Fin")!=null){
-    				sesion.setAttribute("Fin", request.getParameter("Fin"));
-    			}
-    	    	if(request.getParameter("15_Nombre")!=null){
-    				sesion.setAttribute("15_Nombre", request.getParameter("15_Nombre"));
-    			}
-    			if(request.getParameter("15_Apellido_Pat")!=null){
-    				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
-    			}
-    			
-    			
-    			String CondicionDeBusqueda = " AND ";
+    	    	
+  		  	Trabajador usuario =  null;
+  		  	boolean and = false;
+  	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+  	    	//request.setAttribute("usuario", usuario);
+  			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
+  			
+  			this.InvalidarFiltros();
+  			
+  			String Fecha1 = "";
+  			String Fecha2 = "";
+  			String Nombre = "";
+  			String Apellido = "";
+  		
+  			Fecha1 = request.getParameter("Inicio");
+  			Fecha2 = request.getParameter("Fin");
+  			Nombre = request.getParameter("15_Nombre");
+  			Apellido = request.getParameter("15_Apellido_Pat");
+  			    			    	    	
+  	    	if(request.getParameter("Inicio")!=null){
+  				sesion.setAttribute("Inicio", request.getParameter("Inicio"));
+  			}
+  	    	if(request.getParameter("Fin")!=null){
+  				sesion.setAttribute("Fin", request.getParameter("Fin"));
+  			}
+  	    	if(request.getParameter("15_Nombre")!=null){
+  				sesion.setAttribute("15_Nombre", request.getParameter("15_Nombre"));
+  			}
+  			if(request.getParameter("15_Apellido_Pat")!=null){
+  				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
+  			}
+  			
+  			
+  			String CondicionDeBusqueda = " AND ";
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				String Fecha12 = null;
@@ -1723,13 +1723,13 @@ public class LetReserva extends HttpServlet {
 					CondicionDeBusqueda += " [15_Apellido_Pat] LIKE '%"+Apellido+"%' ";
 					and = true;
 				}
-    			    			
-    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike(CondicionDeBusqueda);	
-    			request.setAttribute("reservas", reservas);
-    			
-    	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
-    	    	rd.forward(request, response);
-    	  }
+  			    			
+  	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike(CondicionDeBusqueda);	
+  			request.setAttribute("reservas", reservas);
+  			
+  	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
+  	    	rd.forward(request, response);
+  	  }
     	  
     	  if (llegoSolicitud.equals("FiltroReservasSwitch")) {
     	    	

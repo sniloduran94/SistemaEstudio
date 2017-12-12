@@ -478,7 +478,11 @@ select {
 			
 			var FechaNueva = document.getElementById("datetimepicker2").value;
 					
-			if(countdays(FechaAntigua,FechaNueva)>=-2){
+			var hoy = new Date();
+			
+			// El valor -1 corresponde al día de mañana
+					
+			if(countdays2(hoy,FechaNueva)>=-1){
 				
 				var r = confirm('\'OK\', para generar cobro por reagendamiento. \'Cancelar\', para no cobrar');
 				if(r== true){
@@ -506,7 +510,16 @@ select {
 		
 		
 		var days = Math.floor((start_date.getTime() - end_date.getTime())/(oneday));
-	
+		
+		return days;
+	}
+	function countdays2(day1, day2){
+
+		var oneday = 24*60*60*1000;
+		
+		var end_date = parseDate(day2);
+			
+		var days = Math.floor((day1.getTime() - end_date.getTime())/(oneday));
 		return days;
 	}
 </script>
