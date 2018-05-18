@@ -507,7 +507,6 @@ $(function(){
       widgetOptions : {
 			filter_columnFilters: true,
 			filter_placeholder: { search : 'Buscar...' },
-			filter_saveFilters : true,
 			filter_reset: '.reset',
 			//Resizable
 		    resizable_addLastColumn : true,

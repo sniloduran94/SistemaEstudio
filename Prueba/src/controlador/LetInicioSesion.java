@@ -48,6 +48,7 @@ import conexion.UserHomeApplet;
 import conexion.WriteExcel;
 import conexion.WriteExcelCampania;
 import conexion.WriteExcelCliente;
+import conexion.WriteExcelIngresos;
 import conexion.WriteExcelSesion;
 import modelo.*;
 
@@ -632,6 +633,65 @@ public class LetInicioSesion extends HttpServlet {
 				
 				rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=CampañasGenesisEstudio.xls"); 
 				response.setHeader("Content-Disposition", "attachment; filename=\"CampañasGenesisEstudio.xls\"");
+				rd.include(request, response); 
+				
+			}catch(Exception e){	
+				System.out.println(e.getMessage());
+				String mensaje = "<strong>¡Se produjo un error!</strong><br><br>"
+						+ "Descripción: "+e.getMessage();
+				
+				
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("tipomensaje", "danger");
+			}
+						
+			rd = request.getRequestDispatcher("/indextrabajador.jsp");
+			rd.forward(request, response);
+	    }
+	    
+	    if (llegoSolicitud.equals("GenerarXLSIngresos")) {
+
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+			System.out.println("Nombre en LetSesion - GenerarXLSIngresos: "+ usuario.getNombre());
+	    	
+			ArrayList<ArrayList<String>> Ingresos = (ArrayList<ArrayList<String>>)(gd.ArrayExcelIngresos());
+			ArrayList<ArrayList<String>> Egresos = (ArrayList<ArrayList<String>>)(gd.ArrayExcelEgresos());
+			ArrayList<ArrayList<String>> Resumen = (ArrayList<ArrayList<String>>)(gd.ArrayExcelResumen());
+						
+			try{
+				
+				WriteExcelIngresos test = new WriteExcelIngresos();
+				String home = System.getProperty("user.home");
+				
+				String fmt = home+"/Downloads/IngresosEstudio.xls";
+				File f = null;
+				for (int i = 1; i < 100; i++) {
+				    f = new File(String.format(fmt, i));
+				    if (!f.exists()) {
+				        break;
+				    }
+				}
+				try {
+				    System.out.println(f.getCanonicalPath());
+				} catch (IOException e) {
+				    e.printStackTrace();
+				}	
+				
+				
+			    test.setOutputFile(f.getCanonicalPath());
+				//test.setOutputFile("c:/users/nb-desktop/FotoExpressiones.xls");
+			    test.write(Ingresos,Egresos,Resumen);
+			    System.out.println("Please check the result file under c:/users/nb-desktop/prueba.xls");
+			    String mensaje = "<strong>Archivo Microsoft Office Excel creado correctamente</strong><br><br>"
+						+ "Por favor revisa tu carpeta de descargas. Ejemplo: C://Usuarios/MiUsuario/Downloads/";
+				
+				
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("tipomensaje", "success");
+				
+				rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=IngresosEstudio.xls"); 
+				response.setHeader("Content-Disposition", "attachment; filename=\"IngresosEstudio.xls\"");
 				rd.include(request, response); 
 				
 			}catch(Exception e){	

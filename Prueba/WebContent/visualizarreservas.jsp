@@ -85,7 +85,7 @@
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right scroll">
               	 <% if(usuario.getEsAdmin()==1){ %>
-              		<li onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li> 	
+              		<li id="admin" ><a href="">Menú</a></li> 	
               	 <% }else{ %>
               	 	<li onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>		
               	 <% } %>				 
@@ -103,7 +103,7 @@
 
 <body>
 
-<div class="container spacer wowload fadeInUp">
+<div class="container spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -123,20 +123,20 @@
 	<% if(request.getAttribute("SinFiltros")==null){ %>
 	
   	<form action="ServletReserva?opcion=FiltroReservas" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
 	  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
 	  </div>
 	</div>
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
 	  </div>
 	</div>
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
 	  <div class="col-md-4">
 	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
@@ -147,7 +147,7 @@
 	
 	<br><br>
 	<form action="ServletReserva?opcion=FiltroPreReserva" method="post">
-	<div class="form-group wowload fadeInUp">
+	<div class="form-group">
 	  <div class="col-md-6 col-sm-6">
 	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block "><i class="fa fa-calendar fa-1x"></i> Mostrar sólo pre reservas <i class="fa fa-search fa-1x"></i></button>
 	  </div>
@@ -167,7 +167,7 @@
 						<h3>No existen datos para mostrar </h3>
 						</div>
 	<%			}else{	%>
-				  <div class="col-md-6 wowload fadeInUp">
+				  <div class="col-md-6">
 					<h4>Resultados: <%=reservas.size()%></h4><br>
 					<div class = "col-md-4"></div>
 					<a href="ServletLogin?opcion=MirarCalendario" method="post">
@@ -176,7 +176,7 @@
             			</button>
             		</a>
             	  </div>
-            		<table id="table" class="table table-hover wowload fadeInUp">
+            		<table id="table" class="table table-hover">
 					    <thead>
 						  <tr style="font-size:13px;">
 							<th ><h5>Fecha<br>Año/Mes/Día</h5></th>
@@ -299,7 +299,7 @@
 
 <!-- Footer Starts -->
 <div class="footer text-center spacer">
-	<p class="wowload flipInX">Sistema Estudio. Advancing Group Ltda.</a></p>
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
  <br><br>
 ©Copyright 2017. Todos los derechos reservados.<br><br>
 </div>
@@ -321,10 +321,6 @@
 <!-- jquery -->
 <script src="assets/jquery.js"></script>
 
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
-
 <!-- boostrap -->
 <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
 
@@ -340,6 +336,10 @@
 
 <script src="assets/bootstrap/js/jquery.js"></script>
 <script src="build/jquery.datetimepicker.full.js"></script>
+
+<!-- BLOCK UI  script -->
+<script src="assets/jquery.blockUI.js"></script>
+
 <script>
 window.onerror = function(errorMsg) {
 	$('#console').html($('#console').html()+'<br>'+errorMsg)
@@ -543,6 +543,13 @@ $('#datetimepicker_dark').datetimepicker({theme:'dark'})
 		        });
 		});
 	}
+	
+	$(document).ready(function(){
+		$('#admin').click(function(e) 
+	    { 
+	     	redirect('ServletLogin?opcion=IndexTrabajadorAdmin');
+	    });
+  	});
 </script>
 
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>

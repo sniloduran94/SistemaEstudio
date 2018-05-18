@@ -11,6 +11,8 @@ public class Vendedor {
 	private String BD_User;
 	private String BD_PW;
 	private String Direccion;
+	private String GoogleMap;	
+	
 	public int getId_Vendedor() {
 		return Id_Vendedor;
 	}
@@ -70,6 +72,12 @@ public class Vendedor {
 	}
 	public void setDireccion(String direccion) {
 		Direccion = direccion;
+	}
+	public String getGoogleMap() {
+		return GoogleMap;
+	}
+	public void setGoogleMap(String googleMap) {
+		GoogleMap = googleMap;
 	}
 	
 	

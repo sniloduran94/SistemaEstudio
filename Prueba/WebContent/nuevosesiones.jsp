@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="assets/animate/animate.css" />
 <link rel="stylesheet" href="assets/animate/set.css" />
 
-<!-- gallery -->
+<!-- gallery --> 
 <link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
 
 <!-- favicon -->
@@ -91,7 +91,7 @@
 				  <button type="button" class="close" data-dismiss="alert">&times;</button>
 				  <strong>¡Debes iniciar sesión para ver esta página!</strong>
 				</div>
-	<%  }else{	
+	<%  }else{	 
 				sesion.setAttribute("usuario", usuario);
     %>
 	
@@ -478,6 +478,7 @@ $(function(){
   var $table = $('table'),
   // define pager options
   pagerOptions = {
+   
   	
     // target the pager markup - see the HTML block below
     container: $(".pager"),
@@ -492,7 +493,8 @@ $(function(){
     // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
     removeRows: false,
     // go to page selector - select dropdown that sets the current page
-    cssGoto: '.gotoPage'
+    cssGoto: '.gotoPage',
+        
   };
   
   // Initialize tablesorter
@@ -506,7 +508,7 @@ $(function(){
       widgetOptions : {
 			filter_columnFilters: true,
 			filter_placeholder: { search : 'Buscar...' },
-			filter_saveFilters : true,
+			filter_saveFilters : false,
 			filter_reset: '.reset',
 		    resizable_addLastColumn : true,
       		resizable_widths : [ '100px', '60px', '30px', '50px', '60px', '140px' ]

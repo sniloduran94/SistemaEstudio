@@ -57,6 +57,7 @@ public class LetEvento extends HttpServlet {
 		    	String llegoItem = request.getParameter("39_Item");
 		    	String llegoDescripcion = request.getParameter("17_Descripcion");
 		    	int llegoNumeroBoleta = Integer.parseInt(request.getParameter("39_Numero_Boleta"));
+		    	String llegoTipoDoc = request.getParameter("39_Tipo_Doc");
 		    	
 		    	Evento ev = new Evento ();
     	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
@@ -64,13 +65,18 @@ public class LetEvento extends HttpServlet {
     	    	
     	    	ev.setFecha(sdf.format(ahora));
     	    	ev.setForma_Pago(llegoFormaPago);
-    	    	ev.setValor(llegoValor);
+    	    	if(llegoMovimiento.equals("Egreso")){
+        	    	ev.setValor(llegoValor*-1);
+    	    	}else{
+        	    	ev.setValor(llegoValor);
+    	    	}
     	    	ev.setTrabajador(trab.getId_Trabajador());
     	    	ev.setItem(llegoItem);
-    	    	//ev.setDescripcion();
+    	    	ev.setDescripcion(llegoDescripcion);
     	    	ev.setEstado(1);
     	    	ev.setNumero_Boleta(llegoNumeroBoleta);
     	    	ev.setMovimiento(llegoMovimiento);    
+    	    	ev.setTipo_Doc(llegoTipoDoc);
 		       	
 		       	int resultado = gd.IngresarEvento(ev);
 		       	

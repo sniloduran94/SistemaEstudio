@@ -186,12 +186,25 @@
 				</div>
 				
 				<div class="form-group">
-			<label class="col-md-4 control-label" for="39_Movimiento">Tipo de movimiento</label>
+				<label class="col-md-4 control-label" for="39_Movimiento">Tipo de movimiento</label>
 				<div class="col-md-4">
 				<select name="39_Movimiento" id="39_Movimiento"
 					class="form-control" required>
 						<option selected value="Ingreso" selected>Ingreso</option>
 						<option value="Egreso" >Egreso</option>
+					</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+				<label class="col-md-4 control-label" for="39_Tipo_Doc">Tipo de documento</label>
+				<div class="col-md-4">
+				<select name="39_Tipo_Doc" id="39_Tipo_Doc"
+					class="form-control" required>
+						<option selected value="Factura" selected>Factura</option>
+						<option value="Boleta" >Boleta</option>
+						<option value="S\Recibo" >S\Recibo</option>
+						<option value="Otros" >Otros</option>
 					</select>
 					</div>
 				</div>

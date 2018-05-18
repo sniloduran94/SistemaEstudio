@@ -288,9 +288,14 @@ public class LetReserva extends HttpServlet {
 	    			
 	    			String fecha2 = "";
 	    			String hora = "";
-	    			String horario = "";
+	    			String horario = "";  
+	    			boolean esParaHoy = false;	    			
 	    			
 	    			if(res.getFecha() != null){
+	    				if(sdf2.format(res.getFecha()).equals(sdf2.format(new Date()))){
+	    					esParaHoy = true;
+	    				}
+	    				
 	    				fecha2 = DomingoASabado(sdf2.format(res.getFecha()));	
 	        			hora = sdf3.format(res.getFecha());	
 	        			horario = "es <strong>"+fecha2+ "</strong> a las <strong>"+hora+"</strong> horas ";
@@ -325,28 +330,6 @@ public class LetReserva extends HttpServlet {
 	    	    	String pagina = Vend.getWeb();
 	    	    	String direccion = Vend.getDireccion();
 	    	    	String clave = Vend.getMail_PW();
-	    	    	/*
-	    	    	if(res.getVendedor().equals("Genesis")){
-	    	    		correoEnvia = "contacto@genesisestudio.cl";
-	    	    		nombreEnvia = "Genesis Estudio";
-	    	    		logoIcono = "LogoLetrasGenesis";
-	    	    		pagina = "www.GenesisEstudio.cl";
-	    	    		direccion = direcciong;
-	    	    	}
-	    	    	if(res.getVendedor().equals("Expressiones")){
-	    	    		correoEnvia = "contacto@fotoexpressiones.com";
-	    	    		nombreEnvia = "Foto Expressiones";
-	    	    		logoIcono = "LogoLetrasExpressiones";
-	    	    		pagina = "www.FotoExpressiones.com";
-	    	    		direccion = direccione;
-	    	    	}
-	    	    	if(res.getVendedor().equals("Genesis2")){
-	    	    		correoEnvia = "contacto@genesisestudio.cl";
-	    	    		nombreEnvia = "Genesis Estudio";
-	    	    		logoIcono = "LogoLetrasGenesis";
-	    	    		pagina = "www.GenesisEstudio.cl";
-	    	    		direccion = direcciong2;
-	    	    	}*/
 	    	    	    	    	
 	    	    	String MensajeDeCorreo;
 	    	    	String AsuntoDeCorreo; 
@@ -372,7 +355,7 @@ public class LetReserva extends HttpServlet {
 	        					+ "<br>Nuestra página es: "+pagina
 	        					+ MensajeMail
 	        					+ "<br><br> No faltes, ¡Te esperamos!"
-	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 	    	    	}else{
 	    	    		AsuntoDeCorreo = "Comprobante de reserva";
 	    	    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
@@ -385,10 +368,9 @@ public class LetReserva extends HttpServlet {
 	    					+ PDcampania
 	    					+ MensajeMail
 	    					+ "La dirección es: "+direccion
-	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
-	    	    		
+	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";    	    		
 	    	    	}
-	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, esParaHoy);
 	    			
 	    	    	rd = request.getRequestDispatcher("/indextrabajador.jsp");
 	    	    	rd.forward(request, response);
@@ -396,7 +378,7 @@ public class LetReserva extends HttpServlet {
     	    }
     	    
     	    if (llegoSolicitud.equals("CambiarReserva")) {
-    	      	    	
+    	      	
     	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	  
     	    	
     	    	String llegoReservaa = (request.getParameter("16_Id_Reserva"));
@@ -549,9 +531,7 @@ public class LetReserva extends HttpServlet {
     	    	    	String clave = Vend.getMail_PW();
     	    	    	
     	    	    	String AsuntoDeCorreo = "Comprobante de reserva";
-    	    	    	
-    	    	    	
-    	    	    	
+    	    	    	  	    	    	
     	    			String MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
     	    					+ "Se ha agendado una sesión fotográfica. <br><br>"
     	    					+ horario
@@ -560,12 +540,12 @@ public class LetReserva extends HttpServlet {
     	    					+ "<br><br> No faltes, ¡Te esperamos!"
     	    					+ PDcampania
     	    					+ MensajeMail
-    	    					+ "La dirección es: "+direccion
+    	    					+ "La dirección es: "+direccion 
     	    					+ "<br>Nuestra página es: "+pagina
-    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    			
 
-    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
     	    			    	
     	    			ArrayList<ArrayList<Object>> reservas = null;
     	    			
@@ -641,29 +621,7 @@ public class LetReserva extends HttpServlet {
     	    	    	String clave = Vend.getMail_PW();
     	    	    	
     	    	    	String AsuntoDeCorreo = "Recordatorio de reserva";
-    	    	    	/*
-    	    	    	if(reserv.getVendedor().equals("Genesis")){
-    	    	    		correoEnvia = "contacto@genesisestudio.cl";
-    	    	    		nombreEnvia = "Genesis Estudio";
-    	    	    		logoIcono = "LogoLetrasGenesis";
-    	    	    		pagina = "www.GenesisEstudio.cl";
-    	    	    		direccion = direcciong;
-    	    	    	}
-    	    	    	if(reserv.getVendedor().equals("Expressiones")){
-    	    	    		correoEnvia = "contacto@fotoexpressiones.com";
-    	    	    		nombreEnvia = "Foto Expressiones";
-    	    	    		logoIcono = "LogoLetrasExpressiones";
-    	    	    		pagina = "www.FotoExpressiones.com";
-    	    	    		direccion = direccione;
-    	    	    	}
-    	    	    	if(reserv.getVendedor().equals("Genesis2")){
-    	    	    		correoEnvia = "contacto@genesisestudio.cl";
-    	    	    		nombreEnvia = "Genesis Estudio";
-    	    	    		logoIcono = "LogoLetrasGenesis";
-    	    	    		pagina = "www.GenesisEstudio.cl";
-    	    	    		direccion = direcciong2;
-    	    	    	}
-    	    	    	*/
+    	    	    	
     	    	    	String MensajeDeCorreo = "";
     	    	    	
     	    	    	if(reserv.isPreReserva()){
@@ -686,9 +644,8 @@ public class LetReserva extends HttpServlet {
     	        					+ "La dirección es: "+direccion
     	        					+ "<br>Nuestra página es: "+pagina
     	        					+ MensajeMail
-    	        					
     	        					+ "<br><br> No faltes, ¡Te esperamos!"
-    	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    	    	}else{
     	    	    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
         	    					+ "Le recordamos que usted posee agendada una sesión fotográfica. <br><br>"
@@ -701,12 +658,11 @@ public class LetReserva extends HttpServlet {
         	    					+ MensajeMail
         	    					+ "La dirección es: "+direccion
         	    					+ "<br>Nuestra página es: "+pagina
-        	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+        	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
         	    			
     	    	    	}
-    	    	    	
-    	    			
-    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+    	    	    	    	    			
+    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
    	    			    	        	    			
     	    			ArrayList<ArrayList<Object>> reservas = null;
     	    			
@@ -744,7 +700,7 @@ public class LetReserva extends HttpServlet {
     				if((llegoAgregarSesion!=null)&&(!llegoAgregarSesion.equals(""))){
     					//Caso de asignar datos a una sesion	
     					
-    					ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_RESERVA].[16_ID_RESERVA", Integer.toString(reserv.getId_Reserva()), "Int");
+    					ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("Ultimas_Reservas].[16_ID_RESERVA", Integer.toString(reserv.getId_Reserva()), "Int");
     					request.setAttribute("reserva", reservas.get(0));
 
     					ArrayList<Campania> Campanias = (ArrayList<Campania>)gd.getCampañasVigentes();	
@@ -767,7 +723,7 @@ public class LetReserva extends HttpServlet {
     	    
     	  if (llegoSolicitud.equals("ModificarReserva")) {
   	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
-  	    	System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre());
+  	    	System.out.println("El usuario en la modificacion de reserva es "+ trab.getNombre());
   	    	
   	    	String llegoFecha;
   	    	if((request.getParameter("16_Fecha")==null)||(request.getParameter("16_Hora")==null)||(request.getParameter("16_Fecha").equals(""))||(request.getParameter("16_Hora").equals(""))){
@@ -806,7 +762,6 @@ public class LetReserva extends HttpServlet {
    	    	int diferencia = Diferencia(camp.getMaximo_Personas(),llegoCantidadPersonas);
   	    	
   	    	Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
-  			System.out.println("Nombre en LetReserva - Modificar: "+ usuario.getNombre());
   			
   			ArrayList<Cliente> cli = gd.getClientesFiltro("15_ID_CLIENTE", Integer.toString(llegoId), "Int");
 	    	Cliente cliente = cli.get(0); 
@@ -870,14 +825,21 @@ public class LetReserva extends HttpServlet {
 	    	String pagina = Vend.getWeb();
 	    	String direccion = Vend.getDireccion();
 	    	String clave = Vend.getMail_PW();
-	    	
+	    	    	
 	    	String AsuntoDeCorreo = "Confirmación de reserva";
-	    				
+
+			boolean esParaHoy = false;			
+	    	
 			if(fechaConHora!=null){
 				SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 				String fecha2 = DomingoASabado(sdf2.format(res.getFecha()));
 				SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
 				String hora = sdf3.format(res.getFecha());
+				
+				if(sdf2.format(res.getFecha()).equals(sdf2.format(new Date()))){
+					esParaHoy = true;
+				}
+				
 		    	String adicional = "";
 		    	String reagenda = "";
 		    	if(res.getCantidad_Reagendamiento()>=1 && camp.getPrecio_Reagendamiento()>0){
@@ -911,7 +873,7 @@ public class LetReserva extends HttpServlet {
     						+ MensajeMail
     						+ "La dirección es: "+direccion
     						+ "<br>Nuestra página es: "+pagina						
-    						+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    						+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
         	    
     	    	}else{
 					MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
@@ -925,16 +887,16 @@ public class LetReserva extends HttpServlet {
 							+ MensajeMail
 							+ "La dirección es: "+direccion
 							+ "<br>Nuestra página es: "+pagina						
-							+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+							+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    	}
     	    }else{
     	    	MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
 						+ "Usted ha dejado <strong>pendiente</strong> su sesión fotográfica. <br><br>"
 						+ "Por lo tanto, quedamos atentos a su confirmación, ¡Te esperamos!"
 						+ "<br>Para más información visite nuestra página: "+pagina
-						+ "<br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+						+ "<br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    }
-			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, esParaHoy);
 		    	 
   			String mensaje = "Reserva modificada correctamente";
 			
@@ -1394,6 +1356,8 @@ public class LetReserva extends HttpServlet {
     	    Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
     	    System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre());
   	    	
+    	    System.out.println(request.getParameter("16_Id_Reserva"));
+    	    
   	    	int llegoIdReserva = Integer.parseInt(request.getParameter("16_Id_Reserva"));
     	    int llegoMonto = Integer.parseInt(request.getParameter("16_Monto_Pago_Adelantado").replace(".", ""));
     	    String llegoFechaAnticipo = request.getParameter("16_Fecha_Anticipo");
@@ -1475,10 +1439,10 @@ public class LetReserva extends HttpServlet {
 					+ MensajeMail
 					+ "La dirección es: "+direccion
 					+ "<br>Nuestra web: "+pagina
-					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 	    	
 	    	
-			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);	    	
+			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);	    	
   	    	
   	    	
   	    	
@@ -1621,9 +1585,8 @@ public class LetReserva extends HttpServlet {
 		    					+ "La dirección es: "+direccion
 		    					+ "<br>Nuestra página es: "+pagina
 		    					+ MensajeMail
-		    					
 		    					+ "<br><br> No faltes, ¡Te esperamos!"
-		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 			    	}else{
 			    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
 		    					+ "Le recordamos que usted posee agendada una sesión fotográfica. <br><br>"
@@ -1636,10 +1599,10 @@ public class LetReserva extends HttpServlet {
 		    					+ MensajeMail
 		    					+ "La dirección es: "+direccion
 		    					+ "<br>Nuestra página es: "+pagina
-		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 		    			
 			    	}
-					mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);   	
+					mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);   	
 					
 					reservasarecordar.remove(0);
 				}
@@ -1765,7 +1728,7 @@ public class LetReserva extends HttpServlet {
   			}
   			
   			
-  			String CondicionDeBusqueda = " AND ";
+  			String CondicionDeBusqueda = " WHERE ";
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				String Fecha12 = null;

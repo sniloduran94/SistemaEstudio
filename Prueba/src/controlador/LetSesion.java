@@ -69,7 +69,7 @@ public class LetSesion extends HttpServlet {
     	    	//Obtencion de parámetros de formulario
     	    	int llegoIdReserva = Integer.parseInt(request.getParameter("16_Id_Reserva"));
     	    	
-    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_RESERVA].[16_ID_RESERVA", Integer.toString(llegoIdReserva), "Int");
+    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("Ultimas_Reservas].[16_ID_RESERVA", Integer.toString(llegoIdReserva), "Int");
 				Reserva reserv = (Reserva) reservas.get(0).get(0);
     	    	
 				ArrayList<Cliente> cli = gd.getClientesFiltro("15_ID_CLIENTE", Integer.toString(reserv.getId_Cliente()), "Int");
@@ -84,6 +84,7 @@ public class LetSesion extends HttpServlet {
     	    	int llegoValorPorCobrar =  (request.getParameter("35_Valor_Por_Cobrar")!="")?Integer.parseInt(request.getParameter("35_Valor_Por_Cobrar")):-1;
     	    	int llegoCD =  (request.getParameter("35_CD")!="")?Integer.parseInt(request.getParameter("35_CD")):-1;
     	    	int llegoExtras = (request.getParameter("35_Extras")!="")?Integer.parseInt(request.getParameter("35_Extras")):-1;		 
+    	    	int llegoDescuento = (request.getParameter("35_Descuento")!="")?Integer.parseInt(request.getParameter("35_Descuento")):-1;		 
     	    	int llegoPersona_Adicional = (request.getParameter("35_Persona_Adicional")!="")?Integer.parseInt(request.getParameter("35_Persona_Adicional")):-1;
     	    	int llegoRecargoPorReagendar =  (request.getParameter("35_Recargo_Por_Reagendar")!="")?Integer.parseInt(request.getParameter("35_Recargo_Por_Reagendar")):-1;
     	    	int llegoMontoExtras = (request.getParameter("35_Monto_Extras")!="")?Integer.parseInt(request.getParameter("35_Monto_Extras")):-1;
@@ -173,6 +174,7 @@ public class LetSesion extends HttpServlet {
     	    	saux.setValor_Por_Cobrar(llegoValorPorCobrar);
     	    	saux.setCD(llegoCD);
     	    	saux.setExtras(llegoExtras);
+    	    	saux.setDescuento(llegoDescuento);
     	    	saux.setPersona_Adicional(llegoPersona_Adicional);
     	    	saux.setRecargo_Por_Reagendar(llegoRecargoPorReagendar);
     	    	saux.setMonto_Extras(llegoMontoExtras);
@@ -243,6 +245,7 @@ public class LetSesion extends HttpServlet {
 	    	    	String pagina = Vend.getWeb();
 	    	    	String direccion = Vend.getDireccion();
 	    	    	String clave = Vend.getMail_PW();
+	    	    	String googleMap = Vend.getGoogleMap();
 
 	    	    	String AsuntoDeCorreo = "Retiro de fotografías en "+nombreEnvia;
 	    	    		/*	
@@ -265,9 +268,9 @@ public class LetSesion extends HttpServlet {
 	    					+ " favor acercarse a nuestras dependencias.<br>"
 	    					+ "¡Te esperamos!"
 	    					+ "<br>Para más información visita nuestra página: "+pagina	    				
-	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 	    			    	    			    	    	    	
-	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave,false);
     			  	 	    			
     	    	}
     	    	if((sa!=null) && (sa.isEntregadas()==false && saux.isEntregadas())){
@@ -290,6 +293,7 @@ public class LetSesion extends HttpServlet {
 		    	    	String pagina = Vend.getWeb();
 		    	    	String direccion = Vend.getDireccion();
 		    	    	String clave = Vend.getMail_PW();
+		    	    	String googleMap = Vend.getGoogleMap();
 		    	    	
 		    	    	String AsuntoDeCorreo = "Confirmación de retiro de fotografías";
 		    	    			/*
@@ -311,9 +315,9 @@ public class LetSesion extends HttpServlet {
 		    					+ "</strong> el día </strong>"+fechaentrega 
 		    					+ "</strong> <br><br><strong>¡Agradecemos su preferencia, le esperamos para una próxima oportunidad!</strong>"
 		    					+ "<br>No olvide visitarnos en: "+pagina
-		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+		    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
 		    			
-		    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+		    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
 		    			
 		    			ArrayList<ArrayList<Object>> sesiones = (ArrayList<ArrayList<Object>>)gd.getSesionesSinId();
 		    	    	request.setAttribute("sesiones", sesiones);
@@ -383,6 +387,7 @@ public class LetSesion extends HttpServlet {
     	    	    	String pagina = Vend.getWeb();
     	    	    	String direccion = Vend.getDireccion();
     	    	    	String clave = Vend.getMail_PW();
+    	    	    	String googleMap = Vend.getGoogleMap();
     	    	    	
     	    	    	String AsuntoDeCorreo = "Selección de fotografías - "+nombreEnvia;
     	    	    	   	    	    	    	    			
@@ -392,9 +397,9 @@ public class LetSesion extends HttpServlet {
     	    					+ " favor ponerse en contacto con nosotros o acercarse a nuestras dependencias.<br>"
     	    					+ "¡Te esperamos!"
     	    					+ "<br>Nuestra página es: "+pagina
-    	    					+ "<br><br><br><strong>"+nombreEnvia+"</strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    	    					+ "<br><br><br><strong>"+nombreEnvia+"</strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    			    	    			
-    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
     	    			  	    	    	
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  
@@ -425,6 +430,7 @@ public class LetSesion extends HttpServlet {
     	    	    	String pagina = Vend.getWeb();
     	    	    	String direccion = Vend.getDireccion();
     	    	    	String clave = Vend.getMail_PW();
+    	    	    	String googleMap = Vend.getGoogleMap();
     	    	    	
     	    	    	String AsuntoDeCorreo = "Retiro de fotografías en "+nombreEnvia;
     	    	    	    	    			
@@ -435,9 +441,9 @@ public class LetSesion extends HttpServlet {
     	    					+ " favor acercarse a nuestras dependencias.<br>"
     	    					+ "¡Te esperamos!"
     	    					+ "<br>Nuestra página es: "+pagina 
-    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    			    	    			    	    	    	
-    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
 	    			  	 	    			
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  
@@ -473,6 +479,7 @@ public class LetSesion extends HttpServlet {
     	    	    	String pagina = Vend.getWeb();
     	    	    	String direccion = Vend.getDireccion();
     	    	    	String clave = Vend.getMail_PW();
+    	    	    	String googleMap = Vend.getGoogleMap();
     	    	    	
     	    	    	String AsuntoDeCorreo = "Confirmación de retiro de fotografías";
     	    	    	    	    	    	    	    	    	
@@ -482,9 +489,9 @@ public class LetSesion extends HttpServlet {
     	    					+ "</strong> el día </strong>"+fechaentrega 
     	    					+ "</strong> <br><br><strong>¡Agradecemos su preferencia, le esperamos para una próxima oportunidad!</strong>"
     	    					+ "<br>No dejes de visitar nuestra página es: "+pagina
-    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\"LogoLetras.png\"/></center>";
+    	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
     	    			
-    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave);
+    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
     			  	 		    	    	
     	    			ArrayList<ArrayList<Object>> sesiones = null;	
 			    		  

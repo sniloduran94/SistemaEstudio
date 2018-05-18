@@ -14,6 +14,9 @@ import modelo.*;
 
 public class SQLS_conexion {
 	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=EstudioFotografico";
+	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=Genesis";
+	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=ElOtroEstudio";
+	
 	private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=Prueba";
 	
 	
@@ -313,7 +316,8 @@ public class SQLS_conexion {
 				+ "      ,[39_Estado]"
 				+ "      ,[39_Numero_Boleta]"
 				+ "      ,[35_Id_Auxiliar]"
-				+ "      ,[39_Movimiento])"
+				+ "      ,[39_Movimiento]"
+				+ "		 ,[39_Tipo_Doc])"
 				+ "	     VALUES"
 				+ "	     ('"+sdf1.format(sdf.parse(ev.getFecha()))+"',"
 				+ "'"+ ev.getForma_Pago() +"',"
@@ -324,10 +328,9 @@ public class SQLS_conexion {
 				+ ev.getEstado() + ","
 				+ ev.getNumero_Boleta() + ","
 				+ ev.getId_Auxiliar() + ","
-				+ "'" + ev.getMovimiento() + "')";
-		
-	    System.out.println(Insert);       
-		
+				+ "'" + ev.getMovimiento() + "',"
+				+ "'" + ev.getTipo_Doc() + "')";
+				
 		Statement s = null;
 		int columnasafectadas = 0;
 		try {
@@ -541,9 +544,7 @@ public int EliminarEvento(int id){
 		
 		String SQL = "UPDATE [dbo].[39_Evento]  SET [39_Evento].[39_Estado] = 0 "
 				+ "WHERE [39_Evento].[39_Id_Evento] = "+id+";";
-		
-		System.out.println(SQL);
-		
+				
 		Statement s = null;
 		int columnasafectadas = 0;
 		try {
@@ -1103,11 +1104,11 @@ public int EliminarEvento(int id){
 	public ArrayList<Reserva> getReservasFiltro(String Columna, String Valor, String Tipo) throws SQLException, java.text.ParseException{
 		String SQL = "";
 		if((!Columna.equals("")) && (!Valor.equals("")) && (!Tipo.equals(""))){
-			SQL = "SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-+"				CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-+"						  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-+"						  [DBO].[16_RESERVA].*"
-+"						  FROM  [DBO].[16_RESERVA] WHERE ["+Columna+"] = ";
+			SQL = "SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
++"				CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
++"						  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
++"						  [DBO].[Ultimas_Reservas].*"
++"						  FROM  [DBO].[Ultimas_Reservas] WHERE ["+Columna+"] = ";
 			if(Tipo.equals("String")){
 				SQL = SQL+ "'"+Valor+"'";
 			}if(Tipo.equals("Int")){
@@ -1117,11 +1118,11 @@ public int EliminarEvento(int id){
 			}
 			SQL = SQL + ";";
 		}else{
-			SQL = "SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-					+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-					+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-					+ "  [DBO].[16_RESERVA].*"
-					+ "  FROM  [DBO].[16_RESERVA]";
+			SQL = "SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+					+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+					+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+					+ "  [DBO].[Ultimas_Reservas].*"
+					+ "  FROM  [DBO].[Ultimas_Reservas]";
 		}
 		
 		ResultSet rs = Consultar(SQL);
@@ -1196,18 +1197,18 @@ public int EliminarEvento(int id){
 			}
 		}
 		
-		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  [DBO].[16_RESERVA].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
-				+ " FROM [DBO].[16_RESERVA] "
-				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
-				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
-				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
+		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
+				+ " FROM [DBO].[Ultimas_Reservas] "
+				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
+				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
+				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
 				+ " LEFT OUTER JOIN ("
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
-				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[16_RESERVA].[16_Id_Reserva] " + Excluyente
-				+ " ORDER BY [Fecha] ASC;";
+				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
+				+ " ORDER BY [Fecha] DESC;";
 				
 		System.out.println(SQL);
 		
@@ -1296,17 +1297,17 @@ public int EliminarEvento(int id){
 		String SQL = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		
-		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  [DBO].[16_RESERVA].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
-				+ " FROM [DBO].[16_RESERVA] "
-				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
-				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
-				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
+		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
+				+ " FROM [DBO].[Ultimas_Reservas] "
+				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
+				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
+				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
 				+ " LEFT OUTER JOIN ("
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
-				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[16_RESERVA].[16_Id_Reserva] " + Excluyente
+				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
 				+ " ORDER BY [Fecha] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
@@ -1416,10 +1417,10 @@ public int EliminarEvento(int id){
 			}
 		}
 		
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "  [DBO].[16_RESERVA].*,"
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[Ultimas_Reservas].*,"
 				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 				+ "  [DBO].[15_CLIENTE].[15_RUT], "
 				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -1449,14 +1450,14 @@ public int EliminarEvento(int id){
 				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
-				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
+				+ " FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
 				+" WHERE [16_Fecha] IS NULL AND" 
-				+ "[dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+				+ "[dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
+				+ "ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -1561,10 +1562,10 @@ public int EliminarEvento(int id){
 			}
 		}
 		
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "  [DBO].[16_RESERVA].*,"
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[Ultimas_Reservas].*,"
 				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 				+ "  [DBO].[15_CLIENTE].[15_RUT], "
 				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -1594,12 +1595,12 @@ public int EliminarEvento(int id){
 				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
-				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
-				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
-				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+				+ " FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
+				+" WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] "+Excluyente
+				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -1705,17 +1706,17 @@ public int EliminarEvento(int id){
 			}
 		}
 		
-		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  [DBO].[16_RESERVA].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
-				+ " FROM [DBO].[16_RESERVA] "
-				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
-				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
-				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
+		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
+				+ " FROM [DBO].[Ultimas_Reservas] "
+				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
+				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
+				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
 				+ " LEFT OUTER JOIN ("
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
-				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[16_RESERVA].[16_Id_Reserva] "
+				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] "
 				+ " WHERE [16_Pre_Reserva] = 0 "+Excluyente
 				+ " ORDER BY [Fecha] ASC;";
 				
@@ -1806,10 +1807,10 @@ public int EliminarEvento(int id){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		String SQL = "";
 				
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "  [DBO].[16_RESERVA].*,"
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[Ultimas_Reservas].*,"
 				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 				+ "  [DBO].[15_CLIENTE].[15_RUT], "
 				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -1837,14 +1838,14 @@ public int EliminarEvento(int id){
 				+ "  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
-				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
-				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+				+ " FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_TIPO_SESION]"
+				+" WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 				+ Excepciones
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+				+ "ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -1951,10 +1952,10 @@ public int EliminarEvento(int id){
 			}
 		}
 		
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "  [DBO].[16_RESERVA].*,"
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[Ultimas_Reservas].*,"
 				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 				+ "  [DBO].[15_CLIENTE].[15_RUT], "
 				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -1985,13 +1986,13 @@ public int EliminarEvento(int id){
 				+ "	 [DBO].[14_CANAL_VENTA].[14_REQUIERE_CUPON],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
-				+ " FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA]"
-				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+ " FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA]"
+				+" WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+" [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0 "+Excluyente
-				+ " ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 				
 		System.out.println(SQL);
 		
@@ -2091,21 +2092,21 @@ public int EliminarEvento(int id){
 	 */
 	public ArrayList<ArrayList<Object>> getReservasSinIdAnticipo(String Columna, String Valor, String Tipo) throws SQLException, java.text.ParseException{
 		String SQL = "";
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "	RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "	 [DBO].[16_RESERVA].*, [DBO].[15_CLIENTE].[15_ID_CLIENTE], [DBO].[15_CLIENTE].[15_RUT], "
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "	RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "	 [DBO].[Ultimas_Reservas].*, [DBO].[15_CLIENTE].[15_ID_CLIENTE], [DBO].[15_CLIENTE].[15_RUT], "
 				+ "	 [DBO].[15_CLIENTE].[15_NOMBRE], [DBO].[15_CLIENTE].[15_Apellido_Pat], "
 				+ "	 [DBO].[15_CLIENTE].[15_Apellido_Mat] , [DBO].[15_CLIENTE].[15_Mail] , [DBO].[17_CAMPANIA].[17_ID_CAMPANIA], "
 				+ "	 [DBO].[17_CAMPANIA].[17_NOMBRE],[dbo].[04_Trabajador].[04_Id_Trabajador],[dbo].[04_Trabajador].[04_Nombre],"
 				+ "	 [dbo].[14_Canal_Venta].[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Requiere_Cupon]"
-					+ "	 FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR] , [dbo].[14_Canal_Venta]"
-						+ "	 WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-						+ "	[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-						+ "	[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+					+ "	 FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR] , [dbo].[14_Canal_Venta]"
+						+ "	 WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+						+ "	[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+						+ "	[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 						+ "	[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] AND "
 						+ "	[dbo].[14_Canal_Venta].[14_Requiere_Cupon] = 0 "
-						+ "	ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+						+ "	ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -2194,10 +2195,10 @@ public int EliminarEvento(int id){
 				
 		if((!(Fecha1.equals("")))||(!(Fecha2.equals("")))){
 			 if((!(Fecha1.equals("")))&&(Fecha2.equals(""))){
-				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-				 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-				 		+ "		[DBO].[16_RESERVA].*, "
+				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+				 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+				 		+ "		[DBO].[Ultimas_Reservas].*, "
 				 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 				 		+ "     [DBO].[15_CLIENTE].[15_RUT],"
 				 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE],"
@@ -2223,21 +2224,21 @@ public int EliminarEvento(int id){
 				 		
 				 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, "
 				 		+ "     [dbo].[04_Trabajador].[04_Nombre],"
-				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS HORA,"
+				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
 				 		+ "		 [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] AS IDTIPOSESION, [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-				 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion]  "
-				 		+ "		WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-				 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-				 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				 		+ "  	[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
+				 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion]  "
+				 		+ "		WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+				 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+				 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				 		+ "  	[dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 				 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha12+"'"
 				 		+ "     ORDER BY [16_FECHA];";
 			 }
 			 if((!(Fecha2.equals("")))&&(!(Fecha1.equals("")))){
-				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-					 		+ "		[DBO].[16_RESERVA].*, "
+				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+					 		+ "		[DBO].[Ultimas_Reservas].*, "
 					 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 					 		+ "     [DBO].[15_CLIENTE].[15_RUT], "
 					 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2261,19 +2262,19 @@ public int EliminarEvento(int id){
 							+ "  [DBO].[17_CAMPANIA].[17_Abono],"
 					 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, [dbo].[04_Trabajador].[04_Nombre], "
 					 		+ "     [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] AS IDTIPOSESION, [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-					 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
-					 		+ "		WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-					 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-					 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-					 		+ "		[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
+					 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
+					 		+ "		WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+					 		+ "		[dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 					 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha2+"'"
 					 		+ "     ORDER BY [16_FECHA];";
 			 }
 	}else{
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-			+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-			+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-			+ "  [DBO].[16_RESERVA].*, "
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+			+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+			+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+			+ "  [DBO].[Ultimas_Reservas].*, "
 			+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 			+ "  [DBO].[15_CLIENTE].[15_RUT],"
 			+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2297,11 +2298,11 @@ public int EliminarEvento(int id){
 			+ "  [DBO].[17_CAMPANIA].[17_Abono],"
 			+ " [dbo].[04_Trabajador].[04_Id_Trabajador],[dbo].[04_Trabajador].[04_Nombre], "
 			+ " [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-			+ "FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
-			+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-			+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-			+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-			+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+			+ "FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
+			+" WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+			+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+			+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+			+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 			+ "ORDER BY [16_FECHA] DESC;";
 	}
 		
@@ -2411,10 +2412,10 @@ public int EliminarEvento(int id){
 				
 		if((!(Fecha1.equals("")))||(!(Fecha2.equals("")))){
 			 if((!(Fecha1.equals("")))&&(Fecha2.equals(""))){
-				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-				 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-				 		+ "		[DBO].[16_RESERVA].*, "
+				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+				 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+				 		+ "		[DBO].[Ultimas_Reservas].*, "
 				 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 				 		+ "     [DBO].[15_CLIENTE].[15_RUT],"
 				 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE],"
@@ -2425,21 +2426,21 @@ public int EliminarEvento(int id){
 				 		+ "     [DBO].[17_CAMPANIA].[17_NOMBRE],"
 				 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, "
 				 		+ "     [dbo].[04_Trabajador].[04_Nombre],"
-				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS HORA,"
+				 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
 				 		+ "		 [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] AS IDTIPOSESION, [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-				 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion]  "
-				 		+ "		WHERE [dbo].[16_Reserva].[16_Pre_Reserva] = 0 AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-				 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-				 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
-				 		+ "  	[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
+				 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion]  "
+				 		+ "		WHERE [dbo].[Ultimas_Reservas].[16_Pre_Reserva] = 0 AND [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+				 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+				 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				 		+ "  	[dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 				 		+ "		WHERE [16_Pre_Reserva] = 0 AND  FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha12+"'"
 				 		+ "     ORDER BY HORA;";
 			 }
 			 if((!(Fecha2.equals("")))&&(!(Fecha1.equals("")))){
-				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-					 		+ "		[DBO].[16_RESERVA].*, "
+				 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+					 		+ "		[DBO].[Ultimas_Reservas].*, "
 					 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 					 		+ "     [DBO].[15_CLIENTE].[15_RUT], "
 					 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2449,19 +2450,19 @@ public int EliminarEvento(int id){
 					 		+ "		[DBO].[17_CAMPANIA].[17_ID_CAMPANIA] AS IDCAMPANIA, [DBO].[17_CAMPANIA].[17_NOMBRE],"
 					 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, [dbo].[04_Trabajador].[04_Nombre], "
 					 		+ "     [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion] AS IDTIPOSESION, [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-					 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
-					 		+ "		WHERE  [dbo].[16_Reserva].[16_Pre_Reserva] = 0 AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-					 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-					 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-					 		+ "		[dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
+					 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
+					 		+ "		WHERE  [dbo].[Ultimas_Reservas].[16_Pre_Reserva] = 0 AND [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+					 		+ "		[dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]) AS TABLA1"
 					 		+ "		WHERE [16_Pre_Reserva] = 0 AND FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha2+"'"
 					 		+ "     ORDER BY FECHA;";
 			 }
 	}else{
-		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-			+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-			+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-			+ "  [DBO].[16_RESERVA].*, "
+		SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+			+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+			+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+			+ "  [DBO].[Ultimas_Reservas].*, "
 			+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 			+ "  [DBO].[15_CLIENTE].[15_RUT],"
 			+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2470,12 +2471,12 @@ public int EliminarEvento(int id){
 			+ "  [DBO].[15_CLIENTE].[15_Mail],"
 			+ " [DBO].[17_CAMPANIA].[17_ID_CAMPANIA], [DBO].[17_CAMPANIA].[17_NOMBRE],[dbo].[04_Trabajador].[04_Id_Trabajador],[dbo].[04_Trabajador].[04_Nombre], "
 			+ " [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion]"
-			+ "FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
-			+" WHERE [16_Pre_Reserva] = 0 AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-			+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-			+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
-			+" [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
-			+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+			+ "FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[34_Tipo_Sesion] "
+			+" WHERE [16_Pre_Reserva] = 0 AND [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+			+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+			+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
+			+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+			+ "ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 	}
 		
 		
@@ -2567,10 +2568,10 @@ public int EliminarEvento(int id){
 				
 		if((!(Fecha1.equals("")))||(!(Fecha2.equals("")))){
 				 if((!(Fecha1.equals("")))&&(Fecha2.equals(""))){
-					 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-					 		+ "		[DBO].[16_RESERVA].*, "
+					 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+					 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+					 		+ "		[DBO].[Ultimas_Reservas].*, "
 					 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 					 		+ "     [DBO].[15_CLIENTE].[15_RUT],"
 					 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE],"
@@ -2584,21 +2585,21 @@ public int EliminarEvento(int id){
 					 		+ "		[DBO].[14_CANAL_VENTA].[14_REQUIERE_CUPON],"
 					 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, "
 					 		+ "     [dbo].[04_Trabajador].[04_Nombre],"
-					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS HORA"
-					 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
-					 		+ "		WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-					 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-					 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+					 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS HORA"
+					 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
+					 		+ "		WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+					 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 					 		+ "		[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 					 		+ "     [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0) AS TABLA1"
 					 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha12+"'"
 					 		+ "     ORDER BY HORA;";
 				 }
 				 if((!(Fecha2.equals("")))&&(!(Fecha1.equals("")))){
-					 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + 	"
-						 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +   "
-						 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,  "
-						 		+ "		[DBO].[16_RESERVA].*, "
+					 SQL = "SELECT * FROM (SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	"
+						 		+ "		CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   "
+						 		+ "		RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  "
+						 		+ "		[DBO].[Ultimas_Reservas].*, "
 						 		+ "		[DBO].[15_CLIENTE].[15_ID_CLIENTE] AS IDCLIENTE, "
 						 		+ "     [DBO].[15_CLIENTE].[15_RUT], "
 						 		+ "     [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2611,20 +2612,20 @@ public int EliminarEvento(int id){
 						 		+ "		[DBO].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AS IDCANALVENTA,"
 						 		+ "		[DBO].[14_CANAL_VENTA].[14_REQUIERE_CUPON],"
 						 		+ "		[dbo].[04_Trabajador].[04_Id_Trabajador] AS IDTRABAJADOR, [dbo].[04_Trabajador].[04_Nombre] "
-						 		+ "		FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
-						 		+ "		WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
-						 		+ "		[dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
-						 		+ "		[dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+						 		+ "		FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
+						 		+ "		WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND  "
+						 		+ "		[dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND  "
+						 		+ "		[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 						 		+ "		[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 						 		+ "     [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0) AS TABLA1"
 						 		+ "		WHERE FECHA BETWEEN '"+Fecha1+"' AND '"+Fecha2+"'"
 						 		+ "     ORDER BY FECHA;";
 				 }
 		}else{
-			SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha,"
-				+ "  [DBO].[16_RESERVA].*, "
+			SQL = "SELECT  CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+				+ "	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,"
+				+ "  [DBO].[Ultimas_Reservas].*, "
 				+ "  [DBO].[15_CLIENTE].[15_ID_CLIENTE], "
 				+ "  [DBO].[15_CLIENTE].[15_RUT],"
 				+ "  [DBO].[15_CLIENTE].[15_NOMBRE], "
@@ -2638,13 +2639,13 @@ public int EliminarEvento(int id){
 		 		+ "	 [DBO].[14_CANAL_VENTA].[14_REQUIERE_CUPON],"
 				+ "  [dbo].[04_Trabajador].[04_Id_Trabajador],"
 				+ "  [dbo].[04_Trabajador].[04_Nombre] "
-				+ "  FROM [DBO].[16_RESERVA], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
-				+" WHERE [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
-				+" [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
-				+" [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
+				+ "  FROM [DBO].[Ultimas_Reservas], [DBO].[15_CLIENTE], [DBO].[17_CAMPANIA], [DBO].[04_TRABAJADOR], [DBO].[14_CANAL_VENTA] "
+				+" WHERE [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] AND "
+				+" [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] AND "
+				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+ "[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+ "[dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0"
-				+ "ORDER BY [DBO].[16_RESERVA].[16_FECHA] ASC;";
+				+ "ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 		}
 				
 		ResultSet rs = Consultar(SQL);
@@ -2769,8 +2770,8 @@ public int EliminarEvento(int id){
 	 */
 	public ArrayList<ArrayList<String>> getAgenda() throws SQLException{
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
-		String SQL = "SELECT DISTINCT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS DIA"
-				+ "  FROM  [DBO].[16_RESERVA]";
+		String SQL = "SELECT DISTINCT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS DIA"
+				+ "  FROM  [DBO].[Ultimas_Reservas]";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -2824,7 +2825,7 @@ public int EliminarEvento(int id){
 		}
 		
 		if(res.getId_Metodo_Pago() != -1 ){
-			Insert = "INSERT INTO [dbo].[16_Reserva] "
+			Insert = "INSERT INTO [dbo].[Ultimas_Reservas] "
 					+ "([03_Id_Agenda]"
 					+ ",[15_Id_Cliente]"
 					+ ",[05_Id_Tipo_Cliente]"
@@ -2865,7 +2866,7 @@ public int EliminarEvento(int id){
 					+ ""+res.getId_Metodo_Pago()+","
 					+ "'"+res.getObservacion()+"');";
 		}else{
-			Insert = "INSERT INTO [dbo].[16_Reserva] "
+			Insert = "INSERT INTO [dbo].[Ultimas_Reservas] "
 					+ "([03_Id_Agenda]"
 					+ ",[15_Id_Cliente]"
 					+ ",[05_Id_Tipo_Cliente]"
@@ -2947,7 +2948,7 @@ public int EliminarEvento(int id){
 			fecha += "[16_Fecha] = NULL";
 		}
 		
-		String SQL = "UPDATE [dbo].[16_Reserva] "
+		String SQL = "UPDATE [dbo].[Ultimas_Reservas] "
 				+ " SET [03_Id_Agenda] = "+res.getId_Agenda()
 				+ ",[15_Id_Cliente] = "+res.getId_Cliente()
 				+ ",[05_Id_Tipo_Cliente] = " + res.getTipo_Cliente()
@@ -2991,7 +2992,7 @@ public int EliminarEvento(int id){
 	 * Validar una reserva (Cupón validado)
 	 */
 	public int ValidarReserva(int id){
-		String SQL = "UPDATE [dbo].[16_Reserva] "
+		String SQL = "UPDATE [dbo].[Ultimas_Reservas] "
 				+ " SET [16_Validado] = 1"
 				+ " WHERE [16_Id_Reserva] = "+id+";";
 		
@@ -3017,7 +3018,7 @@ public int EliminarEvento(int id){
 	 */
 	public int AsignarAnticipo(Reserva res){
 		
-		String SQL = "UPDATE [dbo].[16_Reserva] "
+		String SQL = "UPDATE [dbo].[Ultimas_Reservas] "
 				+ " SET [16_Monto_Pago_Adelantado] = "+res.getMonto_Pago_Adelantado()+","
 				+ " [16_Tipo_Anticipo] = '"+res.getTipo_Anticipo()+"',"
 				+ " [16_Fecha_Anticipo] = '"+res.getFecha_Anticipo()+"',"
@@ -3047,7 +3048,7 @@ public int EliminarEvento(int id){
 	 * Eliminar una reserva de la BD
 	 */
 	public int EliminarReserva(int id){
-		String SQL = "DELETE FROM [dbo].[16_Reserva] WHERE [dbo].[16_Reserva].[16_Id_Reserva] = "+id+" ;";
+		String SQL = "DELETE FROM [dbo].[Ultimas_Reservas] WHERE [dbo].[Ultimas_Reservas].[16_Id_Reserva] = "+id+" ;";
 
 		this.EliminarSesionAuxiliar(id);
 		
@@ -3175,7 +3176,7 @@ public int EliminarEvento(int id){
 	 */
 	public int EliminarCliente(int id){
 		
-		String SQL2 = "SELECT [16_ID_RESERVA], [15_ID_CLIENTE] FROM [16_RESERVA] WHERE [15_ID_CLIENTE] = "+ id;
+		String SQL2 = "SELECT [16_ID_RESERVA], [15_ID_CLIENTE] FROM [Ultimas_Reservas] WHERE [15_ID_CLIENTE] = "+ id;
 		Statement ss = null;
 		int columnasafectadass = 0;
 		try {
@@ -3716,14 +3717,14 @@ public int ActualizarCampania(Campania camp){
 	 * Reservas para exportación a excel
 	 */
 	public ArrayList<ArrayList<String>> ArrayExcel() throws SQLException{
-		String SQL = "  SELECT CONVERT(VARCHAR,  [16_Reserva].[16_Fecha], 105) AS FECHA,"
-				+ "  CONVERT(VARCHAR, DATEPART(hh,  [16_RESERVA].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [16_RESERVA].[16_FECHA])), 2) AS HORA,"
-				+ " [dbo].[16_Reserva].[16_Validado],"
-				+ " [dbo].[16_Reserva].[15_Id_Cliente], [dbo].[15_Cliente].[15_Id_Cliente],"
+		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,"
+				+ "  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
+				+ " [dbo].[Ultimas_Reservas].[16_Validado],"
+				+ " [dbo].[Ultimas_Reservas].[15_Id_Cliente], [dbo].[15_Cliente].[15_Id_Cliente],"
 				+ " [dbo].[15_Cliente].[15_Nombre],"
 				+ " [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],"
-				+ " [dbo].[16_Reserva].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
+				+ " [dbo].[Ultimas_Reservas].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
 				+ " [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],"
 				+ " [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],"
 				+ " [dbo].[17_Campania].[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],"
@@ -3735,13 +3736,13 @@ public int ActualizarCampania(Campania camp){
 				+ " [dbo].[17_Campania].[17_Cant_15x21],"
 				+ " [dbo].[17_Campania].[17_Cant_20x30],"
 				+ " [dbo].[17_Campania].[17_Cant_30x40],"
-				+ " [dbo].[16_Reserva].[16_Cantidad_Adicionales],"
-				+ " [dbo].[16_Reserva].[16_Cantidad_Reagendamiento],"
-				+ " [dbo].[16_Reserva].[16_Pre_Reserva]"
-				+ " FROM [dbo].[16_Reserva],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion]"
-				+ " WHERE  [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ " AND  [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
-				+ " AND  [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+				+ " [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],"
+				+ " [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],"
+				+ " [dbo].[Ultimas_Reservas].[16_Pre_Reserva]"
+				+ " FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion]"
+				+ " WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
+				+ " AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 				+ " AND  [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta];";
 		
 		ResultSet rs = Consultar(SQL);
@@ -3935,14 +3936,14 @@ public int ActualizarCampania(Campania camp){
 	 * Reservas para exportación a excel con reservas y sesiones
 	 */
 	public ArrayList<ArrayList<String>> ArrayExcelSesiones() throws SQLException{
-		String SQL = "  SELECT CONVERT(VARCHAR,  [16_Reserva].[16_Fecha], 105) AS FECHA,"
-				+ "  CONVERT(VARCHAR, DATEPART(hh,  [16_RESERVA].[16_FECHA])) + ':' +"
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [16_RESERVA].[16_FECHA])), 2) AS HORA,"
-				+ "  [dbo].[16_Reserva].[16_Validado],"
+		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,"
+				+ "  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +"
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
+				+ "  [dbo].[Ultimas_Reservas].[16_Validado],"
 				+ "  [dbo].[15_Cliente].[15_Nombre],"
 				+ "	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],"
-				+ "	 [dbo].[16_Reserva].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
-				+ "	 [dbo].[16_Reserva].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],"
+				+ "	 [dbo].[Ultimas_Reservas].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
+				+ "	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],"
 				+ "	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],"
 				+ "	 [dbo].[17_Campania].[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],"
 				+ "	 [dbo].[14_Canal_Venta].[14_Canal],"
@@ -3953,14 +3954,15 @@ public int ActualizarCampania(Campania camp){
 				+ "	 [dbo].[17_Campania].[17_Cant_15x21],"
 				+ "	 [dbo].[17_Campania].[17_Cant_20x30],"
 				+ "	 [dbo].[17_Campania].[17_Cant_30x40],"
-				+ "	 [dbo].[16_Reserva].[16_Cantidad_Adicionales],"
-				+ "	 [dbo].[16_Reserva].[16_Cantidad_Reagendamiento],"
-				+ "	 [dbo].[16_Reserva].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],"
+				+ "	 [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],"
+				+ "	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],"
+				+ "	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],"
 				+ "	 [dbo].[35_Auxiliar].[35_Asistio],"
 				+ "	 [dbo].[35_Auxiliar].[35_Numero_Ticket],"
 				+ "	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],"
 				+ "	 [dbo].[35_Auxiliar].[35_CD],"
 				+ "	 [dbo].[35_Auxiliar].[35_Extras],"
+				+ "	 [dbo].[35_Auxiliar].[35_Descuento],"
 				+ "	 [dbo].[35_Auxiliar].[35_Persona_Adicional],"
 				+ "	 [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar],"
 				+ "	 [dbo].[35_Auxiliar].[35_Monto_Extras],"
@@ -3975,12 +3977,12 @@ public int ActualizarCampania(Campania camp){
 				+ "	 [dbo].[35_Auxiliar].[35_Cant_15x21],"
 				+ "	 [dbo].[35_Auxiliar].[35_Cant_20x30],"
 				+ "	 [dbo].[35_Auxiliar].[35_Cant_30x40]"
-				+ "	  FROM [dbo].[16_Reserva],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion],[dbo].[35_Auxiliar]"
-				+ "	  WHERE  [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ "	   AND  [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
-				+ "	   AND  [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+				+ "	  FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion],[dbo].[35_Auxiliar]"
+				+ "	  WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ "	   AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
+				+ "	   AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 				+ "	   AND  [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta]"
-				+ "	   AND  [dbo].[16_Reserva].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]";		
+				+ "	   AND  [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]";		
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -4083,6 +4085,12 @@ public int ActualizarCampania(Campania camp){
 				}else{
 					fila.add(rs.getString("35_Extras"));
 				}
+				
+				if(rs.getString("35_Descuento").equals("-1")){
+					fila.add("-");
+				}else{
+					fila.add(rs.getString("35_Descuento"));
+				}
 
 				if(rs.getString("35_Persona_Adicional").equals("-1")){
 					fila.add("-");
@@ -4138,9 +4146,9 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public String FechasDeshabilitadas() throws SQLException{
 		String SQL = "SELECT FECHA FROM (SELECT Fecha1 AS FECHA, COUNT(Fecha2) AS CANTIDAD FROM (  "
-				+ "	  SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS Fecha1 "
-				+ "	  , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha2"
-				+ "	  FROM  [DBO].[16_RESERVA]) "
+				+ "	  SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS Fecha1 "
+				+ "	  , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha2"
+				+ "	  FROM  [DBO].[Ultimas_Reservas]) "
 				+ "  AS CONTADOR"
 				+ "  GROUP BY Fecha1) AS TABLA1"
 				+ "  WHERE CANTIDAD>=9";
@@ -4171,9 +4179,9 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public String[] FechasDeshabilitadasArreglo() throws SQLException{
 		String SQL = "SELECT FECHA FROM (SELECT Fecha1 AS FECHA, COUNT(Fecha2) AS CANTIDAD FROM (  "
-				+ "	  SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS Fecha1 "
-				+ "	  , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha2"
-				+ "	  FROM  [DBO].[16_RESERVA]) "
+				+ "	  SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS Fecha1 "
+				+ "	  , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha2"
+				+ "	  FROM  [DBO].[Ultimas_Reservas]) "
 				+ "  AS CONTADOR"
 				+ "  GROUP BY Fecha1) AS TABLA1"
 				+ "  WHERE CANTIDAD>=9";
@@ -4211,9 +4219,9 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public ArrayList<String> FechasDeshabilitadasArrayList() throws SQLException{
 		String SQL = "SELECT FECHA FROM (SELECT Fecha1 AS FECHA, COUNT(Fecha2) AS CANTIDAD FROM (  "
-				+ "	 SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS Fecha1 "
-				+ "	 , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha2"
-				+ "	 FROM  [DBO].[16_RESERVA]) "
+				+ "	 SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS Fecha1 "
+				+ "	 , CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha2"
+				+ "	 FROM  [DBO].[Ultimas_Reservas]) "
 				+ " AS CONTADOR"
 				+ " GROUP BY Fecha1) AS TABLA1"
 				+ " WHERE CANTIDAD>=9";
@@ -4239,9 +4247,9 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public ArrayList<ArrayList<String>> getDias() throws SQLException{
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
-		String SQL = "SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS DIA,"
-				+ "		  CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) AS HORA, [DBO].[16_RESERVA].[16_FECHA]"
-				+ "		  FROM  [DBO].[16_RESERVA]";
+		String SQL = "SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS DIA,"
+				+ "		  CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) AS HORA, [DBO].[Ultimas_Reservas].[16_FECHA]"
+				+ "		  FROM  [DBO].[Ultimas_Reservas]";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -4266,9 +4274,9 @@ public int ActualizarCampania(Campania camp){
 	 * Dia que ya están agendados
 	 */
 	public String getHoras(String Dia) throws SQLException{
-		String SQL = "  SELECT HORA, [16_FECHA] FROM (SELECT CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) AS DIA,"
-				+ "  CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) AS HORA, [DBO].[16_RESERVA].[16_FECHA]"
-				+ "  FROM  [DBO].[16_RESERVA]) AS RESULT"
+		String SQL = "  SELECT HORA, [16_FECHA] FROM (SELECT CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) AS DIA,"
+				+ "  CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) AS HORA, [DBO].[Ultimas_Reservas].[16_FECHA]"
+				+ "  FROM  [DBO].[Ultimas_Reservas]) AS RESULT"
 				+ "   WHERE DIA = '"+Dia+"' "
 				+ "   ORDER BY [16_FECHA]";
 		
@@ -4301,19 +4309,19 @@ public int ActualizarCampania(Campania camp){
 	public ArrayList<ArrayList<String>> getCalendario() throws SQLException{
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 		
-		String SQL = "SELECT (CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 126))  AS HORA, "
-				+ "((CONVERT(VARCHAR,  DATEADD(MINUTE,59,[DBO].[16_RESERVA].[16_FECHA]), 126))) AS DIASIGUIENTE,"
-				+ "[DBO].[16_RESERVA].[16_Id_Reserva], [DBO].[16_RESERVA].[15_Id_Cliente], "
-				+ "[DBO].[15_Cliente].[15_Id_Cliente], [DBO].[16_RESERVA].[17_Id_Campania], "
+		String SQL = "SELECT (CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 126))  AS HORA, "
+				+ "((CONVERT(VARCHAR,  DATEADD(MINUTE,59,[DBO].[Ultimas_Reservas].[16_FECHA]), 126))) AS DIASIGUIENTE,"
+				+ "[DBO].[Ultimas_Reservas].[16_Id_Reserva], [DBO].[Ultimas_Reservas].[15_Id_Cliente], "
+				+ "[DBO].[15_Cliente].[15_Id_Cliente], [DBO].[Ultimas_Reservas].[17_Id_Campania], "
 				+ "[DBO].[17_Campania].[17_Id_Campania],"
 				+ "[DBO].[15_Cliente].[15_Nombre] + ' '+  [DBO].[15_Cliente].[15_Apellido_Pat] "
 				//+ "[DBO].[15_Cliente].[15_Mail] + ' - ' + "
 				//+ "CONVERT(VARCHAR,[DBO].[15_Cliente].[15_Rut]
 				+ "  + ' - ' + [DBO].[17_Campania].[17_Nombre] AS NOMBRE, "
-				+ "[DBO].[16_RESERVA].[16_Pre_Reserva] AS PRERESERVA "
-				+ "FROM  [DBO].[16_RESERVA],  [DBO].[15_Cliente] , [DBO].[17_Campania] "
-				+ "WHERE [DBO].[16_RESERVA].[15_Id_Cliente] = [DBO].[15_Cliente].[15_Id_Cliente] "
-				+ "AND [DBO].[16_RESERVA].[17_Id_Campania] = [DBO].[17_Campania].[17_Id_Campania]";
+				+ "[DBO].[Ultimas_Reservas].[16_Pre_Reserva] AS PRERESERVA "
+				+ "FROM  [DBO].[Ultimas_Reservas],  [DBO].[15_Cliente] , [DBO].[17_Campania] "
+				+ "WHERE [DBO].[Ultimas_Reservas].[15_Id_Cliente] = [DBO].[15_Cliente].[15_Id_Cliente] "
+				+ "AND [DBO].[Ultimas_Reservas].[17_Id_Campania] = [DBO].[17_Campania].[17_Id_Campania]";
 		
 		Connection CN = getConexion();
 		ResultSet rs = null;
@@ -4511,6 +4519,7 @@ public int ActualizarCampania(Campania camp){
 				+ ",[35_Valor_Por_Cobrar]"
 				+ ",[35_CD]"
 				+ ",[35_Extras]"
+				+ ",[35_Descuento]"
 				+ ",[35_Persona_Adicional]"
 				+ ",[35_Recargo_Por_Reagendar]"
 				+ ",[35_Monto_Extras]"
@@ -4538,6 +4547,7 @@ public int ActualizarCampania(Campania camp){
 				+ ","+aux.getValor_Por_Cobrar()+""
 				+ ","+aux.getCD()+""
 				+ ","+aux.getExtras()+""
+				+ ","+aux.getDescuento()+""
 				+ ","+aux.getPersona_Adicional()+""
 				+ ","+aux.getRecargo_Por_Reagendar()+""
 				+ ","+aux.getMonto_Extras()+""
@@ -4560,6 +4570,8 @@ public int ActualizarCampania(Campania camp){
 				+ ","+Fecha4+""
 				+ ","+aux.getCampaniaConvetida()+");";
 				
+		System.out.println(Insert);
+		
 		Statement s = null;
 		int columnasafectadas = 0;
 		try {
@@ -4665,6 +4677,7 @@ public int ActualizarCampania(Campania camp){
 				+ "			      ,[35_Valor_Por_Cobrar]"
 				+ "			      ,[35_CD]"
 				+ "			      ,[35_Extras]"
+				+ "				  ,[35_Descuento]"			
 				+ "			      ,[35_Persona_Adicional]"
 				+ "			      ,[35_Recargo_Por_Reagendar]"
 				+ "			      ,[35_Monto_Extras]"
@@ -4710,6 +4723,7 @@ public int ActualizarCampania(Campania camp){
 			sa.setValor_Por_Cobrar(rs.getInt("35_Valor_Por_Cobrar"));
 			sa.setCD(rs.getInt("35_CD"));
 			sa.setExtras(rs.getInt("35_Extras"));
+			sa.setDescuento(rs.getInt("35_Descuento"));
 			sa.setPersona_Adicional(rs.getInt("35_Persona_Adicional"));
 			sa.setRecargo_Por_Reagendar(rs.getInt("35_Recargo_Por_Reagendar"));
 			sa.setMonto_Extras(rs.getInt("35_Monto_Extras"));
@@ -4790,6 +4804,7 @@ public int ActualizarCampania(Campania camp){
 				+ "			      ,[35_Valor_Por_Cobrar]"
 				+ "			      ,[35_CD]"
 				+ "			      ,[35_Extras]"
+				+ "				  ,[35_Descuento]"
 				+ "			      ,[35_Persona_Adicional]"
 				+ "			      ,[35_Recargo_Por_Reagendar]"
 				+ "			      ,[35_Monto_Extras]"
@@ -4833,6 +4848,7 @@ public int ActualizarCampania(Campania camp){
 			sa.setValor_Por_Cobrar(rs.getInt("35_Valor_Por_Cobrar"));
 			sa.setCD(rs.getInt("35_CD"));
 			sa.setExtras(rs.getInt("35_Extras"));
+			sa.setDescuento(rs.getInt("35_Descuento"));
 			sa.setPersona_Adicional(rs.getInt("35_Persona_Adicional"));
 			sa.setRecargo_Por_Reagendar(rs.getInt("35_Recargo_Por_Reagendar"));
 			sa.setMonto_Extras(rs.getInt("35_Monto_Extras"));
@@ -4913,6 +4929,7 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,[35_Valor_Por_Cobrar]"
 				+ "      ,[35_CD]"
 				+ "      ,[35_Extras]"
+				+ "		 ,[35_Descuento]"
 				+ "      ,[35_Persona_Adicional]"
 				+ "      ,[35_Recargo_Por_Reagendar]"
 				+ "      ,[35_Monto_Extras]"
@@ -4923,7 +4940,7 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 111) AS [35_Fecha_Envio_Imprimir]"
 				+ "      ,[35_Monto_Impresion]"
 				+ "      ,[35_Numero_Factura]"
-				+ "      ,[dbo].[16_Reserva].[16_Id_Reserva]"
+				+ "      ,[dbo].[Ultimas_Reservas].[16_Id_Reserva]"
 				+ "	     ,[dbo].[35_Auxiliar].[16_Id_Reserva]"
 				+ "      ,[35_Cant_10x15]"
 				+ "      ,[35_Cant_15x21]"
@@ -4934,14 +4951,14 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,[35_Nombre_Retira]"
 				+ "      ,[35_Lista_Para_Entregar]"
 				+ "      ,CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Sesion], 111) AS [35_Fecha_Sesion]"
-				+ "	     ,[dbo].[16_Reserva].[15_Id_Cliente]"
+				+ "	     ,[dbo].[Ultimas_Reservas].[15_Id_Cliente]"
 				+ "	     ,[dbo].[15_Cliente].[15_Id_Cliente]"
 				+ "	     ,[dbo].[15_Cliente].[15_Mail]"
 				+ "	     ,[dbo].[15_Cliente].[15_Nombre]"
 				+ "      ,[dbo].[15_Cliente].[15_Apellido_Pat]"
-				+ "  FROM [dbo].[35_Auxiliar], [dbo].[16_Reserva], [dbo].[15_Cliente]"
-				+ "  WHERE [dbo].[16_Reserva].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]"
-				+ "  AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente];";
+				+ "  FROM [dbo].[35_Auxiliar], [dbo].[Ultimas_Reservas], [dbo].[15_Cliente]"
+				+ "  WHERE [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]"
+				+ "  AND [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente];";
 				
 		ResultSet rs = Consultar(SQL);
 		
@@ -4969,6 +4986,7 @@ public int ActualizarCampania(Campania camp){
 			sa.setValor_Por_Cobrar(rs.getInt("35_Valor_Por_Cobrar"));
 			sa.setCD(rs.getInt("35_CD"));
 			sa.setExtras(rs.getInt("35_Extras"));
+			sa.setDescuento(rs.getInt("35_Descuento"));
 			sa.setPersona_Adicional(rs.getInt("35_Persona_Adicional"));
 			sa.setRecargo_Por_Reagendar(rs.getInt("35_Recargo_Por_Reagendar"));
 			sa.setMonto_Extras(rs.getInt("35_Monto_Extras"));
@@ -5061,6 +5079,7 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,[35_Valor_Por_Cobrar]"
 				+ "      ,[35_CD]"
 				+ "      ,[35_Extras]"
+				+ "      ,[35_Descuento]"
 				+ "      ,[35_Persona_Adicional]"
 				+ "      ,[35_Recargo_Por_Reagendar]"
 				+ "      ,[35_Monto_Extras]"
@@ -5071,7 +5090,7 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 111) AS [35_Fecha_Envio_Imprimir]"
 				+ "      ,[35_Monto_Impresion]"
 				+ "      ,[35_Numero_Factura]"
-				+ "      ,[dbo].[16_Reserva].[16_Id_Reserva]"
+				+ "      ,[dbo].[Ultimas_Reservas].[16_Id_Reserva]"
 				+ "	     ,[dbo].[35_Auxiliar].[16_Id_Reserva]"
 				+ "      ,[35_Cant_10x15]"
 				+ "      ,[35_Cant_15x21]"
@@ -5082,14 +5101,14 @@ public int ActualizarCampania(Campania camp){
 				+ "      ,[35_Nombre_Retira]"
 				+ "      ,[35_Lista_Para_Entregar]"
 				+ "      ,CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Sesion], 111) AS [35_Fecha_Sesion]"
-				+ "	     ,[dbo].[16_Reserva].[15_Id_Cliente]"
+				+ "	     ,[dbo].[Ultimas_Reservas].[15_Id_Cliente]"
 				+ "	     ,[dbo].[15_Cliente].[15_Id_Cliente]"
 				+ "	     ,[dbo].[15_Cliente].[15_Mail]"
 				+ "	     ,[dbo].[15_Cliente].[15_Nombre]"
 				+ "      ,[dbo].[15_Cliente].[15_Apellido_Pat]"
-				+ "  FROM [dbo].[35_Auxiliar], [dbo].[16_Reserva], [dbo].[15_Cliente]"
-				+ "  WHERE [dbo].[16_Reserva].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva] "+Excluyente
-				+ "  AND [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente];";
+				+ "  FROM [dbo].[35_Auxiliar], [dbo].[Ultimas_Reservas], [dbo].[15_Cliente]"
+				+ "  WHERE [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva] "+Excluyente
+				+ "  AND [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente];";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -5117,6 +5136,7 @@ public int ActualizarCampania(Campania camp){
 			sa.setValor_Por_Cobrar(rs.getInt("35_Valor_Por_Cobrar"));
 			sa.setCD(rs.getInt("35_CD"));
 			sa.setExtras(rs.getInt("35_Extras"));
+			sa.setDescuento(rs.getInt("35_Descuento"));
 			sa.setPersona_Adicional(rs.getInt("35_Persona_Adicional"));
 			sa.setRecargo_Por_Reagendar(rs.getInt("35_Recargo_Por_Reagendar"));
 			sa.setMonto_Extras(rs.getInt("35_Monto_Extras"));
@@ -5519,7 +5539,7 @@ public int ActualizarCampania(Campania camp){
 	 * @param Tipo_Sesion Obtiene cupones deshabilitados 
 	 */
 	public String CuponesDeshabilitados() throws SQLException{
-		String SQL = "SELECT [16_Reserva].[16_Codigo] FROM [16_Reserva] WHERE [16_Reserva].[16_Validado] = 1";
+		String SQL = "SELECT [Ultimas_Reservas].[16_Codigo] FROM [Ultimas_Reservas] WHERE [Ultimas_Reservas].[16_Validado] = 1";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -5546,7 +5566,7 @@ public int ActualizarCampania(Campania camp){
 	 * a la que se le actualizará el ticket
 	 */
 	/*public int ActualizarTicket(int NumTicket, int idReserva) throws SQLException{
-		String SQL = "UPDATE [16_Reserva] SET [16_Reserva].[24_Id_Ticket] = "+NumTicket+" WHERE [16_Reserva].[16_Id_Reserva] = "+idReserva+";";
+		String SQL = "UPDATE [Ultimas_Reservas] SET [Ultimas_Reservas].[24_Id_Ticket] = "+NumTicket+" WHERE [Ultimas_Reservas].[16_Id_Reserva] = "+idReserva+";";
 		
 		ResultSet rs = Consultar(SQL);	
 				
@@ -5578,6 +5598,7 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[38_BD_User]"
 					+ "      ,[38_BD_PW]"
 					+ "      ,[38_Direccion]"
+					+ "		 ,[38_GoogleMap]"
 					+ "  FROM [dbo].[38_Vendedor] WHERE ["+Columna+"] = ";
 			if(Tipo.equals("String")){
 				SQL = SQL+ "'"+Valor+"'";
@@ -5598,6 +5619,7 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[38_BD_User]"
 					+ "      ,[38_BD_PW]"
 					+ "      ,[38_Direccion]"
+					+ "		 ,[38_GoogleMap]"
 					+ "  FROM [dbo].[38_Vendedor]; ";
 		}
 		
@@ -5620,6 +5642,7 @@ public int ActualizarCampania(Campania camp){
 			cc.setBD_User(rs.getString("38_BD_User"));
 			cc.setBD_PW(rs.getString("38_BD_PW"));
 			cc.setDireccion(rs.getString("38_Direccion"));
+			cc.setGoogleMap(rs.getString("38_GoogleMap"));
 
 			//ATRIBUTOS DE TABLA RESERVA
 			array.add(cc);
@@ -5632,13 +5655,13 @@ public int ActualizarCampania(Campania camp){
 		String SQL = " SELECT [17_Campania].[17_Id_Campania], [17_Campania].[17_Nombre],"
 				+ " [17_Campania].[17_Precio],  COUNT(*) AS [Total], "
 				+ " [14_Canal_Venta].[14_Id_Canal_Venta], [14_Canal_Venta].[14_Canal]"
-				+ " FROM [16_Reserva]"
+				+ " FROM [Ultimas_Reservas]"
 				+ " INNER JOIN [17_Campania]"
-				+ " ON [16_Reserva].[17_Id_Campania] = [17_Campania].[17_Id_Campania]"
+				+ " ON [Ultimas_Reservas].[17_Id_Campania] = [17_Campania].[17_Id_Campania]"
 				+ " INNER JOIN [14_Canal_Venta]"
 				+ " ON [17_Campania].[14_Id_Canal_Venta] = [14_Canal_Venta].[14_Id_Canal_Venta] "
 				+ Excepciones
-				+ " GROUP BY [17_Campania].[17_Id_Campania], [16_Reserva].[17_Id_Campania],"
+				+ " GROUP BY [17_Campania].[17_Id_Campania], [Ultimas_Reservas].[17_Id_Campania],"
 				+ " [17_Campania].[17_Nombre], [14_Canal_Venta].[14_Id_Canal_Venta], [17_Campania].[17_Precio],"
 				+ " [14_Canal_Venta].[14_Canal] "
 				+ " ORDER BY [Total] DESC;";
@@ -5682,19 +5705,20 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[39_Numero_Boleta]"
 					+ "      ,[39_Evento].[35_Id_Auxiliar]"
 					+ "      ,[39_Movimiento]"
-					+ "		 , CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-					+ "      RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha"
+					+ "	     ,[39_Tipo_Doc]"
+					+ "		 , CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+					+ "      RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha"
 					+ "      ,[15_Cliente].[15_Nombre]"
 					+ "		 ,[15_Cliente].[15_Apellido_Pat]"
 					+ "		 ,[04_Trabajador].[04_Nombre]"
 					+ "  FROM [dbo].[39_Evento]  "
 					+ " LEFT JOIN [35_Auxiliar]"
 					+ " ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
-					+ " LEFT JOIN [16_Reserva] "
-					+ " ON [16_Reserva].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva]"
-					+ " LEFT JOIN [15_Cliente] "
-					+ " ON [15_Cliente].[15_Id_Cliente] = [16_Reserva].[15_Id_Cliente]"
+					+ " LEFT JOIN [Ultimas_Reservas] "
+					+ " ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva]"
+					+ " LEFT JOIN [15_Cliente]  "
+					+ " ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente]"
 					+ " LEFT JOIN [04_Trabajador] "
 					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
 					+ " WHERE "+Excepciones;
@@ -5710,19 +5734,20 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[39_Numero_Boleta]"
 					+ "      ,[39_Evento].[35_Id_Auxiliar]"
 					+ "      ,[39_Movimiento]"
-					+ "		 ,CONVERT(VARCHAR,  [DBO].[16_RESERVA].[16_FECHA], 111) + ' ' + "
-					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[16_RESERVA].[16_FECHA])) + ':' + "
-					+ "  	 RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[16_RESERVA].[16_FECHA])), 2) AS Fecha"
+					+ "		 ,[39_Tipo_Doc]"
+					+ "		 ,CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
+					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
+					+ "  	 RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha"
 					+ "      ,[15_Cliente].[15_Nombre]	"
 					+ "		 ,[15_Cliente].[15_Apellido_Pat]"
 					+ "		 ,[04_Trabajador].[04_Nombre]"
 					+ "  FROM [dbo].[39_Evento]  "
 					+ " LEFT JOIN [35_Auxiliar]"
 					+ " ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
-					+ " LEFT JOIN [16_Reserva] "
-					+ " ON [16_Reserva].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva]"
+					+ " LEFT JOIN [Ultimas_Reservas] "
+					+ " ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva]"
 					+ " LEFT JOIN [15_Cliente] "
-					+ " ON [15_Cliente].[15_Id_Cliente] = [16_Reserva].[15_Id_Cliente]"
+					+ " ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente]"
 					+ " LEFT JOIN [04_Trabajador] "
 					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]";
 		}
@@ -5753,6 +5778,7 @@ public int ActualizarCampania(Campania camp){
 			ev.setId_Auxiliar(rs.getInt("35_Id_Auxiliar"));
 			ev.setMovimiento(rs.getString("39_Movimiento"));
 			ev.setNumero_Boleta(rs.getInt("39_Numero_Boleta"));
+			ev.setTipo_Doc(rs.getString("39_Tipo_Doc"));
 			
 			//ATRIBUTOS DE TABLA CAMPAÑA
 			min.add(ev);
@@ -5768,5 +5794,137 @@ public int ActualizarCampania(Campania camp){
 		}
 		return array;
 	}
+	
+	/**
+	 * @author Advancing
+	 * Campañas para exportación a excel
+	 */
+	public ArrayList<ArrayList<String>> ArrayExcelIngresos() throws SQLException{
+		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
+				+ ",[39_Id_Evento]"
+				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
+				+ ",[39_Forma_Pago]"
+				+ ",[39_Valor]"
+				+ "FROM [39_Evento] "
+				+ "WHERE [39_Movimiento] = 'Ingreso';";
 		
+		ResultSet rs = Consultar(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+		
+		int acumulado = 0; 
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<String> fila = new ArrayList<String>();
+				fila.add(rs.getString("39_Fecha"));
+				fila.add(rs.getString("39_Id_Evento"));
+				fila.add(rs.getString("39_Descripcion"));
+				fila.add(rs.getString("39_Forma_Pago"));
+				fila.add(rs.getString("39_Valor"));
+				acumulado += Integer.parseInt(rs.getString("39_Valor"));
+				fila.add(Integer.toString(acumulado));
+				
+				array.add(fila); 
+			}
+		}
+		return array;
+	}
+	
+	/**
+	 * @author Advancing
+	 * Egresos para exportación a excel
+	 */
+	public ArrayList<ArrayList<String>> ArrayExcelEgresos() throws SQLException{
+		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
+				+ ",[39_Id_Evento]"
+				+ ",[39_Tipo_Doc]"
+				+ ",[39_Item]"
+				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
+				+ ",[39_Valor]"
+				+ "FROM [39_Evento] "
+				+ "WHERE [39_Movimiento] = 'Egreso';";
+		
+		ResultSet rs = Consultar(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+		
+		int acumulado = 0; 
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<String> fila = new ArrayList<String>();
+				fila.add(rs.getString("39_Fecha"));
+				fila.add(rs.getString("39_Id_Evento"));
+				fila.add(rs.getString("39_Tipo_Doc"));
+				fila.add(rs.getString("39_Item"));
+				fila.add(rs.getString("39_Descripcion"));
+				fila.add(rs.getString("39_Valor"));
+				acumulado += Integer.parseInt(rs.getString("39_Valor"));
+				fila.add(Integer.toString(acumulado));
+				
+				array.add(fila); 
+			}
+		}
+		return array;
+	}
+		
+	public ArrayList<ArrayList<String>> ArrayExcelResumen() throws SQLException{
+		String SQL = "  SELECT DISTINCT CONVERT(VARCHAR, [39_Fecha], 105) AS Dia,"
+				+ "  CASE WHEN T1.Valor IS NULL THEN 0 ELSE T1.Valor END AS Tarjeta,"
+				+ "  CASE WHEN T2.Valor IS NULL THEN 0 ELSE T2.Valor END AS Transferencia,"
+				+ "  CASE WHEN T3.Valor IS NULL THEN 0 ELSE T3.Valor END AS Efectivo,"
+				+ "  CASE WHEN T4.Valor IS NULL THEN 0 ELSE T4.Valor END AS Gasto"
+				+ "  FROM [39_Evento] AS E"
+				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  FROM [39_Evento] "
+				+ "  WHERE [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T1 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T1.Dia"
+				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  FROM [39_Evento] "
+				+ "  WHERE [39_Forma_Pago] = 'Transferencia' AND [39_Movimiento] = 'Ingreso'"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T2 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T2.Dia"
+				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  FROM [39_Evento] "
+				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Ingreso'"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T3 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T3.Dia"
+				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  FROM [39_Evento] "
+				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso'"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T4.Dia;";
+		
+		ResultSet rs = Consultar(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+		
+		int sini = 0; 
+		int sfin = 0;
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				ArrayList<String> fila = new ArrayList<String>();
+				fila.add(rs.getString("Dia"));
+				
+				fila.add(Integer.toString(sini));
+				
+				fila.add(rs.getString("Tarjeta"));
+				fila.add(rs.getString("Transferencia"));
+				fila.add(rs.getString("Efectivo"));
+				fila.add(rs.getString("Gasto"));
+				
+				sini = sini + Integer.parseInt(rs.getString("Efectivo")) + Integer.parseInt(rs.getString("Gasto"));
+				fila.add(Integer.toString(sini));
+				
+				array.add(fila); 
+			}
+		}
+		return array;
+	}
+	
 }

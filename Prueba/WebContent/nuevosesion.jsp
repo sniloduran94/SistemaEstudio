@@ -447,7 +447,7 @@ select {
 				
 					<select name="17_Id_Campania" id="17_Id_Campania" OnChange="CambiarCampania()"
 						class="form-control" required>
-						<option value="0"></option>
+						<option value="<%=camp.getId_Campania()%>"><%=camp.getNombre()%></option>
 						<%
 				Iterator<Campania> it = campa.iterator();
 				while(it.hasNext())
@@ -456,7 +456,7 @@ select {
 		%>
 				
 						<option value="<%=f.getId_Campania()%>"><%=f.getNombre()%></option>
-					
+<!--f.getNombre() -->
 						<% 			} %>
 					</select>
 					<% Iterator<Campania> itcampanias = campa.iterator();
@@ -530,6 +530,21 @@ select {
 			
 			<!-- Text input-->
 			<div class="form-group">
+				<label class="col-md-4 control-label" for="35_Descuento">Descuento&nbsp; <i
+			class="fa fa-tag fa-1x"></i></label>
+				<div class="col-md-8">
+					<% if(sa!=null && sa.getDescuento()!=-1){ %>
+						<input id="35_Descuento" name="35_Descuento"
+							type="number" value="<%=sa.getDescuento() %>" class="form-control input-md" onKeyUp="sumarExtras()">
+					<% }else{ %>
+						<input id="35_Descuento" name="35_Descuento"
+							type="number" placeholder="0" class="form-control input-md" onKeyUp="sumarExtras()">
+					<% } %>
+				</div>
+			</div>
+			
+			<!-- Text input-->
+			<div class="form-group">
 				<label class="col-md-4 control-label" for="35_Persona_Adicional">Cantidad de persona(s) adicional(es)&nbsp; <i
 			class="fa fa-money fa-1x"></i></label>
 				<div class="col-md-8">
@@ -559,10 +574,10 @@ select {
 			class="fa fa-money fa-1x"></i></label>
 				<div class="col-md-8">
 					<% if(sa!=null && sa.getPersona_Adicional()>=0){ %>
-						<input id="35_Recargo_Por_Reagendar" name="35_Recargo_Por_Reagendar"
+						<input readonly id="35_Recargo_Por_Reagendar" name="35_Recargo_Por_Reagendar"
 							type="number" value="<%=sa.getRecargo_Por_Reagendar() %>" class="form-control input-md" onKeyUp="CalcularReagendamiento();sumarExtras()">
 					<% }else{ %>
-						<input id="35_Recargo_Por_Reagendar" name="35_Recargo_Por_Reagendar"
+						<input readonly id="35_Recargo_Por_Reagendar" name="35_Recargo_Por_Reagendar"
 							type="number" value="<%=res.getCantidad_Reagendamiento() %>" class="form-control input-md" onKeyUp="CalcularReagendamiento();sumarExtras()">
 					<% } %>
 				</div>
@@ -1191,7 +1206,8 @@ select {
 		var num3 = Number(document.getElementById("35_Extras").value);
 		var num4 = Number(document.getElementById("ResultadoAdicional").value);
 		var num5 = Number(document.getElementById("ResultadoReagendamiento").value);
-		document.getElementById("35_Monto_Extras").value = num1 + num2 + num3 + num4 + num5;
+		var num6 = Number(document.getElementById("35_Descuento").value);
+		document.getElementById("35_Monto_Extras").value = num1 + num2 + num3 + num4 + num5 - num6;
 	}	
 </script>
 <script type="text/javascript">

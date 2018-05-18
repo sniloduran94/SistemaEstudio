@@ -76,6 +76,7 @@
 	<script src='fullcalendar-2.6.0/fullcalendar.min.js'></script>
 	<script src='fullcalendar-2.6.0/lang/es.js'></script>
 	<script>
+		try{
 		var array = <%=fechas%>;
 		var HorasOcupadas = [];
 		for(var i=0; i<array.length; i++){
@@ -129,6 +130,9 @@
 				titleRangeSeparator:" \u2014 " 
 			});
 		});
+		}catch(err){
+			alert(err);
+		}
 	</script>
 	
 	

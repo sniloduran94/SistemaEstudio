@@ -12,6 +12,7 @@ public class Evento {
 	private int Numero_Boleta;
 	private int Id_Auxiliar;
 	private String Movimiento;
+	private String Tipo_Doc;
 	
 	public int getId_Evento() {
 		return Id_Evento;
@@ -78,6 +79,12 @@ public class Evento {
 	}
 	public void setMovimiento(String movimiento) {
 		Movimiento = movimiento;
+	}
+	public String getTipo_Doc() {
+		return Tipo_Doc;
+	}
+	public void setTipo_Doc(String tipo_Doc) {
+		Tipo_Doc = tipo_Doc;
 	}
 
 }

@@ -1,11 +1,11 @@
-﻿<center><%@page import="modelo.*"%>
+﻿<%@page import="modelo.*"%>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Genesis Estudio</title>
+<title></title>
 
 <!-- Google fonts -->
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
@@ -584,6 +584,30 @@
                         <a href="ServletLogin?opcion=GenerarXLSClientes" method="post">
                             <div class="panel-footer">
                                 <span class="pull-left">¡Exportar clientes!</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+	</div>
+	<div class="row ">
+			<div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:green; border-color:#003300;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-file-excel-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>Exportar resumen diario <br>de caja a Excel(xls)</div><br>
+                                    <i class="fa fa-list-ol fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="ServletLogin?opcion=GenerarXLSIngresos" method="post">
+                            <div class="panel-footer">
+                                <span class="pull-left">¡Exportar resumen!</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
