@@ -39,7 +39,7 @@ public void setOutputFile(String inputFile) {
     wbSettings.setLocale(new Locale("en", "EN"));
 
     WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
-    workbook.createSheet("Expressiones", 0);
+    workbook.createSheet("Clientes", 0);
     WritableSheet excelSheet = workbook.getSheet(0);
     createLabel(excelSheet);
     createContent(excelSheet, arreglo);

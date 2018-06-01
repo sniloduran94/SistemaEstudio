@@ -16,6 +16,7 @@ public class SQLS_conexion {
 	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=EstudioFotografico";
 	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=Genesis";
 	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=ElOtroEstudio";
+	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=EstudioFotograficoKids";
 	
 	private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=Prueba";
 	
@@ -740,7 +741,6 @@ public int EliminarEvento(int id){
 					+ "  WHERE [17_Campania].[14_Id_Canal_Venta]=[14_Canal_Venta].[14_Id_Canal_Venta]"
 					+ " ORDER BY [17_Fin_Vigencia] DESC";
 		}
-		System.out.println(SQL);
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -812,7 +812,6 @@ public int EliminarEvento(int id){
 		
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
-		System.out.println(SQL);
 		if(rs==null){
 			System.out.println("No hay datos");
 		}
@@ -1030,7 +1029,6 @@ public int EliminarEvento(int id){
 		}
 		
 		ResultSet rs = Consultar(SQL);
-		System.out.println(SQL);
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -1208,10 +1206,8 @@ public int EliminarEvento(int id){
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
 				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
-				+ " ORDER BY [Fecha] DESC;";
+				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;";
 				
-		System.out.println(SQL);
-		
 		ResultSet rs = Consultar(SQL);
 			
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
@@ -1311,9 +1307,7 @@ public int EliminarEvento(int id){
 				+ " ORDER BY [Fecha] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-			
+					
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -1603,9 +1597,7 @@ public int EliminarEvento(int id){
 				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 				
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-		
+			
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -1849,7 +1841,6 @@ public int EliminarEvento(int id){
 				
 		ResultSet rs = Consultar(SQL);
 		
-		System.out.println(SQL);
 		
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
@@ -1993,9 +1984,7 @@ public int EliminarEvento(int id){
 				+" [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+" [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0 "+Excluyente
 				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
-				
-		System.out.println(SQL);
-		
+						
 		ResultSet rs = Consultar(SQL);
 			
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
@@ -4059,6 +4048,7 @@ public int ActualizarCampania(Campania camp){
 					fila.add("");
 					fila.add("");
 					fila.add("");
+					fila.add("");
 					
 					array.add(fila);
 					continue;
@@ -4128,7 +4118,11 @@ public int ActualizarCampania(Campania camp){
 				}
 				fila.add(rs.getString("35_Fecha_Envio_Imprimir"));
 				fila.add(rs.getString("35_Monto_Impresion"));
-				fila.add(rs.getString("35_Numero_Factura"));
+				if(rs.getString("35_Numero_Factura").equals("null")){
+					fila.add("-");
+				}else{
+					fila.add(rs.getString("35_Numero_Factura"));
+				}
 				fila.add(rs.getString("35_Cant_10x15"));
 				fila.add(rs.getString("35_Cant_15x21"));
 				fila.add(rs.getString("35_Cant_20x30"));
@@ -4637,7 +4631,7 @@ public int ActualizarCampania(Campania camp){
 				+ " ,[35_Fecha_Envio_Imprimir] = "+Fecha2
 				+ " ,[35_Cont_Fecha_Entrega] = "+aux.getCont_Fecha_Entrega()
 				+ " ,[35_Fecha_Retiro] = "+Fecha3
-				+ " ,[35_Nombre_Retira] = "+aux.getNombre_Retira()
+				+ " ,[35_Nombre_Retira] = '"+aux.getNombre_Retira()+"'"
 				+ " ,[35_Lista_Para_Entregar] = "+bool4
 				+ " ,[35_Fecha_Sesion] = "+Fecha4
 				+ " WHERE [16_Id_Reserva] = "+aux.getId_Reserva_Asoc()+";";
@@ -5798,8 +5792,10 @@ public int ActualizarCampania(Campania camp){
 	/**
 	 * @author Advancing
 	 * Campañas para exportación a excel
+	 * @throws java.text.ParseException 
+	 * @throws NumberFormatException 
 	 */
-	public ArrayList<ArrayList<String>> ArrayExcelIngresos() throws SQLException{
+	public ArrayList<ArrayList<String>> ArrayExcelIngresos(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, NumberFormatException, java.text.ParseException{
 		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
 				+ ",[39_Id_Evento]"
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
@@ -5811,6 +5807,8 @@ public int ActualizarCampania(Campania camp){
 		ResultSet rs = Consultar(SQL);
 				
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
 		int acumulado = 0; 
 		
@@ -5818,16 +5816,25 @@ public int ActualizarCampania(Campania camp){
 			System.out.println("No hay datos");
 		}else{
 			while (rs.next()) {
-				ArrayList<String> fila = new ArrayList<String>();
-				fila.add(rs.getString("39_Fecha"));
-				fila.add(rs.getString("39_Id_Evento"));
-				fila.add(rs.getString("39_Descripcion"));
-				fila.add(rs.getString("39_Forma_Pago"));
-				fila.add(rs.getString("39_Valor"));
-				acumulado += Integer.parseInt(rs.getString("39_Valor"));
-				fila.add(Integer.toString(acumulado));
-				
-				array.add(fila); 
+				try {
+					if((sdf.parse(rs.getString("39_Fecha")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("39_Fecha")).compareTo(llegoFin1) <= 0)){
+						ArrayList<String> fila = new ArrayList<String>();
+						fila.add(rs.getString("39_Fecha"));
+						fila.add(rs.getString("39_Id_Evento"));
+						fila.add(rs.getString("39_Descripcion"));
+						fila.add(rs.getString("39_Forma_Pago"));
+						fila.add(rs.getString("39_Valor"));
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+						fila.add(Integer.toString(acumulado));
+
+						array.add(fila); 
+					}/*else{
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+					}*/
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return array;
@@ -5836,11 +5843,14 @@ public int ActualizarCampania(Campania camp){
 	/**
 	 * @author Advancing
 	 * Egresos para exportación a excel
+	 * @throws java.text.ParseException 
+	 * @throws NumberFormatException 
 	 */
-	public ArrayList<ArrayList<String>> ArrayExcelEgresos() throws SQLException{
+	public ArrayList<ArrayList<String>> ArrayExcelEgresos(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, NumberFormatException, java.text.ParseException{
 		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
 				+ ",[39_Id_Evento]"
 				+ ",[39_Tipo_Doc]"
+				+ ",[39_Forma_Pago]"
 				+ ",[39_Item]"
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
 				+ ",[39_Valor]"
@@ -5850,6 +5860,8 @@ public int ActualizarCampania(Campania camp){
 		ResultSet rs = Consultar(SQL);
 				
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
 		int acumulado = 0; 
 		
@@ -5857,69 +5869,121 @@ public int ActualizarCampania(Campania camp){
 			System.out.println("No hay datos");
 		}else{
 			while (rs.next()) {
-				ArrayList<String> fila = new ArrayList<String>();
-				fila.add(rs.getString("39_Fecha"));
-				fila.add(rs.getString("39_Id_Evento"));
-				fila.add(rs.getString("39_Tipo_Doc"));
-				fila.add(rs.getString("39_Item"));
-				fila.add(rs.getString("39_Descripcion"));
-				fila.add(rs.getString("39_Valor"));
-				acumulado += Integer.parseInt(rs.getString("39_Valor"));
-				fila.add(Integer.toString(acumulado));
-				
-				array.add(fila); 
+				if((sdf.parse(rs.getString("39_Fecha")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("39_Fecha")).compareTo(llegoFin1) <= 0)){
+					ArrayList<String> fila = new ArrayList<String>();
+					fila.add(rs.getString("39_Fecha"));
+					fila.add(rs.getString("39_Id_Evento"));
+					fila.add(rs.getString("39_Tipo_Doc"));
+					fila.add(rs.getString("39_Forma_Pago"));
+					fila.add(rs.getString("39_Item"));
+					fila.add(rs.getString("39_Descripcion"));
+					fila.add(rs.getString("39_Valor"));
+					acumulado += Integer.parseInt(rs.getString("39_Valor"));
+					fila.add(Integer.toString(acumulado));
+					array.add(fila); 
+				}/*else{
+					acumulado += Integer.parseInt(rs.getString("39_Valor"));
+				}*/
 			}
 		}
 		return array;
 	}
 		
-	public ArrayList<ArrayList<String>> ArrayExcelResumen() throws SQLException{
-		String SQL = "  SELECT DISTINCT CONVERT(VARCHAR, [39_Fecha], 105) AS Dia,"
+	public ArrayList<ArrayList<String>> ArrayExcelResumen(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, java.text.ParseException{
+		String SQL = " DECLARE @StartDate date"
+				+ "       ,@EndDate   date = GETDATE();"
+				+ " SELECT TOP 1 @StartDate =  [39_Fecha] FROM [39_Evento] ORDER BY [39_Fecha];"
+				+ " WITH theDates AS"
+				+ "     (SELECT @StartDate as theDate"
+				+ "      UNION ALL"
+				+ "      SELECT DATEADD(day, 1, theDate)"
+				+ "        FROM theDates"
+				+ "       WHERE theDate < @EndDate"
+				+ "     )"
+				+ " SELECT CONVERT(VARCHAR, theDate, 105) as TheDate, "
 				+ "  CASE WHEN T1.Valor IS NULL THEN 0 ELSE T1.Valor END AS Tarjeta,"
 				+ "  CASE WHEN T2.Valor IS NULL THEN 0 ELSE T2.Valor END AS Transferencia,"
 				+ "  CASE WHEN T3.Valor IS NULL THEN 0 ELSE T3.Valor END AS Efectivo,"
 				+ "  CASE WHEN T4.Valor IS NULL THEN 0 ELSE T4.Valor END AS Gasto"
-				+ "  FROM [39_Evento] AS E"
+				+ "  FROM theDates"
+				+ "  LEFT JOIN [39_Evento] AS E ON theDate = [39_Fecha] AND [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'"
 				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
 				+ "  WHERE [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'"
-				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T1 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T1.Dia"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T1 ON CONVERT(VARCHAR, theDate, 105) = T1.Dia"
 				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
 				+ "  WHERE [39_Forma_Pago] = 'Transferencia' AND [39_Movimiento] = 'Ingreso'"
-				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T2 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T2.Dia"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T2 ON CONVERT(VARCHAR, theDate , 105) = T2.Dia"
 				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
 				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Ingreso'"
-				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T3 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T3.Dia"
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T3 ON CONVERT(VARCHAR, theDate, 105) = T3.Dia"
 				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
 				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso'"
-				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, E.[39_Fecha], 105) = T4.Dia;";
+				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, theDate, 105) = T4.Dia"
+				+ " OPTION (MAXRECURSION 0);";
 		
 		ResultSet rs = Consultar(SQL);
 				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>(); 
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		int sini = 0;  
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+			 
+		}else{
+			while (rs.next()) {
+				/*System.out.println(rs.getString("TheDate"));
+				System.out.println(sdf.parse(rs.getString("TheDate")).compareTo(llegoInicio1) >= 0);
+				System.out.println(sdf.parse(rs.getString("TheDate")).compareTo(llegoFin1)    <= 0);
+				 	*/			
+				if((sdf.parse(rs.getString("TheDate")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("TheDate")).compareTo(llegoFin1) <= 0)){
+					ArrayList<String> fila = new ArrayList<String>();
+					fila.add(rs.getString("TheDate")); 
+					fila.add(Integer.toString(sini));
+					fila.add(rs.getString("Tarjeta"));
+					fila.add(rs.getString("Transferencia"));
+					fila.add(rs.getString("Efectivo"));
+					fila.add(rs.getString("Gasto"));
+					sini = sini + Integer.parseInt(rs.getString("Efectivo")) + Integer.parseInt(rs.getString("Gasto"));
+					fila.add(Integer.toString(sini));
+					array.add(fila); 
+				}else{
+					sini = sini + Integer.parseInt(rs.getString("Efectivo")) + Integer.parseInt(rs.getString("Gasto"));
+				}				
+			}
+		}
+		return array;
+	}
+	
+	/**
+	 * @author Advancing
+	 * Egresos para exportación a excel
+	 */
+	public ArrayList<ArrayList<String>> ArrayExcelDescuentos() throws SQLException{
+		String SQL = "SELECT CONVERT(VARCHAR,  [16_Fecha], 105) AS [16_Fecha], [35_Numero_Ticket], [15_Nombre], [15_Apellido_Pat], [15_Apellido_Mat], [35_Descuento] FROM [35_Auxiliar] "
+				+ " LEFT JOIN [16_Reserva] ON [16_Reserva].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva]"
+				+ " LEFT JOIN [15_Cliente] ON [15_Cliente].[15_Id_Cliente] = [16_Reserva].[15_Id_Cliente]"
+				+ " WHERE [35_Descuento] IS NOT NULL;";
+		
+		ResultSet rs = Consultar(SQL); 
+				
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
-		
-		int sini = 0; 
-		int sfin = 0;
-		
+				
 		if(rs==null){
 			System.out.println("No hay datos");
 		}else{
 			while (rs.next()) {
 				ArrayList<String> fila = new ArrayList<String>();
-				fila.add(rs.getString("Dia"));
-				
-				fila.add(Integer.toString(sini));
-				
-				fila.add(rs.getString("Tarjeta"));
-				fila.add(rs.getString("Transferencia"));
-				fila.add(rs.getString("Efectivo"));
-				fila.add(rs.getString("Gasto"));
-				
-				sini = sini + Integer.parseInt(rs.getString("Efectivo")) + Integer.parseInt(rs.getString("Gasto"));
-				fila.add(Integer.toString(sini));
+				fila.add(rs.getString("16_Fecha"));
+				fila.add(rs.getString("35_Numero_Ticket"));
+				fila.add(rs.getString("15_Nombre")+" "+rs.getString("15_Apellido_Pat")+" "+rs.getString("15_Apellido_Mat"));
+				fila.add(rs.getString("35_Descuento"));
 				
 				array.add(fila); 
 			}

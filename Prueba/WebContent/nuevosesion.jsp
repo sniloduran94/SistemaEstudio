@@ -538,7 +538,7 @@ select {
 							type="number" value="<%=sa.getDescuento() %>" class="form-control input-md" onKeyUp="sumarExtras()">
 					<% }else{ %>
 						<input id="35_Descuento" name="35_Descuento"
-							type="number" placeholder="0" class="form-control input-md" onKeyUp="sumarExtras()">
+							type="number" placeholder="0" value="0" class="form-control input-md" onKeyUp="sumarExtras()">
 					<% } %>
 				</div>
 			</div>

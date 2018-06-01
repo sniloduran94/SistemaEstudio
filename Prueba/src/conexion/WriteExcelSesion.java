@@ -36,19 +36,23 @@ public class WriteExcelSesion {
   }
 
   public void write(ArrayList<ArrayList<String>> arreglo) throws IOException, WriteException {
-    File file = new File(inputFile);
-    WorkbookSettings wbSettings = new WorkbookSettings();
-
-    wbSettings.setLocale(new Locale("en", "EN"));
-
-    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
-    workbook.createSheet("Expressiones", 0);
-    WritableSheet excelSheet = workbook.getSheet(0);
-    createLabel(excelSheet, arreglo.size());
-    createContent(excelSheet, arreglo);
-
-    workbook.write();
-    workbook.close();
+	try{
+	    File file = new File(inputFile);
+	    WorkbookSettings wbSettings = new WorkbookSettings();
+	
+	    wbSettings.setLocale(new Locale("en", "EN"));
+	
+	    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
+	    workbook.createSheet("Sesiones", 0);
+	    WritableSheet excelSheet = workbook.getSheet(0);
+	    createLabel(excelSheet, arreglo.size());
+	    createContent(excelSheet, arreglo);
+	
+	    workbook.write();
+	    workbook.close();
+	}catch(Exception e){
+		System.out.println(e);
+	}
   }
 
   private void createLabel(WritableSheet sheet, int largo)
@@ -80,6 +84,7 @@ public class WriteExcelSesion {
     	addCaption(sheet, 18, i, "");
     }
     
+    
     int col=0;
     addCaption(sheet, col++, 1, "Dia");
     addCaption(sheet, col++, 1, "Mes");
@@ -108,6 +113,7 @@ public class WriteExcelSesion {
     addCaption(sheet, col++, 1, "Valor por cobrar");
     addCaption(sheet, col++, 1, "CD");
     addCaption(sheet, col++, 1, "Extras");
+    addCaption(sheet, col++, 1, "Descuentos");
     addCaption(sheet, col++, 1, "Persona adicional");
     addCaption(sheet, col++, 1, "Recargo por reagendar");
     addCaption(sheet, col++, 1, "Monto extra");
@@ -155,7 +161,7 @@ public class WriteExcelSesion {
     
 	//addCaption(sheet, col++, i, (arreglo.get(i-2).get(0)));
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(1)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(2)));
+    addCaption(sheet, col++, i, (arreglo.get(i-2).get(2))); 
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(3)));
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(4)));
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(5)));
@@ -168,31 +174,31 @@ public class WriteExcelSesion {
     addNumber(sheet, col++, i, (arreglo.get(i-2).get(12)));
     addNumber(sheet, col++, i, (arreglo.get(i-2).get(13)));
     addNumber(sheet, col++, i, (arreglo.get(i-2).get(14)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(15)));
+    addCaption(sheet, col++, i, (arreglo.get(i-2).get(15))); 
     
-    col++;
-    //Sesion
+    col++; 
+    //Sesion 
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(16)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(17)));
+    addNumber(sheet, col++, i, (arreglo.get(i-2).get(17)));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(18))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(19))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(20))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(21))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(22))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(23))));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(24)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(25)));
+    addNumber(sheet, col++, i, (arreglo.get(i-2).get(24)));
+    addCaption(sheet, col++, i, (arreglo.get(i-2).get(25)));  
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(26)));
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(27)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(28)));
-    addNumber(sheet, col++, i, (arreglo.get(i-2).get(29)));
-    addCaption(sheet, col++, i, (arreglo.get(i-2).get(30)));
-    addNumber(sheet, col++, i, ((arreglo.get(i-2).get(31))));
+    addCaption(sheet, col++, i, (arreglo.get(i-2).get(28))); 
+    addCaption(sheet, col++, i, (arreglo.get(i-2).get(29)));
+    addNumber(sheet, col++, i, (arreglo.get(i-2).get(30)));
+    addCaption(sheet, col++, i, ((arreglo.get(i-2).get(31))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(32))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(33))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(34))));
-    
-}
+    addNumber(sheet, col++, i, ((arreglo.get(i-2).get(35))));  
+	}
 }
 
   private void addCaption(WritableSheet sheet, int column, int row, String s)
@@ -208,9 +214,9 @@ public class WriteExcelSesion {
 	    number = new Number(column, row, Integer.parseInt(s), timesBoldUnderline);
 	    sheet.addCell(number);
     }
-    if(s.equals("-") || s.equals("")){
-    	 Number number;
- 	    number = new Number(column, row, 0, timesBoldUnderline);
+    else{
+    	 Label number;
+ 	    number = new Label(column, row, s, timesBoldUnderline);
  	    sheet.addCell(number);
     }
   }
@@ -229,7 +235,7 @@ public class WriteExcelSesion {
   }
 
   private void addLabel(WritableSheet sheet, int column, int row, String s)
-      throws WriteException, RowsExceededException {
+      throws WriteException, RowsExceededException { 
     Label label;
     label = new Label(column, row, s, times);
     sheet.addCell(label);

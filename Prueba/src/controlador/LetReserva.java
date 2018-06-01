@@ -47,7 +47,7 @@ public class LetReserva extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Trabajador trab = null;
 	HttpSession sesion;
-		
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -270,8 +270,7 @@ public class LetReserva extends HttpServlet {
     				String mensaje = "ERROR! Intente ingresar la reserva nuevamente (Posible error: Fecha y hora duplicada)";
 					
 					request.setAttribute("mensaje", mensaje);
-					request.setAttribute("tipomensaje", "danger");
-					    					
+					request.setAttribute("tipomensaje", "danger");					    					
     				rd = request.getRequestDispatcher("/indextrabajador.jsp");
         	    	rd.forward(request, response);
         	    	
@@ -1622,6 +1621,7 @@ public class LetReserva extends HttpServlet {
   		  	boolean and = false;
   	    	usuario = (Trabajador) sesion.getAttribute("usuario");
   	    	//request.setAttribute("usuario", usuario);
+  	    	
   			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
   			
   			this.InvalidarFiltros();

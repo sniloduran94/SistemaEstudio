@@ -212,13 +212,11 @@ public class LetSesion extends HttpServlet {
     	    	
     	    	//Ingreso de la sesión auxiliar
     			
-    	    	
-    	    	
-    	    	Evento ev = new Evento ();
-    	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-    	    	Date ahora = new Date();
-    	    	
-    	    	ev.setFecha(sdf.format(ahora));
+    	    	Evento ev = new Evento (); 
+    			SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    	    	 
+    	    	String fechaFinal = sdf4.format(Fecha4);
+    	    	ev.setFecha(fechaFinal);
     	    	ev.setForma_Pago(llegoFormaPago);
     	    	ev.setValor(llegoMontoExtras);
     	    	ev.setTrabajador(trab.getId_Trabajador());
@@ -280,9 +278,9 @@ public class LetSesion extends HttpServlet {
 		    			String correo2 = trab.getEmail();
 		    			String correo3 = "salomon.nilo@advancing.cl"; 
 		    			
-		    			SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
-		    	    	
-		    			String fechaentrega = sdf3.format(saux.getFecha_Entrega());
+		    			SimpleDateFormat sdf511 = new SimpleDateFormat("dd/MM/yyyy");
+		    					    	    			    			
+		    			String fechaentrega = sdf511.format(saux.getFecha_Entrega());
 		    			String NombreQuienRetira = saux.getNombre_Retira();
 
 		    			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(reserv.getVendedor()), "Int").get(0);
@@ -465,9 +463,7 @@ public class LetSesion extends HttpServlet {
     	    			String correo = llegoMail;
     	    			String correo2 = trab.getEmail();
     	    			String correo3 = "salomon.nilo@advancing.cl"; 
-    	    			
-    	    			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
-    	    	    	
+    	    			    	    	    	
     	    			String fechaentrega = request.getParameter("fecharetiro");
     	    			String NombreQuienRetira = request.getParameter("nombreretiro");
 

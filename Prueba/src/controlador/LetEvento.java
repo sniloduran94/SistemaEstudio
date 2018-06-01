@@ -45,9 +45,9 @@ public class LetEvento extends HttpServlet {
 		    RequestDispatcher rd = null;
 		    
 		    sesion = request.getSession();
-		    
+		     
 		    if (llegoSolicitud.equals("NuevoEvento")) {
-		    	
+		    	 
 		    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
     	    	System.out.println("El usuario en la solicitud de evento es "+ trab.getNombre());	    	
     	    	
@@ -56,7 +56,10 @@ public class LetEvento extends HttpServlet {
 		    	int llegoValor = Integer.parseInt(request.getParameter("39_Valor"));		    	
 		    	String llegoItem = request.getParameter("39_Item");
 		    	String llegoDescripcion = request.getParameter("17_Descripcion");
-		    	int llegoNumeroBoleta = Integer.parseInt(request.getParameter("39_Numero_Boleta"));
+		    	int llegoNumeroBoleta = 0;
+		    	if(!request.getParameter("39_Numero_Boleta").equals("")){
+		    		llegoNumeroBoleta = Integer.parseInt(request.getParameter("39_Numero_Boleta"));
+		    	}		    	
 		    	String llegoTipoDoc = request.getParameter("39_Tipo_Doc");
 		    	
 		    	Evento ev = new Evento ();
@@ -64,6 +67,7 @@ public class LetEvento extends HttpServlet {
     	    	Date ahora = new Date();
     	    	
     	    	ev.setFecha(sdf.format(ahora));
+    	    	
     	    	ev.setForma_Pago(llegoFormaPago);
     	    	if(llegoMovimiento.equals("Egreso")){
         	    	ev.setValor(llegoValor*-1);
@@ -73,8 +77,10 @@ public class LetEvento extends HttpServlet {
     	    	ev.setTrabajador(trab.getId_Trabajador());
     	    	ev.setItem(llegoItem);
     	    	ev.setDescripcion(llegoDescripcion);
-    	    	ev.setEstado(1);
-    	    	ev.setNumero_Boleta(llegoNumeroBoleta);
+    	    	ev.setEstado(1); 
+    	    	 if(!request.getParameter("39_Numero_Boleta").equals("")){
+    	    		ev.setNumero_Boleta(llegoNumeroBoleta);
+    	    	}
     	    	ev.setMovimiento(llegoMovimiento);    
     	    	ev.setTipo_Doc(llegoTipoDoc);
 		       	
@@ -95,10 +101,8 @@ public class LetEvento extends HttpServlet {
 				request.setAttribute("eventos", eventos);
 				
 		    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
-		    	rd.forward(request, response);
-		       	
-		    }
-		    
+		    	rd.forward(request, response);  	
+		    }		    
 		    
 		    if (llegoSolicitud.equals("CambiarEvento")) {
       	    	
@@ -179,8 +183,6 @@ public class LetEvento extends HttpServlet {
 		    	String llegoDescripcionAdicional = request.getParameter("17_Descripcion_Adicional");
 	  			int llegoAbono = Integer.parseInt(request.getParameter("17_Abono")); 
 	  			
-	  			
-		    	
 		    	Campania cc = new Campania();
 		    	cc.setId_Campania(llegoIdCampania);
 		    	cc.setNombre(llegoNombre);
@@ -224,35 +226,7 @@ public class LetEvento extends HttpServlet {
 		    	rd = request.getRequestDispatcher("/visualizarcampanias.jsp");
 		    	rd.forward(request, response);
 	    	  }
-		    
-		    /*if (llegoSolicitud.equals("FiltroEventos")) {
-		    	
-		    	Trabajador usuario =  null;
-		    	usuario = (Trabajador) sesion.getAttribute("usuario");
-				System.out.println("Nombre en LetEvento - Filtro Evento: "+ usuario.getNombre());
-		    	
-				this.InvalidarFiltros();
-    			
-				String CondicionDeBusqueda = "";
-	  			boolean and = false;
-				
-    			String llegoNombre = "";
-    			
-    			llegoNombre = request.getParameter("15_Nombre");
-    			
-    			if(!llegoNombre.equals("") && !llegoNombre.equals("0")){
-					CondicionDeBusqueda += (and)?" AND ":"";
-					CondicionDeBusqueda += " [15_Cliente].[15_Nombre] LIKE '%"+llegoNombre+"%' OR [15_Cliente].[15_Apellido_Pat] LIKE '%"+llegoNombre+"%'";
-					and = true;
-				}
-    							
-		    	ArrayList<ArrayList<Object>> eventos = (ArrayList<ArrayList<Object>>)gd.getEventosSinId(CondicionDeBusqueda);	
-				request.setAttribute("eventos", eventos);
-				
-		    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
-		    	rd.forward(request, response);
-		    }*/
-		    
+		    		    
 	}
        
     /**

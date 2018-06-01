@@ -39,7 +39,7 @@ public void setOutputFile(String inputFile) {
     wbSettings.setLocale(new Locale("en", "EN"));
 
     WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
-    workbook.createSheet("Ingresos", 0);
+    workbook.createSheet("Ingresos", 0);  
     WritableSheet excelSheet = workbook.getSheet(0);
     createLabel(excelSheet);
     createContent(excelSheet, arreglo);
@@ -116,10 +116,11 @@ public void setOutputFile(String inputFile) {
 	    addCaption(sheet, 0, 1, "Fecha");
 	    addCaption(sheet, 1, 1, "N° Comprobante");
 	    addCaption(sheet, 2, 1, "Tipo Doc");
-	    addCaption(sheet, 3, 1, "Concepto");
-	    addCaption(sheet, 4, 1, "Detalle");
-	    addCaption(sheet, 5, 1, "Valor");
-	    addCaption(sheet, 6, 1, "Acumulado");
+	    addCaption(sheet, 3, 1, "Forma de pago");
+	    addCaption(sheet, 4, 1, "Concepto");
+	    addCaption(sheet, 5, 1, "Detalle");
+	    addCaption(sheet, 6, 1, "Valor");
+	    addCaption(sheet, 7, 1, "Acumulado");
 	  }
 
   private void createLabelResumen(WritableSheet sheet)
@@ -211,8 +212,9 @@ public void setOutputFile(String inputFile) {
 		    addCaption(sheet, 2, i, (arreglo.get(i-2).get(2)));
 		    addCaption(sheet, 3, i, (arreglo.get(i-2).get(3)));
 		    addCaption(sheet, 4, i, (arreglo.get(i-2).get(4)));
-		    addNumber(sheet, 5, i, ((arreglo.get(i-2).get(5))));
-		    addNumber(sheet, 6, i, ((arreglo.get(i-2).get(6))));
+		    addCaption(sheet, 5, i, (arreglo.get(i-2).get(6)));
+		    addNumber(sheet, 6, i, ((arreglo.get(i-2).get(5))));
+		    addNumber(sheet, 7, i, ((arreglo.get(i-2).get(7))));
 		}
 }
   
