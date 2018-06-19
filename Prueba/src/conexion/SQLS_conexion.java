@@ -12,16 +12,15 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import modelo.*;
 
-public class SQLS_conexion {
-	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=EstudioFotografico";
-	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=Genesis";
-	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=ElOtroEstudio";
-	//private static String cadenaConexion = "jdbc:sqlserver://EXPRESSIONES\\SQLEXPRESS;databaseName=EstudioFotograficoKids";
+public class SQLS_conexion { 
+	//private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=EstudioFotografico";
+	//private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=Genesis";
+	//private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=ElOtroEstudio";
+	//private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=EstudioFotograficoKids";
 	
 	private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=Prueba";
-	
-	
-	public static Connection cn = getConexion();
+		
+	public static Connection cn = getConexion(); 
 
 	/**
 	 * @author Advancing
@@ -5715,7 +5714,8 @@ public int ActualizarCampania(Campania camp){
 					+ " ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente]"
 					+ " LEFT JOIN [04_Trabajador] "
 					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
-					+ " WHERE "+Excepciones;
+					+ " WHERE "+Excepciones
+					+ " ORDER BY [39_Evento].[39_Fecha] DESC";
 		}else{
 			SQL = "  SELECT [39_Id_Evento]"
 					+ "      ,[39_Fecha]"
@@ -5727,7 +5727,7 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[39_Estado]"
 					+ "      ,[39_Numero_Boleta]"
 					+ "      ,[39_Evento].[35_Id_Auxiliar]"
-					+ "      ,[39_Movimiento]"
+					+ "      ,[39_Movimiento]"   
 					+ "		 ,[39_Tipo_Doc]"
 					+ "		 ,CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
 					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
@@ -5743,7 +5743,8 @@ public int ActualizarCampania(Campania camp){
 					+ " LEFT JOIN [15_Cliente] "
 					+ " ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente]"
 					+ " LEFT JOIN [04_Trabajador] "
-					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]";
+					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
+					+ " ORDER BY [39_Evento].[39_Fecha] DESC";
 		}
 		System.out.println(SQL);
 		
@@ -5797,12 +5798,12 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public ArrayList<ArrayList<String>> ArrayExcelIngresos(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, NumberFormatException, java.text.ParseException{
 		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
-				+ ",[39_Id_Evento]"
+				+ ",[39_Numero_Boleta]"
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
 				+ ",[39_Forma_Pago]"
 				+ ",[39_Valor]"
 				+ "FROM [39_Evento] "
-				+ "WHERE [39_Movimiento] = 'Ingreso';";
+				+ "WHERE [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1;";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -5820,7 +5821,7 @@ public int ActualizarCampania(Campania camp){
 					if((sdf.parse(rs.getString("39_Fecha")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("39_Fecha")).compareTo(llegoFin1) <= 0)){
 						ArrayList<String> fila = new ArrayList<String>();
 						fila.add(rs.getString("39_Fecha"));
-						fila.add(rs.getString("39_Id_Evento"));
+						fila.add(rs.getString("39_Numero_Boleta"));
 						fila.add(rs.getString("39_Descripcion"));
 						fila.add(rs.getString("39_Forma_Pago"));
 						fila.add(rs.getString("39_Valor"));
@@ -5855,7 +5856,7 @@ public int ActualizarCampania(Campania camp){
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
 				+ ",[39_Valor]"
 				+ "FROM [39_Evento] "
-				+ "WHERE [39_Movimiento] = 'Egreso';";
+				+ "WHERE [39_Movimiento] = 'Egreso' AND [39_Estado] = 1;";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -5906,22 +5907,22 @@ public int ActualizarCampania(Campania camp){
 				+ "  CASE WHEN T3.Valor IS NULL THEN 0 ELSE T3.Valor END AS Efectivo,"
 				+ "  CASE WHEN T4.Valor IS NULL THEN 0 ELSE T4.Valor END AS Gasto"
 				+ "  FROM theDates"
-				+ "  LEFT JOIN [39_Evento] AS E ON theDate = [39_Fecha] AND [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'"
+				+ "  LEFT JOIN [39_Evento] AS E ON theDate = [39_Fecha] AND [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'  AND [39_Estado] = 1"
 				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
-				+ "  WHERE [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso'"
+				+ "  WHERE [39_Forma_Pago] = '%Tarjeta%' AND [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1"
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T1 ON CONVERT(VARCHAR, theDate, 105) = T1.Dia"
-				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
-				+ "  WHERE [39_Forma_Pago] = 'Transferencia' AND [39_Movimiento] = 'Ingreso'"
+				+ "  WHERE [39_Forma_Pago] = 'Transferencia' AND [39_Movimiento] = 'Ingreso'  AND [39_Estado] = 1"
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T2 ON CONVERT(VARCHAR, theDate , 105) = T2.Dia"
-				+ "   LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
+				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
-				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Ingreso'"
+				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Ingreso'  AND [39_Estado] = 1"
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T3 ON CONVERT(VARCHAR, theDate, 105) = T3.Dia"
 				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
-				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso'"
+				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso' AND [39_Estado] = 1"
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, theDate, 105) = T4.Dia"
 				+ " OPTION (MAXRECURSION 0);";
 		
@@ -5989,6 +5990,147 @@ public int ActualizarCampania(Campania camp){
 			}
 		}
 		return array;
+	}
+	
+	public ArrayList<String> getEvento(String Excepciones) throws SQLException, java.text.ParseException{
+		String SQL = "";
+		
+		if(!Excepciones.equals("")){
+			SQL = "  SELECT "
+					+ " [39_Evento].[39_Id_Evento],"
+					+ "	[39_Evento].[39_Numero_Boleta],"
+					+ "	[39_Fecha],"
+					+ "	[35_Auxiliar].[35_Fotografo],"
+					+ "	[04_Trabajador].[04_Nombre],"
+					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
+					+ "	[14_Canal_Venta].[14_Canal],"
+					+ "	[34_Tipo_Sesion].[34_Tipo_Sesion],"
+					+ "	[17_Campania].[17_Cant_Fotos_CD],"
+					+ "	[17_Campania].[17_Cant_10x15],"
+					+ "	[17_Campania].[17_Cant_15x21],"
+					+ "	[17_Campania].[17_Cant_20x30],"
+					+ "	[17_Campania].[17_Cant_30x40],"
+					+ "	[17_Campania].[17_Precio],"
+					+ "	[Ultimas_reservas].[16_Monto_Pago_Adelantado],"
+					+ "	[35_Auxiliar].[35_Valor_Por_Cobrar],"
+					+ "	[35_Auxiliar].[35_CD],"
+					+ "	[35_Auxiliar].[35_Extras],"
+					+ "	[35_Auxiliar].[35_Monto_Extras],"
+					+ "	[35_Auxiliar].[35_Descuento],"
+					+ "	[35_Auxiliar].[35_Cant_10x15],	"
+					+ "	[35_Auxiliar].[35_Cant_15x21],"
+					+ "	[35_Auxiliar].[35_Cant_20x30],"
+					+ "	[35_Auxiliar].[35_Cant_30x40],"
+					+ "	[35_Auxiliar].[35_Persona_Adicional],"
+					+ "	[17_Campania].[17_Precio_Adicional]," 
+					+ "	[Ultimas_reservas].[16_Cantidad_Adicionales],"
+					+ "	[Ultimas_reservas].[16_Cantidad_Reagendamiento],"
+					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
+					+ "	[39_Evento].[39_Forma_Pago],"
+					+ "	[39_Evento].[39_Valor]"
+					+ " FROM [dbo].[39_Evento]   "
+					+ " LEFT JOIN [35_Auxiliar] ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
+					+ " LEFT JOIN [Ultimas_Reservas]  ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva] "
+					+ " LEFT JOIN [15_Cliente]  ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente] "
+					+ " LEFT JOIN [04_Trabajador]  ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
+					+ " LEFT JOIN [17_Campania] ON [17_Campania].[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
+					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = [17_Campania].[14_Id_Canal_Venta]"
+					+ " LEFT JOIN [34_Tipo_Sesion] ON [Ultimas_reservas].[34_Id_Tipo_Sesion] = [34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+					+ " WHERE [39_Evento].[39_Estado] = 1 "+Excepciones;
+			}else{
+			SQL = "  SELECT "
+					+ "    [39_Evento].[39_Id_Evento],"
+					+ "	[39_Evento].[39_Numero_Boleta],"
+					+ "	[39_Fecha],"
+					+ "	[35_Auxiliar].[35_Fotografo],"
+					+ "	[04_Trabajador].[04_Nombre],"
+					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
+					+ "	[14_Canal_Venta].[14_Canal],"
+					+ "	[34_Tipo_Sesion].[34_Tipo_Sesion],"
+					+ "	[17_Campania].[17_Cant_Fotos_CD],"
+					+ "	[17_Campania].[17_Cant_10x15],"
+					+ "	[17_Campania].[17_Cant_15x21],"
+					+ "	[17_Campania].[17_Cant_20x30],"
+					+ "	[17_Campania].[17_Cant_30x40],"
+					+ "	[17_Campania].[17_Precio],"
+					+ "	[Ultimas_reservas].[16_Monto_Pago_Adelantado],"
+					+ "	[35_Auxiliar].[35_Valor_Por_Cobrar],"
+					+ "	[35_Auxiliar].[35_CD],"
+					+ "	[35_Auxiliar].[35_Extras],"
+					+ "	[35_Auxiliar].[35_Monto_Extras],"
+					+ "	[35_Auxiliar].[35_Descuento],"
+					+ "	[35_Auxiliar].[35_Cant_10x15],	"
+					+ "	[35_Auxiliar].[35_Cant_15x21],"
+					+ "	[35_Auxiliar].[35_Cant_20x30],"
+					+ "	[35_Auxiliar].[35_Cant_30x40],"
+					+ "	[35_Auxiliar].[35_Persona_Adicional],"
+					+ "	[17_Campania].[17_Precio_Adicional],"
+					+ "	[Ultimas_reservas].[16_Cantidad_Adicionales],"
+					+ "	[Ultimas_reservas].[16_Cantidad_Reagendamiento],"
+					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
+					+ "	[39_Evento].[39_Forma_Pago],"
+					+ "	[39_Evento].[39_Valor]"
+					+ " FROM [dbo].[39_Evento]   "
+					+ " LEFT JOIN [35_Auxiliar] ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
+					+ " LEFT JOIN [Ultimas_Reservas]  ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva] "
+					+ " LEFT JOIN [15_Cliente]  ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente] "
+					+ " LEFT JOIN [04_Trabajador]  ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
+					+ " LEFT JOIN [17_Campania] ON [17_Campania].[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
+					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = [17_Campania].[14_Id_Canal_Venta]"
+					+ " LEFT JOIN [34_Tipo_Sesion] ON [Ultimas_reservas].[34_Id_Tipo_Sesion] = [34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+					+ " WHERE [39_Evento].[39_Estado] = 1";
+		}
+		System.out.println(SQL);
+		
+		ResultSet rs = Consultar(SQL);
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS");
+		
+	
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			ArrayList<String> min = new ArrayList<String>();
+			
+			min.add(rs.getString("39_Id_Evento"));
+			min.add(rs.getString("39_Numero_Boleta"));
+			min.add(sdf.format(sdf1.parse(rs.getString("39_Fecha"))));
+			min.add(rs.getString("35_Fotografo"));
+			min.add(rs.getString("04_Nombre"));
+			min.add(rs.getString("15_Nombre"));
+			min.add(rs.getString("15_Apellido_Pat"));
+			min.add(rs.getString("14_Canal"));
+			min.add(rs.getString("34_Tipo_Sesion"));
+			min.add(rs.getString("17_Cant_Fotos_CD"));
+			min.add(rs.getString("17_Cant_10x15"));
+			min.add(rs.getString("17_Cant_15x21"));
+			min.add(rs.getString("17_Cant_20x30"));
+			min.add(rs.getString("17_Cant_30x40"));
+			min.add(rs.getString("17_Precio"));
+			min.add(rs.getString("16_Monto_Pago_Adelantado"));
+			min.add(rs.getString("35_Valor_Por_Cobrar"));
+			min.add(rs.getString("35_CD"));
+			min.add(rs.getString("35_Extras"));
+			min.add(rs.getString("35_Monto_Extras"));
+			min.add(rs.getString("35_Descuento"));
+			min.add(rs.getString("35_Cant_10x15"));
+			min.add(rs.getString("35_Cant_15x21"));
+			min.add(rs.getString("35_Cant_20x30")); 
+			min.add(rs.getString("35_Cant_30x40")); 			
+			
+			min.add(rs.getString("35_Persona_Adicional"));   
+			min.add(rs.getString("17_Precio_Adicional"));
+			min.add(rs.getString("16_Cantidad_Adicionales"));
+			min.add(rs.getString("16_Cantidad_Reagendamiento"));
+			
+			min.add(rs.getString("35_Recargo_Por_Reagendar"));
+			min.add(rs.getString("39_Forma_Pago"));
+			min.add(rs.getString("39_Valor"));
+			return min;
+		}
+		return null;
 	}
 	
 }

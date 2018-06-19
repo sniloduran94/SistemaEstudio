@@ -97,8 +97,12 @@
             <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right scroll">
-				 <li onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
-				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
+				 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+              	 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
               </ul>
             </div>
             <!-- #Nav Ends -->
@@ -157,9 +161,9 @@
 						  	<th data-sorter="false" data-filter="false"></th>
 							<th data-sorter="false" data-filter="false"><h5>Id Evento</h5></th>
 							<th><h5>Fecha</h5></th>
-							<th><h5>Forma de Pago</h5></th>
+							<th style="width:5%"><h5>Forma de Pago</h5></th>
 							<th><h5>Movimiento</h5></th>
-							<th><h5>Sesion Asoc</h5></th>
+							<th style="width:9%"><h5>Sesion Asoc</h5></th>
 							<th><h5>Valor</h5></th>
 							<th><h5>ID Usuario</h5></th>
 							<th><h5>Item</h5></th>
@@ -167,6 +171,7 @@
 							<th><h5>Estado</h5></th>
 							<th><h5>N° Boleta</h5></th>
 							<th data-sorter="false" data-filter="false"><h5>Anular</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Imprimir</h5></th>
 						  </tr>
 					</thead>
 					<tbody>
@@ -203,6 +208,13 @@
 								<div class="btn-group  btn-group-lg">
 									 <button type="submit" class="btn btn-success" name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
                 						<i class="fa fa-minus-circle fa-1x"></i>
+            						 </button>
+            					</div>
+            				</td>
+            				<td>
+            					<div class="btn-group  btn-group-lg">
+									 <button type="submit" class="btn btn-success" name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
+                						<i class="fa fa-print fa-1x"></i>
             						 </button>
             					</div>
             				</td>

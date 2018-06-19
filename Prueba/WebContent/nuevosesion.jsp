@@ -172,11 +172,14 @@ select {
 
 				<!-- Nav Starts -->
 				<div class="navbar-collapse  collapse">
-					<ul class="nav navbar-nav navbar-right scroll">
-						<li><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú
-						</a></li>
-						<li><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
-					</ul>
+					 <ul class="nav navbar-nav navbar-right scroll">
+              	 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
+              </ul>
 				</div>
 				<!-- #Nav Ends -->
 
@@ -415,11 +418,24 @@ select {
 			class="fa fa-user fa-1x"></i></label>
 				<div class="col-md-8">
 					<% if(sa!=null){ %>
-							<input class="form-control input-md" id="35_Fotografo"
-								name="35_Fotografo" type="text" value="<%=sa.getFotografo()%>">
+							<select name="35_Fotografo" id="35_Fotografo"
+								class="form-control" required>
+									<option selected value="<%=sa.getFotografo()%>"><%=sa.getFotografo()%></option>
+									<option value="Angel">Angel</option>
+									<option value="Alejandro" >Alejandro</option>
+									<option value="Evelyn" >Evelyn</option>
+									<option value="Jose Carlos" >Jose Carlos</option>
+									<option value="Otro" >Otro</option>
+							</select>
 						<% }else{ %>
-							<input class="form-control input-md" id="35_Fotografo"
-								name="35_Fotografo" type="text" placeholder="Ejemplo: Luis">
+							<select name="35_Fotografo" id="35_Fotografo"
+								class="form-control" required>
+									<option value="Angel">Angel</option>
+									<option value="Alejandro" >Alejandro</option>
+									<option value="Evelyn" >Evelyn</option>
+									<option value="Jose Carlos" >Jose Carlos</option>
+									<option value="Otro" >Otro</option>
+							</select>
 						<% } %>
 				</div>
 			</div>

@@ -212,8 +212,8 @@ public void setOutputFile(String inputFile) {
 		    addCaption(sheet, 2, i, (arreglo.get(i-2).get(2)));
 		    addCaption(sheet, 3, i, (arreglo.get(i-2).get(3)));
 		    addCaption(sheet, 4, i, (arreglo.get(i-2).get(4)));
-		    addCaption(sheet, 5, i, (arreglo.get(i-2).get(6)));
-		    addNumber(sheet, 6, i, ((arreglo.get(i-2).get(5))));
+		    addCaption(sheet, 5, i, (arreglo.get(i-2).get(5)));
+		    addNumber(sheet, 6, i, ((arreglo.get(i-2).get(6))));
 		    addNumber(sheet, 7, i, ((arreglo.get(i-2).get(7))));
 		}
 }

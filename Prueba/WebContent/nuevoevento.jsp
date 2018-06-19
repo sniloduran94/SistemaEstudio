@@ -147,8 +147,12 @@
             <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right scroll">
-				 <li ><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú </a></li>
-				 <li ><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
+				 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+              	 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
               </ul>
             </div>
             <!-- #Nav Ends -->
@@ -220,8 +224,18 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="39_Item">Item </label>
 					<div class="col-md-4">
-						<input id="39_Item" name="39_Item"
-							type="text" placeholder="1" class="form-control input-md"	value="">
+						<select name="39_Item" id="39_Item"
+								class="form-control" required>
+									<option selected value="Retiro">Retiro</option>
+									<option value="Impresion">Impresion</option>
+									<option value="Locomocion" >Locomoción</option>
+									<option value="Art. Aseo-Cocina" >Art. Aseo-Cocina</option>
+									<option value="Marcos" >Marcos</option>
+									<option value="Gastos Comunes" >Gastos Comunes</option>
+									<option value="Deposito" >Depósito</option>
+									<option value="Insumos" >Insumos</option>
+									<option value="Otro" >Otro</option>
+						</select>	
 					</div>
 				</div>
 			

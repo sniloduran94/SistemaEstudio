@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import conexion.Impresora;
 import conexion.SQLS_conexion;
 import modelo.Campania;
 import modelo.Canal_Venta;
@@ -24,6 +25,7 @@ import modelo.Ciudad;
 import modelo.Cliente;
 import modelo.Evento;
 import modelo.Trabajador;
+import modelo.Vendedor;
 
 /**
  * Servlet implementation class LetCampania
@@ -69,6 +71,7 @@ public class LetEvento extends HttpServlet {
     	    	ev.setFecha(sdf.format(ahora));
     	    	
     	    	ev.setForma_Pago(llegoFormaPago);
+    	    	
     	    	if(llegoMovimiento.equals("Egreso")){
         	    	ev.setValor(llegoValor*-1);
     	    	}else{
@@ -120,38 +123,123 @@ public class LetEvento extends HttpServlet {
     			//Opciones - Modificar o eliminar
     			//String llegoModificar = request.getParameter("");
     			String llegoAnular = request.getParameter("AnularEvento");
+    			String llegoImprimir = request.getParameter("ImprimirEvento");
     			
     			System.out.println(llegoAnular);
     			
-    			if((llegoAnular!=null)){
-					//Caso de Eliminar una campaña	
-					int corroboracion = gd.EliminarEvento(eventoamodificar.getId_Evento());
-					//int corroboracion2 = gd.EliminarSesionAuxiliar(eventoamodificar.getId_Auxiliar());
-					
-					//if(corroboracion>0 && corroboracion2>0){
-					System.out.println(corroboracion);
-					if(corroboracion>0){
-						String mensaje = "Evento anulado correctamente";
-						
-						request.setAttribute("mensaje", mensaje);
-						request.setAttribute("tipomensaje", "success");
-						
-						ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
-						request.setAttribute("eventos", eventos2);
-						
-				    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
-					}else{
-						String mensaje = "ERROR! Intente anular nuevamente";
-						
-						request.setAttribute("mensaje", mensaje);
-						request.setAttribute("tipomensaje", "danger");
-						
-						ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
-						request.setAttribute("eventos", eventos2);
-						
-				    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
-					}
-				}
+    			if((llegoAnular!=null)||(llegoImprimir!=null)){  
+    				if((llegoAnular!=null)){ 
+						//Caso de Eliminar una campaña	 
+						int corroboracion = gd.EliminarEvento(eventoamodificar.getId_Evento());
+						//int corroboracion2 = gd.EliminarSesionAuxiliar(eventoamodificar.getId_Auxiliar());
+						 
+						//if(corroboracion>0 && corroboracion2>0){
+						System.out.println(corroboracion);
+						if(corroboracion>0){
+							String mensaje = "Evento anulado correctamente";
+							
+							request.setAttribute("mensaje", mensaje);
+							request.setAttribute("tipomensaje", "success");
+							
+							ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
+							request.setAttribute("eventos", eventos2);
+							
+					    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+						}else{
+							String mensaje = "ERROR! Intente anular nuevamente";
+							
+							request.setAttribute("mensaje", mensaje);
+							request.setAttribute("tipomensaje", "danger");
+							
+							ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
+							request.setAttribute("eventos", eventos2);
+							
+					    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+						} 
+    				}
+    				if((llegoImprimir!=null)){  
+    					
+    					ArrayList<String> evento = gd.getEvento(" AND [39_Id_Evento] = "+llegoEvento);  
+        				request.setAttribute("evento", evento);  					
+				    	rd = request.getRequestDispatcher("/imprimirevento.jsp");  
+        			}
+    			}
+    			rd.forward(request, response);  
+		    }
+		    
+		    if(llegoSolicitud.equals("ImprimirEvento")){
+		    	   	    	
+    	    	String llegoEvento = (request.getParameter("39_Id_Evento"));
+    	    	
+    	    	ArrayList<String> ev = (ArrayList<String>) gd.getEvento(" AND [39_Id_Evento] ="+llegoEvento); 
+    	    	Vendedor vend = (Vendedor)gd.getVendedoresSinId("", "", "").get(0);
+    	    	
+    	    	//Obtención del usuario
+    	    	Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
+    			System.out.println("Nombre en LetEvento - Imprimir Evento: "+ usuario.getNombre());
+    		    			
+		    	Impresora tiquete=new Impresora();  
+
+				tiquete.setDispositivo("pantalla.txt");
+				tiquete.escribir(vend.getVendedor());
+				tiquete.escribir(vend.getDireccion());
+				tiquete.escribir(vend.getMail()); 
+				tiquete.escribir(vend.getWeb());
+				tiquete.escribir("	         N° Boleta : "+String.format("%17s", ev.get(1)));
+				tiquete.escribir("		     Fecha     : "+String.format("%17s", ev.get(2).substring(0, 10)));
+				tiquete.escribir("           Fotógrafo : "+String.format("%17s", ev.get(3)));
+				tiquete.escribir("           Vendedor  : "+String.format("%17s", ev.get(4)));
+				tiquete.escribir("Cliente:          "+String.format("%22s", ev.get(6)));
+				tiquete.escribir("Canal de venta:   "+String.format("%22s", ev.get(7)));
+				tiquete.escribir("Tipo sesión:      "+String.format("%22s", ev.get(8)));
+				tiquete.escribir("________________________________________");
+				tiquete.escribir("        DETALLE SESIÓN COMPRADA         "); 
+				tiquete.escribir("TAMAÑO    DETALLE ARTÍCULO      CANTIDAD"); 
+				tiquete.escribir("          CD con "+String.format("%3s", ev.get(9))+" fotos");
+				tiquete.escribir("10x15cm     Fotografía 10x15           "+ev.get(10));  
+				tiquete.escribir("15x21cm     Fotografía 15x21           "+ev.get(11));   
+				tiquete.escribir("20x30cm     Ampliación 20x30           "+ev.get(12));   
+				tiquete.escribir("30x40cm     Ampliación 30x40           "+ev.get(13));   
+				tiquete.escribir("________________________________________"); 
+				tiquete.escribir("                ADICIONALES             "); 
+				tiquete.escribir(String.format("%2s %18s %6s %9s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15",ev.get(17) ));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","X" ));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","X" ));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","X" ));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","",ev.get(20) ));
+				tiquete.escribir("_____________________________________"); 
+				tiquete.escribir("TOTAL "+String.format("%31s\r\n", ev.get(16))); 
+				tiquete.escribir("________________________________________"); 
+				
+				tiquete.escribir("Forma de pago:    "+String.format("%22s", ev.get(30)));
+				tiquete.escribir("****************************************");
+				tiquete.escribir("Seleccione sus fotos en:                ");
+				tiquete.escribir("http://www.fotoexpressiones.com/selecciondefotos.html");
+				tiquete.escribir("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"");
+				//Esto es para escribir una linea divisoria
+				tiquete.dividir();
+
+				//esto cambia el formato de acuerdo a las especificaciones de epson
+
+				tiquete.setFormato(1);
+				tiquete.escribir("    Mas texto con letra mas grande      ");
+				tiquete.setFormato(1);
+
+				tiquete.escribir("texto con letra normal");
+				tiquete.dividir();
+
+				//tiquete.setRojo();
+				//tiquete.setNegro();
+
+				//tiquete.correr(10);//Esto baja 10 lineas en blanco
+				tiquete.cortar();//Esto corta el papel de la impresora
+				tiquete.cerrarDispositivo();//Cierra el dispositivo y aplica el texto
+				
+				ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
+				request.setAttribute("eventos", eventos2);
+				
+		    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
     			rd.forward(request, response);
 		    }
 		    
@@ -195,7 +283,7 @@ public class LetEvento extends HttpServlet {
 		       	if((llegoPoseeCD!=null)&&(llegoPoseeCD.equals("on"))){
     				cc.setCD(true);
     				cc.setCant_Fotos_CD(llegoCantFotosCD);
-    			}else{
+    			}else{ 
     				cc.setCD(false);
     				cc.setCant_Fotos_CD(0);
     			}

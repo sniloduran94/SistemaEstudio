@@ -121,8 +121,12 @@
 
              <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
-              <ul class="nav navbar-nav navbar-right scroll">
-				 <li onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+               <ul class="nav navbar-nav navbar-right scroll">
+              	 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
 				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
               </ul>
             </div>
