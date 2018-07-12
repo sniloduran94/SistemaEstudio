@@ -8,7 +8,7 @@ import java.util.Locale;
 import jxl.CellView;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
-import jxl.format.UnderlineStyle;
+import jxl.format.UnderlineStyle; 
 import jxl.write.BorderLineStyle;
 import jxl.write.Formula;
 import jxl.write.Label;
@@ -128,6 +128,9 @@ public class WriteExcelSesion {
     addCaption(sheet, col++, 1, "Dif. 15x21");
     addCaption(sheet, col++, 1, "Dif. 20x30");
     addCaption(sheet, col++, 1, "Dif. 30x40");
+    addCaption(sheet, col++, 1, "Campaña original");
+    addCaption(sheet, col++, 1, "Campaña convertida");
+    addCaption(sheet, col++, 1, "Diferencia");
     
   }
 
@@ -197,7 +200,11 @@ public class WriteExcelSesion {
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(32))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(33))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(34))));
-    addNumber(sheet, col++, i, ((arreglo.get(i-2).get(35))));  
+    addNumber(sheet, col++, i, ((arreglo.get(i-2).get(35))));   
+
+    addCaption(sheet, col++, i, ((arreglo.get(i-2).get(37))));
+    addCaption(sheet, col++, i, ((arreglo.get(i-2).get(36))));
+    addCaption(sheet, col++, i, ((arreglo.get(i-2).get(38))));
 	}
 }
 

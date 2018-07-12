@@ -36,9 +36,9 @@ public void setOutputFile(String inputFile) {
     File file = new File(inputFile);
     WorkbookSettings wbSettings = new WorkbookSettings();
  
-    wbSettings.setLocale(new Locale("en", "EN"));
+    wbSettings.setLocale(new Locale("en", "EN")); 
 
-    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
+    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);  
     workbook.createSheet("Ingresos", 0);  
     WritableSheet excelSheet = workbook.getSheet(0);
     createLabel(excelSheet);

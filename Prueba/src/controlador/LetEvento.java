@@ -1,12 +1,20 @@
 package controlador;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,11 +26,10 @@ import javax.servlet.http.HttpSession;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import conexion.Impresora;
+import conexion.Impresora2;
 import conexion.SQLS_conexion;
 import modelo.Campania;
 import modelo.Canal_Venta;
-import modelo.Ciudad;
-import modelo.Cliente;
 import modelo.Evento;
 import modelo.Trabajador;
 import modelo.Vendedor;
@@ -37,8 +44,7 @@ public class LetEvento extends HttpServlet {
 	HttpSession sesion; 
 	
 	protected void procesamientoPeticion(HttpServletRequest request,
-    		HttpServletResponse response) throws ServletException, IOException,
-           	SQLException, ParseException, java.text.ParseException {
+    		HttpServletResponse response) throws Exception {
 		
 			String llegoSolicitud = request.getParameter("opcion");
 		    
@@ -180,36 +186,56 @@ public class LetEvento extends HttpServlet {
     		    			
 		    	Impresora tiquete=new Impresora();  
 
-				tiquete.setDispositivo("pantalla.txt");
+				tiquete.setDispositivo("USB001");
+				
+				Impresora2 impre = new Impresora2();		
+				impre.Imprimir();
+				
 				tiquete.escribir(vend.getVendedor());
 				tiquete.escribir(vend.getDireccion());
 				tiquete.escribir(vend.getMail()); 
 				tiquete.escribir(vend.getWeb());
-				tiquete.escribir("	         N° Boleta : "+String.format("%17s", ev.get(1)));
-				tiquete.escribir("		     Fecha     : "+String.format("%17s", ev.get(2).substring(0, 10)));
-				tiquete.escribir("           Fotógrafo : "+String.format("%17s", ev.get(3)));
-				tiquete.escribir("           Vendedor  : "+String.format("%17s", ev.get(4)));
-				tiquete.escribir("Cliente:          "+String.format("%22s", ev.get(6)));
-				tiquete.escribir("Canal de venta:   "+String.format("%22s", ev.get(7)));
-				tiquete.escribir("Tipo sesión:      "+String.format("%22s", ev.get(8)));
+				tiquete.escribir("N° Boleta      : "+ev.get(1));
+				tiquete.escribir("Fecha          : "+ev.get(2).substring(0, 10));
+				tiquete.escribir("Fotógrafo      : "+ev.get(3));
+				tiquete.escribir("Vendedor       : "+ev.get(4));
+				tiquete.escribir("Cliente        : "+ev.get(5)+ " "+ev.get(6));
+				tiquete.escribir("Canal de venta : "+ev.get(7));
+				tiquete.escribir("Tipo sesión    : "+ev.get(8));
 				tiquete.escribir("________________________________________");
 				tiquete.escribir("        DETALLE SESIÓN COMPRADA         "); 
 				tiquete.escribir("TAMAÑO    DETALLE ARTÍCULO      CANTIDAD"); 
-				tiquete.escribir("          CD con "+String.format("%3s", ev.get(9))+" fotos");
+				tiquete.escribir("            CD con fotos               1");
 				tiquete.escribir("10x15cm     Fotografía 10x15           "+ev.get(10));  
 				tiquete.escribir("15x21cm     Fotografía 15x21           "+ev.get(11));   
 				tiquete.escribir("20x30cm     Ampliación 20x30           "+ev.get(12));   
 				tiquete.escribir("30x40cm     Ampliación 30x40           "+ev.get(13));   
-				tiquete.escribir("________________________________________"); 
-				tiquete.escribir("                ADICIONALES             "); 
+				tiquete.escribir("________________________________________");  
+				tiquete.escribir("                ADICIONALES             ");  
 				tiquete.escribir(String.format("%2s %18s %6s %9s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15",ev.get(17) ));
+				tiquete.escribir("");
+				tiquete.escribir(String.format("%2s %20s %6s %9s", "", "CD Completo", "Digital",ev.get(17)));
+				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15","X" ));
 				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","X" ));
 				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","X" ));
 				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","X" ));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","",ev.get(20) ));
-				tiquete.escribir("_____________________________________"); 
-				tiquete.escribir("TOTAL "+String.format("%31s\r\n", ev.get(16))); 
+				if(ev.get(20) == null || ev.get(20).equals("null")){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","","-" ));
+				}else{
+					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","",ev.get(20) ));
+				}
+				tiquete.escribir("________________________________________"); 
+				tiquete.escribir("Valor Sesión Base  : "+ev.get(14));  
+				if(ev.get(15) == null || ev.get(15).equals("null")){
+					tiquete.escribir("Valor Abonado      : "+ev.get(15)); 
+				}else{
+					tiquete.escribir("Valor Abonado      : -"); 
+				}
+				tiquete.escribir("________________________________________"); 
+				tiquete.escribir("Subtotal por pagar : "+ev.get(16)); 
+				tiquete.escribir("Valor extras       : "+ev.get(19));
+				tiquete.escribir("________________________________________"); 
+				tiquete.escribir("TOTAL "+String.format("%34s\r\n", ev.get(31))); 
 				tiquete.escribir("________________________________________"); 
 				
 				tiquete.escribir("Forma de pago:    "+String.format("%22s", ev.get(30)));
@@ -338,17 +364,16 @@ public class LetEvento extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-            procesamientoPeticion(request, response);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            try {
+				procesamientoPeticion(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        }
 	}
 	
 	public void InvalidarFiltros() throws ServletException, IOException {
@@ -365,5 +390,4 @@ public class LetEvento extends HttpServlet {
     	return ;
 	}
 	
-
 }

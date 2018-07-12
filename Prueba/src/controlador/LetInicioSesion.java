@@ -47,6 +47,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import conexion.SQLS_conexion;
 import conexion.UserHomeApplet;
 import conexion.WriteExcel;
+import conexion.WriteExcelCajaChica;
 import conexion.WriteExcelCampania;
 import conexion.WriteExcelCliente;
 import conexion.WriteExcelDescuento;
@@ -234,7 +235,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_Pre_Reserva", "0", "Int");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
@@ -348,6 +349,12 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Generar Nuevo Evento: "+ usuario.getNombre());
 	    				
+			ArrayList<Item_Pago> items = (ArrayList<Item_Pago>)(gd.getItem_Pago());
+			request.setAttribute("items", items);
+			
+			ArrayList<Forma_Pago> formas = (ArrayList<Forma_Pago>)(gd.getForma_Pago());
+			request.setAttribute("formas", formas);
+			
 	    	rd = request.getRequestDispatcher("/nuevoevento.jsp");
 	    	rd.forward(request, response);
 	    }
@@ -452,6 +459,17 @@ public class LetInicioSesion extends HttpServlet {
 	    	rd.forward(request, response);
 	    }
 	    
+	    if (llegoSolicitud.equals("GenerarNuevoFotografo")) {
+	    	
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+	    	//request.setAttribute("usuario", usuario);
+			System.out.println("Nombre en LetSesion - Generar Nuevo Fotografo: "+ usuario.getNombre());
+			
+	    	rd = request.getRequestDispatcher("/nuevofotografo.jsp");  
+	    	rd.forward(request, response);
+	    }  
+	   
 	    if (llegoSolicitud.equals("GenerarNuevoTrabajador")) {
 	    	
 	    	Trabajador usuario =  null;
@@ -804,6 +822,68 @@ public class LetInicioSesion extends HttpServlet {
 				
 				rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=Descuentos.xls"); 
 				response.setHeader("Content-Disposition", "attachment; filename=\"Descuentos.xls\"");
+				rd.include(request, response); 
+				
+			}catch(Exception e){	
+				System.out.println(e.getMessage());
+				String mensaje = "<strong>¡Se produjo un error!</strong><br><br>"
+						+ "Descripción: "+e.getMessage();
+				
+				
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("tipomensaje", "danger");
+			}
+						
+			rd = request.getRequestDispatcher("/indextrabajador.jsp");
+			rd.forward(request, response);
+	    }
+	    
+	    if (llegoSolicitud.equals("GenerarXLSCajaChica")) {
+
+	    	Trabajador usuario =  null;
+	    	usuario = (Trabajador) sesion.getAttribute("usuario");
+			System.out.println("Nombre en LetSesion - GenerarXLSClientes: "+ usuario.getNombre());
+	    	
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String llegoInicio = request.getParameter("Inicio");
+			String llegoFin = request.getParameter("Fin"); 
+			Date llegoInicio1 = sdf.parse(llegoInicio);
+			Date llegoFin1 = sdf.parse(llegoFin);
+			
+			ArrayList<ArrayList<String>> Arreglo = (ArrayList<ArrayList<String>>)(gd.ArrayExcelCajaChica(llegoInicio1,llegoFin1));
+			
+			try{
+				WriteExcelCajaChica test = new WriteExcelCajaChica();
+				String home = System.getProperty("user.home");
+				
+				String fmt = home+"/Downloads/InformeCajaChica.xls";
+				File f = null;
+				for (int i = 1; i < 100; i++) {
+				    f = new File(String.format(fmt, i));
+				    if (!f.exists()) {
+				        break;
+				    }
+				}
+				try {
+				    System.out.println(f.getCanonicalPath());
+				} catch (IOException e) {
+				    e.printStackTrace();
+				}	
+				
+				test.setOutputFile(f.getCanonicalPath());
+				
+				//test.setOutputFile("c:/users/nb-desktop/FotoExpressiones.xls");
+			    test.write(Arreglo);
+			    System.out.println("Please check the result file under c:/users/nb-desktop/prueba.xls");
+			    String mensaje = "<strong>Archivo Microsoft Office Excel creado correctamente</strong><br><br>"
+						+ "Por favor revisa tu carpeta de descargas. Ejemplo: C://Usuarios/MiUsuario/Downloads/";
+				
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("tipomensaje", "success");
+				
+				rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=InformeCajaChica.xls"); 
+				response.setHeader("Content-Disposition", "attachment; filename=\"InformeCajaChica.xls\"");
 				rd.include(request, response); 
 				
 			}catch(Exception e){	

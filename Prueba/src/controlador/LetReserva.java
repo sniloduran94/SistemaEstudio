@@ -32,6 +32,7 @@ import conexion.SQLS_conexion;
 import modelo.Campania;
 import modelo.Ciudad;
 import modelo.Cliente;
+import modelo.Fotografo;
 import modelo.Metodo_Pago;
 import modelo.Reserva;
 import modelo.SesionAuxiliar;
@@ -707,10 +708,13 @@ public class LetReserva extends HttpServlet {
     					request.setAttribute("canalesventasarray", (ArrayList<ArrayList<String>>)(gd.getCanalesVentasArray()));
     					
     					SesionAuxiliar sa = (SesionAuxiliar) (gd.getSesionAuxiliar(reserv.getId_Reserva()));
-    					request.setAttribute("sesionauxiliar", sa); 
+    					request.setAttribute("sesionauxiliar", sa);  
     					
     					Campania camp = (Campania)(gd.getCampañasFiltro("17_Id_Campania", Integer.toString(reserv.getId_Campania()), "Int")).get(0);
-    					request.setAttribute("campania", camp);
+    					request.setAttribute("campania", camp); 
+    					
+    					ArrayList<Fotografo> fotos = (ArrayList<Fotografo>)(gd.getFotografos());
+    					request.setAttribute("fotografos", fotos);
     					
     					trab = (Trabajador) sesion.getAttribute("usuario");
     					

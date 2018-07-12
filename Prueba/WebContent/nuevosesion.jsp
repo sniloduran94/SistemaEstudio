@@ -129,7 +129,11 @@ select {
 		// Obtención de campañas para combobox para el formulario de reservas
 		ArrayList<Campania> campa = (ArrayList<Campania>)(request.getAttribute("campanias"));
 			
+		ArrayList<Fotografo> fotos = (ArrayList<Fotografo>)(request.getAttribute("fotografos"));
+			
 		SesionAuxiliar sa = (SesionAuxiliar) (request.getAttribute("sesionauxiliar"));	
+		sa = null;
+		
 			
 		String[] fechasjs = (String[])(request.getAttribute("fechasdeshabilitadas"));		
 		
@@ -144,6 +148,7 @@ select {
     %>
 
 <script type="text/javascript">var CampPrecios = []; </script>
+<script type="text/javascript">var CampFotos = []; </script>
 
 <div class="topbar animated fadeInLeftBig"></div>
 
@@ -249,10 +254,6 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad de veces de reagendamiento</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=res.getCantidad_Reagendamiento()%></label>
 					<input type="hidden" value="<%=res.getCantidad_Reagendamiento()%>" id="16_Cantidad_Reagendamiento">
-				</div><br>
-				<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Monto de pago en estudio</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(res.getMonto_Pago_Estudio()==-1)?"N/A":res.getMonto_Pago_Estudio()%></label>
 				</div><br>
 				<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Monto de pago adelantado</label>
@@ -417,41 +418,48 @@ select {
 				<label class="col-md-4 control-label" for="35_Fotografo">Fotógrafo&nbsp; <i
 			class="fa fa-user fa-1x"></i></label>
 				<div class="col-md-8">
+					<select name="35_Fotografo" id="35_Fotografo"
+								class="form-control" required>
 					<% if(sa!=null){ %>
-							<select name="35_Fotografo" id="35_Fotografo"
-								class="form-control" required>
+							
 									<option selected value="<%=sa.getFotografo()%>"><%=sa.getFotografo()%></option>
-									<option value="Angel">Angel</option>
-									<option value="Alejandro" >Alejandro</option>
-									<option value="Evelyn" >Evelyn</option>
-									<option value="Jose Carlos" >Jose Carlos</option>
-									<option value="Otro" >Otro</option>
+									
+									<%
+				Iterator<Fotografo> fotog = fotos.iterator();
+				while(fotog.hasNext())
+				{
+					Fotografo f = (Fotografo)fotog.next();
+						%>
+						<option value="<%=f.getFotografo()%>"><%=f.getFotografo()%></option>
+						<% 			}
+				}else{
+				
+				Iterator<Fotografo> fotog = fotos.iterator();
+				while(fotog.hasNext())
+				{
+					Fotografo f = (Fotografo)fotog.next();
+						%>
+						<option value="<%=f.getFotografo()%>"><%=f.getFotografo()%></option>
+						<% 			}
+						
+				 } %>
+				
 							</select>
-						<% }else{ %>
-							<select name="35_Fotografo" id="35_Fotografo"
-								class="form-control" required>
-									<option value="Angel">Angel</option>
-									<option value="Alejandro" >Alejandro</option>
-									<option value="Evelyn" >Evelyn</option>
-									<option value="Jose Carlos" >Jose Carlos</option>
-									<option value="Otro" >Otro</option>
-							</select>
-						<% } %>
 				</div>
 			</div>
 			
 			
 			<!-- Text input-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="35_Numero_Ticket">Número de ticket&nbsp; <i
+				<label class="col-md-4 control-label" for="35_Numero_Ticket">Número de ticket&nbsp;<br>(Obligatorio) <i
 			class="fa fa-ticket fa-1x"></i></label>
 				<div class="col-md-8">
 					<% if(sa!=null && sa.getNumero_Ticket()!=-1){ %>
 						<input id="35_Numero_Ticket" name="35_Numero_Ticket"
-							type="number" value="<%=sa.getNumero_Ticket()%>" class="form-control input-md">
+							type="number" value="<%=sa.getNumero_Ticket()%>" class="form-control input-md" required>
 					<% }else{ %>
 						<input id="35_Numero_Ticket" name="35_Numero_Ticket"
-							type="number" placeholder="1" class="form-control input-md">
+							type="number" placeholder="1" class="form-control input-md" required>
 					<% } %>
 				</div>
 			</div>
@@ -482,6 +490,7 @@ select {
 					%>
 							<script type="text/javascript">
 							CampPrecios.push({Id:"<%=f.getId_Campania()%>",Precio:"<%=f.getPrecio()%>"});
+							CampFotos.push({Id:"<%=f.getId_Campania()%>",Fotos:["<%=f.getCant_10x15()%>","<%=f.getCant_15x21()%>","<%=f.getCant_20x30()%>","<%=f.getCant_30x40()%>"]})
 							</script>
 					<% 	}
 					%>
@@ -492,6 +501,19 @@ select {
 			<br><hr><br>
 			<h4 class="text-center ">Boleta</h4>
 						
+			<div class="form-group">
+			<label class="col-md-4 control-label" for="39_Forma_Pago">Forma de pago</label>
+				<div class="col-md-8">
+				<select name="39_Forma_Pago" id="39_Forma_Pago"
+					class="form-control" required>
+						<option selected value="Transferencia" selected>Transferencia</option>
+						<option value="TDebito" >Tarjeta de débito</option>
+						<option value="TCredito" >Tarjeta de crédito</option>
+						<option value="Efectivo" >Efectivo</option>
+					</select>
+					</div>
+			</div>			
+						
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="35_Valor_Por_Cobrar">Valor por cobrar&nbsp; <i
@@ -500,15 +522,15 @@ select {
 				
 					<% if(sa!=null && sa.getValor_Por_Cobrar()!=-1){ %>
 						<input id="35_Valor_Por_Cobrar" name="35_Valor_Por_Cobrar"
-						type="number" value="<%=sa.getValor_Por_Cobrar()%>" class="form-control input-md" onKeyUp="sumarExtras()">
+						type="number" value="<%=sa.getValor_Por_Cobrar()%>" class="form-control input-md" onKeyUp="sumarExtras()" readonly>
 					<% }else{ 
 					   	if((res.getCodigo()).equals("")){
 					   		int Anticipo = (res.getMonto_Pago_Adelantado()<0)?0:res.getMonto_Pago_Adelantado();%>
 							<input id="35_Valor_Por_Cobrar" name="35_Valor_Por_Cobrar"
-								type="number" value="<%=camp.getPrecio()-Anticipo%>" class="form-control input-md" onKeyUp="sumarExtras()">
+								type="number" value="<%=camp.getPrecio()-Anticipo%>" class="form-control input-md" onKeyUp="sumarExtras()" readonly>
 						<% }else{ %>
 							<input id="35_Valor_Por_Cobrar" name="35_Valor_Por_Cobrar"
-								type="number" value="0" class="form-control input-md" onKeyUp="sumarExtras()">
+								type="number" value="0" class="form-control input-md" onKeyUp="sumarExtras()" readonly>
 					<% 	   }
 						} %>
 				</div>
@@ -609,18 +631,6 @@ select {
 				</div>
 			</div>
 			
-			<div class="form-group">
-			<label class="col-md-4 control-label" for="39_Forma_Pago">Forma de pago</label>
-				<div class="col-md-8">
-				<select name="39_Forma_Pago" id="39_Forma_Pago"
-					class="form-control" required>
-						<option selected value="Transferencia" selected>Transferencia</option>
-						<option value="TDebito" >Tarjeta de débito</option>
-						<option value="TCredito" >Tarjeta de crédito</option>
-						<option value="Efectivo" >Efectivo</option>
-					</select>
-					</div>
-			</div>
 			
 			<!-- Text input-->
 			<div class="panel panel-success ">
@@ -1234,10 +1244,19 @@ select {
 });
 </script>
 <script type="text/javascript">
+var PorCobrar = document.getElementById("35_Valor_Por_Cobrar").value;
 function findWithAttr(array, attr, value) {
     for(var i = 0; i < array.length; i += 1) {
         if(array[i][attr] === value) {
             return array[i]['Precio'];
+        }
+    }
+    return -1;
+}
+function findWithAttrFotos(array, attr, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attr] === value) {
+            return array[i]['Fotos'];
         }
     }
     return -1;
@@ -1250,10 +1269,23 @@ function CambiarCampania(){
 			if(!Cupon){
 				PrecioCampAntigua = <%=camp.getPrecio()%>;
 			}
-			var PorCobrar = document.getElementById("35_Valor_Por_Cobrar").value;
+			var NuevoPorCobrar = PorCobrar;
 			PrecioCampNueva = findWithAttr(CampPrecios,'Id',IdCamp);
-			PorCobrar = PorCobrar - PrecioCampAntigua + parseInt(PrecioCampNueva);
-			document.getElementById("35_Valor_Por_Cobrar").value = PorCobrar;
+			NuevoPorCobrar = PorCobrar - PrecioCampAntigua + parseInt(PrecioCampNueva);
+			document.getElementById("35_Valor_Por_Cobrar").value = NuevoPorCobrar;
+			
+			var Fotos = findWithAttrFotos(CampFotos,'Id',IdCamp);
+						
+			document.getElementById("17_Cant_10x15").value = Fotos[0];
+			document.getElementById("17_Cant_15x21").value = Fotos[1];
+			document.getElementById("17_Cant_20x30").value = Fotos[2];
+			document.getElementById("17_Cant_30x40").value = Fotos[3];
+			
+			document.getElementById("35_Cant_10x15").value = Fotos[0];
+			document.getElementById("35_Cant_15x21").value = Fotos[1];
+			document.getElementById("35_Cant_20x30").value = Fotos[2];
+			document.getElementById("35_Cant_30x40").value = Fotos[3];
+			
 			sumarExtras();
 		}else{
 			var Cupon = <%=(sa!=null && sa.getValor_Por_Cobrar()!=-1)?1:0%>

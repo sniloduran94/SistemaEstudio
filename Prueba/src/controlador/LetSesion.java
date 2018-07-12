@@ -226,7 +226,7 @@ public class LetSesion extends HttpServlet {
     	    	ev.setNumero_Boleta(llegoNumeroTicket);
     	    	ev.setMovimiento(llegoMovimiento);    			
     	    	
-    	    	gd.IngresarSesionAuxiliar(saux, ev);
+    	    	int resultado = gd.IngresarSesionAuxiliar(saux, ev);
     	    	
     	    	if((sa!=null) && (sa.isLista_Para_Entregar()==false && saux.isLista_Para_Entregar())){
     	    		JavaMail mail = new JavaMail();
@@ -319,7 +319,14 @@ public class LetSesion extends HttpServlet {
 		    			
 		    			ArrayList<ArrayList<Object>> sesiones = (ArrayList<ArrayList<Object>>)gd.getSesionesSinId();
 		    	    	request.setAttribute("sesiones", sesiones);
-		    			
+		    	    	
+		    	    	if(resultado==0){
+		    	    		String mensaje = "Hubo un problema al crear la sesión, probablemente el número de ticket ya está asignado a otra Sesión/Evento";
+    						
+    						request.setAttribute("mensaje", mensaje);
+    						request.setAttribute("tipomensaje", "danger");
+		    	    	}
+		    	    			    			
 		    	    	rd = request.getRequestDispatcher("/visualizarsesiones.jsp");
     	    	}
     	    	   			

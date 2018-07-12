@@ -111,6 +111,10 @@
 		//Obtención de comunas para combobox para el formulario de reservas
 		Evento ev = (Evento)(request.getAttribute("evento"));
 		
+		ArrayList<Item_Pago> items = (ArrayList<Item_Pago>)(request.getAttribute("items"));
+		
+		ArrayList<Forma_Pago> formas = (ArrayList<Forma_Pago>)(request.getAttribute("formas"));
+		
 		if(sesion == null || usuario == null ){  %>
 	        	<!-- Mensaje de bienvenida -->
 				<div class="alert alert-danger alert-dismissable">
@@ -181,10 +185,16 @@
 				<div class="col-md-4">
 				<select name="39_Forma_Pago" id="39_Forma_Pago"
 					class="form-control" required>
-						<option selected value="Transferencia" selected>Transferencia</option>
-						<option value="TDebito" >Tarjeta de débito</option>
-						<option value="TCredito" >Tarjeta de crédito</option>
-						<option value="Efectivo" >Efectivo</option>
+					
+						<%
+				Iterator<Forma_Pago> it2 = formas.iterator();
+				while(it2.hasNext())
+				{
+					Forma_Pago f = (Forma_Pago)it2.next();
+						%>
+						<option value="<%=f.getForma_Pago()%>"><%=f.getForma_Pago()%></option>
+						<% 			} %>
+						
 					</select>
 					</div>
 				</div>
@@ -226,15 +236,16 @@
 					<div class="col-md-4">
 						<select name="39_Item" id="39_Item"
 								class="form-control" required>
-									<option selected value="Retiro">Retiro</option>
-									<option value="Impresion">Impresion</option>
-									<option value="Locomocion" >Locomoción</option>
-									<option value="Art. Aseo-Cocina" >Art. Aseo-Cocina</option>
-									<option value="Marcos" >Marcos</option>
-									<option value="Gastos Comunes" >Gastos Comunes</option>
-									<option value="Deposito" >Depósito</option>
-									<option value="Insumos" >Insumos</option>
-									<option value="Otro" >Otro</option>
+																			
+									<%
+				Iterator<Item_Pago> it = items.iterator();
+				while(it.hasNext())
+				{
+					Item_Pago f = (Item_Pago)it.next();
+						%>
+						<option value="<%=f.getItem_Pago()%>"><%=f.getItem_Pago()%></option>
+						<% 			} %>
+						
 						</select>	
 					</div>
 				</div>

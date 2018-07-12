@@ -20,7 +20,7 @@ public class SQLS_conexion {
 	
 	private static String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=Prueba";
 		
-	public static Connection cn = getConexion(); 
+	public static Connection cn = getConexion();  
 
 	/**
 	 * @author Advancing
@@ -614,7 +614,6 @@ public int EliminarEvento(int id){
 		}
 		
 		ResultSet rs = Consultar(SQL);
-		System.out.println(SQL);
 		
 		ArrayList<Campania> array = new ArrayList<Campania>();
 		
@@ -929,9 +928,7 @@ public int EliminarEvento(int id){
 		}
 		
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-		
+				
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -983,7 +980,7 @@ public int EliminarEvento(int id){
 		}
 		
 		ResultSet rs = Consultar(SQL);
-		System.out.println(SQL);
+		
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -1207,10 +1204,12 @@ public int EliminarEvento(int id){
 				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
 				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;";
 				
-		ResultSet rs = Consultar(SQL);
-			
+		ResultSet rs = Consultar(SQL); 
+		 
+		System.out.println(SQL); 
+		 
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
-		
+		 
 		if(rs==null){
 			System.out.println("No hay datos");
 		}else{
@@ -1303,7 +1302,8 @@ public int EliminarEvento(int id){
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
 				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
-				+ " ORDER BY [Fecha] ASC;";
+				+ " WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' "
+				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;;";
 		
 		ResultSet rs = Consultar(SQL);
 					
@@ -2293,11 +2293,8 @@ public int EliminarEvento(int id){
 			+" [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 			+ "ORDER BY [16_FECHA] DESC;";
 	}
-		
-		System.out.println(SQL);
-		
-		ResultSet rs = Consultar(SQL);
-		
+		ResultSet rs = Consultar(SQL); 
+				
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -2469,10 +2466,7 @@ public int EliminarEvento(int id){
 		
 		
 		ResultSet rs = Consultar(SQL);
-		
-	System.out.println("Actualizando");
-	System.out.println(SQL);
-		
+				
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -2637,9 +2631,7 @@ public int EliminarEvento(int id){
 		}
 				
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-		
+				
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -2958,7 +2950,6 @@ public int EliminarEvento(int id){
 				+ ",[16_Observacion] = '"+res.getObservacion()+"'"
 				+ " WHERE [16_Id_Reserva] = "+res.getId_Reserva()+";";
 		
-		System.out.println(SQL);
 		Statement s = null;
 		int columnasafectadas = 0;
 		try {
@@ -3734,9 +3725,7 @@ public int ActualizarCampania(Campania camp){
 				+ " AND  [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta];";
 		
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-				
+						
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 		
 		if(rs==null){
@@ -3922,57 +3911,23 @@ public int ActualizarCampania(Campania camp){
 	/**
 	 * @author Advancing
 	 * Reservas para exportación a excel con reservas y sesiones
-	 */
-	public ArrayList<ArrayList<String>> ArrayExcelSesiones() throws SQLException{
-		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,"
-				+ "  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +"
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
-				+ "  [dbo].[Ultimas_Reservas].[16_Validado],"
-				+ "  [dbo].[15_Cliente].[15_Nombre],"
-				+ "	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],"
-				+ "	 [dbo].[Ultimas_Reservas].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
-				+ "	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],"
-				+ "	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],"
-				+ "	 [dbo].[17_Campania].[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],"
-				+ "	 [dbo].[14_Canal_Venta].[14_Canal],"
-				+ "	 [dbo].[17_Campania].[17_Precio],"
-				+ "	 [dbo].[17_Campania].[17_Posee_CD],"
-				+ "	 [dbo].[17_Campania].[17_Cant_Fotos_CD],"
-				+ "	 [dbo].[17_Campania].[17_Cant_10x15],"
-				+ "	 [dbo].[17_Campania].[17_Cant_15x21],"
-				+ "	 [dbo].[17_Campania].[17_Cant_20x30],"
-				+ "	 [dbo].[17_Campania].[17_Cant_30x40],"
-				+ "	 [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],"
-				+ "	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],"
-				+ "	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],"
-				+ "	 [dbo].[35_Auxiliar].[35_Asistio],"
-				+ "	 [dbo].[35_Auxiliar].[35_Numero_Ticket],"
-				+ "	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],"
-				+ "	 [dbo].[35_Auxiliar].[35_CD],"
-				+ "	 [dbo].[35_Auxiliar].[35_Extras],"
-				+ "	 [dbo].[35_Auxiliar].[35_Descuento],"
-				+ "	 [dbo].[35_Auxiliar].[35_Persona_Adicional],"
-				+ "	 [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar],"
-				+ "	 [dbo].[35_Auxiliar].[35_Monto_Extras],"
-				+ "	 [dbo].[35_Auxiliar].[35_Fotografo],"
-				+ "	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],"
-				+ "	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],"
-				+ "	 [dbo].[35_Auxiliar].[35_Entregadas],"
-				+ "	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],"
-				+ "	 [dbo].[35_Auxiliar].[35_Monto_Impresion],"
-				+ "	 [dbo].[35_Auxiliar].[35_Numero_Factura],"
-				+ "	 [dbo].[35_Auxiliar].[35_Cant_10x15],"
-				+ "	 [dbo].[35_Auxiliar].[35_Cant_15x21],"
-				+ "	 [dbo].[35_Auxiliar].[35_Cant_20x30],"
-				+ "	 [dbo].[35_Auxiliar].[35_Cant_30x40]"
-				+ "	  FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion],[dbo].[35_Auxiliar]"
-				+ "	  WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ "	   AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
-				+ "	   AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
-				+ "	   AND  [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta]"
-				+ "	   AND  [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]";		
-		
-		ResultSet rs = Consultar(SQL);
+	 * @throws SQLException 
+	 */ 
+	public ArrayList<ArrayList<String>> ArrayExcelSesiones() throws SQLException{  
+		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,  [dbo].[Ultimas_Reservas].[16_Validado],  [dbo].[15_Cliente].[15_Nombre],	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],	 [dbo].[Ultimas_Reservas].[17_Id_Campania],C.[17_Id_Campania],	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],	 C.[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],	 [dbo].[14_Canal_Venta].[14_Canal],	 C.[17_Precio],	 C.[17_Posee_CD],	 C.[17_Cant_Fotos_CD],	 "
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
+				+ "	[dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras],	 [dbo].[35_Auxiliar].[35_Descuento],	 [dbo].[35_Auxiliar].[35_Persona_Adicional],	 [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar],	 [dbo].[35_Auxiliar].[35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
+				+ "     CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE C.[17_Precio] - CC.[17_Precio] END AS [Diferencia]"				
+				+ "	FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania] AS C,[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion],[dbo].[35_Auxiliar]	  "
+				+ "	LEFT JOIN [17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]"
+				+ "	WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]	   AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = C.[17_Id_Campania]	   AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]	   AND  C.[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta]	   AND  [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]" ;		
+		  
+		ResultSet rs = Consultar(SQL); 
 		
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 		
@@ -4045,6 +4000,10 @@ public int ActualizarCampania(Campania camp){
 					fila.add("");
 					fila.add("");
 					fila.add("");
+					fila.add("");
+					fila.add("");
+					fila.add("");
+					
 					fila.add("");
 					fila.add("");
 					fila.add("");
@@ -4125,13 +4084,18 @@ public int ActualizarCampania(Campania camp){
 				fila.add(rs.getString("35_Cant_10x15"));
 				fila.add(rs.getString("35_Cant_15x21"));
 				fila.add(rs.getString("35_Cant_20x30"));
-				fila.add(rs.getString("35_Cant_30x40"));
+				fila.add(rs.getString("35_Cant_30x40")); 
+				fila.add(rs.getString("Campaña_Convertida")); 
+				fila.add(rs.getString("Campaña"));
+				fila.add(rs.getString("Diferencia"));
+				//eso 
 				
 				array.add(fila);
 			}
 		}
 		return array;
 	}
+	
 	
 	/**
 	 * @author Advancing
@@ -5660,9 +5624,7 @@ public int ActualizarCampania(Campania camp){
 				+ " ORDER BY [Total] DESC;";
 		
 		ResultSet rs = Consultar(SQL);
-		
-		System.out.println(SQL);
-				
+						
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 		
 		if(rs==null){
@@ -5745,9 +5707,7 @@ public int ActualizarCampania(Campania camp){
 					+ " LEFT JOIN [04_Trabajador] "
 					+ " ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
 					+ " ORDER BY [39_Evento].[39_Fecha] DESC";
-		}
-		System.out.println(SQL);
-		
+		}		
 		ResultSet rs = Consultar(SQL);
 		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
@@ -5802,8 +5762,9 @@ public int ActualizarCampania(Campania camp){
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
 				+ ",[39_Forma_Pago]"
 				+ ",[39_Valor]"
-				+ "FROM [39_Evento] "
-				+ "WHERE [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1;";
+				+ " FROM [39_Evento] "
+				+ " WHERE [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1"
+				+ " ORDER BY YEAR([39_Fecha]) ASC, MONTH([39_Fecha]) ASC, DAY([39_Fecha]) ASC;";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -5889,6 +5850,54 @@ public int ActualizarCampania(Campania camp){
 		}
 		return array;
 	}
+	
+	public ArrayList<ArrayList<String>> ArrayExcelCajaChica(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, NumberFormatException, java.text.ParseException{
+		String SQL = "SELECT CONVERT(VARCHAR,  [39_Fecha], 105) AS [39_Fecha]"
+				+ "				,[39_Item]"
+				+ "				,CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
+				+ "				,[39_Tipo_Doc]"
+				+ "				,[39_Numero_Boleta]"
+				+ "				,[39_Valor]"
+				+ "				 FROM [39_Evento] "
+				+ "				 WHERE [39_Forma_Pago] = 'Efectivo Caja Chica' AND [39_Estado] = 1"
+				+ "				 ORDER BY YEAR([39_Fecha]) ASC, MONTH([39_Fecha]) ASC, DAY([39_Fecha]) ASC;";
+		
+		ResultSet rs = Consultar(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		int acumulado = 0; 
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				try {
+					if((sdf.parse(rs.getString("39_Fecha")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("39_Fecha")).compareTo(llegoFin1) <= 0)){
+						ArrayList<String> fila = new ArrayList<String>();
+						fila.add(rs.getString("39_Fecha"));
+						fila.add(rs.getString("39_Item"));
+						fila.add(rs.getString("39_Descripcion"));
+						fila.add(rs.getString("39_Tipo_Doc"));
+						fila.add(rs.getString("39_Numero_Boleta"));
+						fila.add(rs.getString("39_Valor"));
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+						fila.add(Integer.toString(acumulado));
+
+						array.add(fila); 
+					}/*else{
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+					}*/
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return array;
+	}
 		
 	public ArrayList<ArrayList<String>> ArrayExcelResumen(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, java.text.ParseException{
 		String SQL = " DECLARE @StartDate date"
@@ -5935,7 +5944,7 @@ public int ActualizarCampania(Campania camp){
 		int sini = 0;  
 		
 		if(rs==null){
-			System.out.println("No hay datos");
+			System.out.println("No hay datos"); 
 			 
 		}else{
 			while (rs.next()) {
@@ -6080,7 +6089,6 @@ public int ActualizarCampania(Campania camp){
 					+ " LEFT JOIN [34_Tipo_Sesion] ON [Ultimas_reservas].[34_Id_Tipo_Sesion] = [34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 					+ " WHERE [39_Evento].[39_Estado] = 1";
 		}
-		System.out.println(SQL);
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -6132,5 +6140,81 @@ public int ActualizarCampania(Campania camp){
 		}
 		return null;
 	}
+	
+	/**
+	 * @author Advancing
+	 * Obtención de fotografos
+	 * @throws java.text.ParseException 
+	 */
+	public ArrayList<Fotografo> getFotografos() throws SQLException, java.text.ParseException{
+		String SQL = "SELECT [01_Id_Fotografo]"
+				+ "      ,[01_Nombre]"
+				+ "      ,[11_Id_Estado]"
+				+ " 	 FROM [DBO].[01_Fotografo];";
+		ResultSet rs = Consultar(SQL);
+		
+		ArrayList<Fotografo> array = new ArrayList<Fotografo>();
+				
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			Fotografo cc = new Fotografo (rs.getInt("01_Id_Fotografo"),rs.getString("01_Nombre"), rs.getInt("11_ID_ESTADO"));
+			array.add(cc);
+		}
+		return array;
+	}
+	
+
+	/**
+	 * @author Advancing
+	 * Obtención de formas de pago
+	 * @throws java.text.ParseException 
+	 */
+	public ArrayList<Item_Pago> getItem_Pago() throws SQLException, java.text.ParseException{
+		String SQL = "SELECT [02_Id_Item_Pago]"
+				+ "      ,[02_Item_Pago]"
+				+ "      ,[11_Id_Estado]"
+				+ " 	 FROM [DBO].[02_Item_Pago];";
+		ResultSet rs = Consultar(SQL);
+
+		System.out.println(SQL);
+		
+		ArrayList<Item_Pago> array = new ArrayList<Item_Pago>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			Item_Pago cc = new Item_Pago (rs.getInt("02_Id_Item_Pago"),rs.getString("02_Item_Pago"), rs.getInt("11_ID_ESTADO"));
+			array.add(cc);
+		}
+		return array;
+	}
+	
+	/**
+	 * @author Advancing
+	 * Obtención de formas de pago
+	 * @throws java.text.ParseException 
+	 */
+	public ArrayList<Forma_Pago> getForma_Pago() throws SQLException, java.text.ParseException{
+		String SQL = "SELECT [03_Id_Forma_Pago]"
+				+ "      ,[03_Forma_Pago]"
+				+ "      ,[11_Id_Estado]"
+				+ " 	 FROM [DBO].[03_Forma_Pago];";
+		ResultSet rs = Consultar(SQL);
+		
+		ArrayList<Forma_Pago> array = new ArrayList<Forma_Pago>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			Forma_Pago cc = new Forma_Pago (rs.getInt("03_Id_Forma_Pago"),rs.getString("03_Forma_Pago"), rs.getInt("11_ID_ESTADO"));
+			array.add(cc);
+		}
+		return array;
+	}
+	
 	
 }

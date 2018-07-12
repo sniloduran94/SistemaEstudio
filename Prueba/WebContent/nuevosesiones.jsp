@@ -209,13 +209,13 @@
 							<th><h5>Fecha<br>Año/Mes/Día</h5></th>
 							<th><h5>Cliente</h5></th>
 							<th><h5>Campaña</h5></th>
-							<th><h5>Personas</h5></th>
-							<th><h5>Personas<br>Adicionales</h5></th>
-							<th><h5>Veces<br>Reagendar</h5></th>
-							<th><h5>Monto Anticipo</h5></th>
-							<th><h5>Código<br>Cupón</h5></th>
-							<th><h5>¿Validado?</h5></th>
-							<th><h5>¿Agendador?</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Personas</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Personas<br>Adicionales</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Veces<br>Reagendar</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Monto Anticipo</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Código<br>Cupón</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>¿Validado?</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>¿Agendador?</h5></th>
 							<th data-sorter="false" data-filter="false"><h5>Sesión</h5></th>
 						  </tr>
 						</thead>
@@ -230,9 +230,13 @@
 							fecha = sdf.format(res.getFecha());
 						}else{
 							fecha = "Pendiente";
+							continue;
 						}	
 						
 						int ticketid = (int)nueva.get(22);
+						if(ticketid!=0){
+							continue;
+						}
 						int reservaid = res.getId_Reserva();
 						int rut = Integer.parseInt((nueva.get(1).toString()));
 						String nombre = res.getId_Cliente()+"-"+(String) nueva.get(2)+" "+(String)nueva.get(3)+" "+(String)nueva.get(4);
