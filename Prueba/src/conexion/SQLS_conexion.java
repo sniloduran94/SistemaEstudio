@@ -1087,6 +1087,26 @@ public int EliminarEvento(int id){
 		return min;		
 	}
 	
+	public ArrayList<String> getTicketsAsignados() throws SQLException{
+		String SQL = "";
+		
+		SQL = "SELECT [15_Mail] FROM [DBO].[15_Cliente]; ";
+				
+		ResultSet rs = Consultar(SQL);
+		
+		ArrayList<String> min = new ArrayList<String>();
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}
+		while (rs.next()) {
+			
+			min.add("['"+rs.getString("15_MAIL")+"']");
+		}
+		return min;		
+	}
+	
+	
 	/**
 	 * @author Advancing
 	 * @param int Columna que entrega el nombre de una columna de la tabla reserva
@@ -1301,11 +1321,13 @@ public int EliminarEvento(int id){
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
-				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
-				+ " WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' "
+				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] "  + Excluyente
+				+ "  "
 				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;;";
 		
 		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 					
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
@@ -1453,6 +1475,8 @@ public int EliminarEvento(int id){
 				+ "ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
 		
 		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 				
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
@@ -1982,10 +2006,10 @@ public int EliminarEvento(int id){
 				+" [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND "
 				+" [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_CANAL_VENTA].[14_ID_CANAL_VENTA] AND "
 				+" [dbo].[14_CANAL_VENTA].[14_REQUIERE_CUPON] = 0 "+Excluyente
-				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
+				+ " ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] DESC;";
 						
 		ResultSet rs = Consultar(SQL);
-			
+					
 		ArrayList<ArrayList<Object>> array = new ArrayList<ArrayList<Object>>();
 		
 		if(rs==null){
@@ -2094,7 +2118,7 @@ public int EliminarEvento(int id){
 						+ "	[dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] AND"
 						+ "	[dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] AND "
 						+ "	[dbo].[14_Canal_Venta].[14_Requiere_Cupon] = 0 "
-						+ "	ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] ASC;";
+						+ "	ORDER BY [DBO].[Ultimas_Reservas].[16_FECHA] DESC;";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -4529,6 +4553,8 @@ public int ActualizarCampania(Campania camp){
 				
 		System.out.println(Insert);
 		
+		int retorno = 0;
+		
 		Statement s = null;
 		int columnasafectadas = 0;
 		try {
@@ -4540,9 +4566,12 @@ public int ActualizarCampania(Campania camp){
 				//Ingreso de boleta
 				SesionAuxiliar sesion = getSesionAuxiliar(aux.getId_Reserva_Asoc());
 				ev.setId_Auxiliar(sesion.getId_Auxiliar());
-				this.IngresarEvento(ev);			
+				retorno = this.IngresarEvento(ev);			
 								
-				return 1;
+				if(retorno==1)
+					return 1;
+				else
+					return 0;
 			}
 		} catch (SQLException e) {
 			System.out.println("ERROR! "+ e);

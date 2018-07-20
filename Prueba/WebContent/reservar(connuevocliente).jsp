@@ -134,11 +134,40 @@ input.es-input.open {
 .es-list li.selected { background: #f3f3f3; }
 .es-list li[disabled] { opacity: .5; }
 
+
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../Common/loadingGIF.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+</style>
+
 </style>
 <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
+
+
+<div id="coverScreen"  class="LockOn text-center"><h3>Cargando...</h3></div>
 <% 
 		HttpSession sesion = (HttpSession) request.getSession();
 		Trabajador usuario = null;
@@ -339,10 +368,13 @@ input.es-input.open {
 				<!-- Nav Starts -->
 				<div class="navbar-collapse  collapse">
 					<ul class="nav navbar-nav navbar-right scroll">
-						<li><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú
-						</a></li>
-						<li><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
-					</ul>
+		              	 <% if(usuario.getEsAdmin()==1){ %>
+		              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+		              	 <% }else{ %>
+		              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+		              	 <% } %>
+						 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
+		              </ul>
 				</div>
 				<!-- #Nav Ends -->
 
@@ -359,17 +391,13 @@ input.es-input.open {
 <!--FORMULARIO-->
 <br>
 <br>
-<div id="home" class="container spacer about">
+<div id="home" class="container about">
 	<h2 class="text-center">Nueva reserva</h2>
 	<form class="form-horizontal" id="Reserva"
 		action="ServletReserva?opcion=Reservar" method="post">
 		<fieldset>
 
 			<!-- Form Name -->
-
-				
-
-
 			<!-- Text input-->
 			<div class="form-group">
 				<div class="col-md-4"></div>
@@ -1356,6 +1384,14 @@ function valEmail(valor){
         document.activeElement.blur();
     }
 });
+
+$(window).on('load', function () {
+$("#coverScreen").hide();
+});
+$("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {
+$("#coverScreen").show();
+});
+</script>
 </script>
    
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>

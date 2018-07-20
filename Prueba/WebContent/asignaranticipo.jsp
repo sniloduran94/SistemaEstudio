@@ -168,8 +168,12 @@ select {
 			<!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right scroll">
-				 <li ><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú </a></li>
-				 <li ><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
+              	 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
               </ul>
             </div>
             <!-- #Nav Ends -->

@@ -147,8 +147,12 @@
             <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right scroll">
-				 <li ><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú </a></li>
-				 <li ><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
+              	 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
               </ul>
             </div>
             <!-- #Nav Ends -->
@@ -200,14 +204,14 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="17_Inicio_Vigencia">Inicio Vigencia  <i class="fa fa-calendar fa-1x"></i></label>
   <div class="col-md-4">
-  	<input class="form-control" type="text" id="datetimepicker2" name="17_Inicio_Vigencia" required/>
+  	<input class="form-control" autocomplete="off" type="text" id="datetimepicker2" name="17_Inicio_Vigencia" required/>
   </div>
 </div>
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="17_Fin_Vigencia">Fin Vigencia <i class="fa fa-calendar fa-1x"></i></label>
   <div class="col-md-4">
-  	<input class="form-control" type="text" id="datetimepicker21" name="17_Fin_Vigencia" required/>
+  	<input class="form-control" autocomplete="off" type="text" id="datetimepicker21" name="17_Fin_Vigencia" required/>
   </div>
 </div>
 

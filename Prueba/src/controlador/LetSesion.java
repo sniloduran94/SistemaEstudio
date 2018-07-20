@@ -228,6 +228,8 @@ public class LetSesion extends HttpServlet {
     	    	
     	    	int resultado = gd.IngresarSesionAuxiliar(saux, ev);
     	    	
+    	    	System.out.println("RESULTADO DE EJECUCIÓN "+resultado);
+    	    	
     	    	if((sa!=null) && (sa.isLista_Para_Entregar()==false && saux.isLista_Para_Entregar())){
     	    		JavaMail mail = new JavaMail();
     	    		
@@ -294,20 +296,7 @@ public class LetSesion extends HttpServlet {
 		    	    	String googleMap = Vend.getGoogleMap();
 		    	    	
 		    	    	String AsuntoDeCorreo = "Confirmación de retiro de fotografías";
-		    	    			/*
-		    	    	if(reserv.getVendedor().equals("Genesis")){
-		    	    		correoEnvia = "contacto@genesisestudio.cl";
-		    	    		nombreEnvia = "Genesis Estudio";
-		    	    		logoIcono = "LogoLetrasGenesis";
-		    	    		pagina = "www.GenesisEstudio.cl";
-		    	    	}
-		    	    	if(reserv.getVendedor().equals("Expressiones")){
-		    	    		correoEnvia = "contacto@fotoexpressiones.com";
-		    	    		nombreEnvia = "Foto Expressiones";
-		    	    		logoIcono = "LogoLetrasExpressiones";
-		    	    		pagina = "www.FotoExpressiones.com";
-		    	    	}*/
-		    			
+		    	    					    			
 		    			String MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
 		    					+ " Le confirmamos que las fotografías fueron retiradas por <strong>"+NombreQuienRetira
 		    					+ "</strong> el día </strong>"+fechaentrega 
@@ -319,19 +308,12 @@ public class LetSesion extends HttpServlet {
 		    			
 		    			ArrayList<ArrayList<Object>> sesiones = (ArrayList<ArrayList<Object>>)gd.getSesionesSinId();
 		    	    	request.setAttribute("sesiones", sesiones);
-		    	    	
-		    	    	if(resultado==0){
-		    	    		String mensaje = "Hubo un problema al crear la sesión, probablemente el número de ticket ya está asignado a otra Sesión/Evento";
-    						
-    						request.setAttribute("mensaje", mensaje);
-    						request.setAttribute("tipomensaje", "danger");
-		    	    	}
 		    	    			    			
 		    	    	rd = request.getRequestDispatcher("/visualizarsesiones.jsp");
     	    	}
     	    	   			
     		    ArrayList<ArrayList<Object>> reservass = null;
-    			    		  
+    			    		    
     		    if(sesion.getAttribute("15_Nombre")!=null){
     				reservass = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike("15_Nombre", (String)sesion.getAttribute("15_Nombre"), "String");	
         	    }else if(sesion.getAttribute("15_Apellido_Pat")!=null){
@@ -341,11 +323,17 @@ public class LetSesion extends HttpServlet {
         		}else if(sesion.getAttribute("24_Id_Ticket")!=null){
     				reservass = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike("24_Id_Ticket", (String)sesion.getAttribute("24_Id_Ticket"), "String");	
         		}else{
-        			reservass = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike("", "", "");	
+        			reservass = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' AND [16_Pre_Reserva] = 0 ");	
         		}
     			
     			request.setAttribute("reservas", reservass);
-    			    			    			
+    			    		
+    			if(resultado==0){
+    	    		String mensaje = "Hubo un problema al crear la sesión, probablemente el número de ticket ya está asignado a otra Sesión/Evento";
+					
+					request.setAttribute("mensaje", mensaje);
+					request.setAttribute("tipomensaje", "danger");
+    	    	}
     	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
     	    	rd.forward(request, response);
 		    }

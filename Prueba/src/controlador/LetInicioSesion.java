@@ -235,7 +235,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" ");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' AND [16_Pre_Reserva] = 0 ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");

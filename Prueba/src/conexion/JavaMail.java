@@ -23,10 +23,10 @@ import javax.mail.internet.MimeMultipart;
 public class JavaMail {  
   
 	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\Prueba";
-	String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotograficov24";
-	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotograficoKidsv24";
-	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\GenesisEstudiov24";
-	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\ElOtroEstudiov24";
+	String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotograficov31";
+	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotograficoKidsv31";
+	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\GenesisEstudiov31";
+	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\ElOtroEstudiov31";
 	//Remitentes si la reserva es del día de hoy
 	
 	//Prueba

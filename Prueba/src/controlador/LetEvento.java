@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +15,12 @@ import javax.print.DocPrintJob;
 import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import javax.print.ServiceUI;
 import javax.print.SimpleDoc;
+import javax.print.attribute.HashDocAttributeSet;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.event.PrintJobListener;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -186,10 +192,7 @@ public class LetEvento extends HttpServlet {
     		    			
 		    	Impresora tiquete=new Impresora();  
 
-				tiquete.setDispositivo("USB001");
-				
-				Impresora2 impre = new Impresora2();		
-				impre.Imprimir();
+				tiquete.setDispositivo("USB001");			
 				
 				tiquete.escribir(vend.getVendedor());
 				tiquete.escribir(vend.getDireccion());

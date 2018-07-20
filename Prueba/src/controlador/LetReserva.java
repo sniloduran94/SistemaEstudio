@@ -1295,7 +1295,7 @@ public class LetReserva extends HttpServlet {
     				sesion.setAttribute("15_Apellido_Pat", request.getParameter("15_Apellido_Pat"));
     			}
     			
-    			String CondicionDeBusqueda = " [16_Pre_Reserva] = 0 ";
+    			String CondicionDeBusqueda = " [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' AND [16_Pre_Reserva] = 0 ";
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				String Fecha12 = null;
@@ -1321,19 +1321,19 @@ public class LetReserva extends HttpServlet {
 					CondicionDeBusqueda += " ";
 				}
 				
-				if(!Nombre.equals("")){
+				if(Nombre != null && !Nombre.equals("")){
 					CondicionDeBusqueda += (and)?" AND ":"";
 					CondicionDeBusqueda += " [15_Nombre] LIKE '%"+Nombre+"%' ";
 					and = true;
 				}
 				
-				if(!Apellido.equals("")){
+				if(Apellido != null && !Apellido.equals("")){
 					CondicionDeBusqueda += (and)?" AND ":"";
 					CondicionDeBusqueda += " [15_Apellido_Pat] LIKE '%"+Apellido+"%' OR [15_Apellido_Mat] LIKE '%"+Apellido+"%' ";
 					and = true;
 				}
     	    	
-    			if(!Ticket.equals("")){
+    			if(Ticket != null && !Ticket.equals("")){
     	  			    				
     				if(Ticket.equals("0") || Ticket.equals("N/A")){
     					Ticket = "-1";
@@ -1772,6 +1772,7 @@ public class LetReserva extends HttpServlet {
 				/*if(!CondicionDeBusqueda.isEmpty()){
 					CondicionDeBusqueda = "AND "+CondicionDeBusqueda;
 				}*/
+				
   			    			
   	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(CondicionDeBusqueda);	
   			request.setAttribute("reservas", reservas);

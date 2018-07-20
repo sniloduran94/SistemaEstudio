@@ -79,6 +79,13 @@ select {
 .input-wide {
 	width: 500px;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 </style>
 
 <!-- Google fonts -->
@@ -177,7 +184,7 @@ select {
 
 				<!-- Nav Starts -->
 				<div class="navbar-collapse  collapse">
-					 <ul class="nav navbar-nav navbar-right scroll">
+					<ul class="nav navbar-nav navbar-right scroll">
               	 <% if(usuario.getEsAdmin()==1){ %>
               	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
               	 <% }else{ %>

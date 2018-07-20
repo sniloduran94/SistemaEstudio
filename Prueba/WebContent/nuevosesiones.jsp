@@ -78,6 +78,29 @@
   text-overflow: ellipsis;
   min-width: 10px;
 }
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../Common/loadingGIF.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
 </style>
 
 </head>
@@ -141,8 +164,10 @@
 
 <body>
 
+<div id="coverScreen"  class="LockOn text-center"><h3>Cargando...</h3></div>
 
 <div class="container spacer">
+
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
 		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
 		<!-- Mensaje-->
@@ -166,19 +191,7 @@
 		</div>
   </div>
   <div class="row">
-  	<div class="col-lg-6 col-md-6">
-		<form action="ServletReserva?opcion=FiltroSesiones" method="post">
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
-		  <div class="col-md-8">
-		  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
-		  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
-		  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-		  </div>
-		</div>
-		</form>
-	</div>
-	<div class="col-lg-6 col-md-6">
+	<div class="col-lg-12 col-md-12">
 		<br>
 				<a href="ServletLogin?opcion=MirarCalendario" method="post">
 				<button type="submit" class="btn btn-success btn-block" name="Calendario" title="Mirar en un calendario todas las reservas" value="Calendario" >
@@ -187,7 +200,6 @@
          </a>
 		 <br>
 		 <button type="button"  class="reset btn btn-success btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros </button>
-			
 	</div>
   </div>
 	
@@ -230,7 +242,7 @@
 							fecha = sdf.format(res.getFecha());
 						}else{
 							fecha = "Pendiente";
-							continue;
+							continue; //CONTINUA EN ESTE CASO DE NO TENER FECHA
 						}	
 						
 						int ticketid = (int)nueva.get(22);
@@ -542,6 +554,12 @@ $(function(){
      
 
 });	
+$(window).on('load', function () {
+$("#coverScreen").hide();
+});
+$("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {
+$("#coverScreen").show();
+});
 </script>
 
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>

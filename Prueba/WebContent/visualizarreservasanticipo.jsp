@@ -171,18 +171,6 @@
 	  } %>
   <h2>Asignar montos de anticipo</h2>
   <div class="row">
-  	<div class="col-lg-6 col-md-6">
-  	<form action="ServletReserva?opcion=FiltroFechasAnticipo" method="post">
-	<div class="form-group ">
-	  <label class="col-md-4 control-label" for="rango">Buscar en rango de fechas <i class="fa fa-calendar fa-1x"></i></label>
-	  <div class="col-md-8">
-	  	<input class="form-control" type="text" id="datetimepicker2" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
-	  	<input class="form-control" type="text" id="datetimepicker21" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
-	  	<button type="submit" id="adelanto" name="boton" onClick="MayorOIgual()" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
-	</div>
-	</form>
-	</div>
 	<div class="col-lg-6 col-md-6">
 			<a href="ServletLogin?opcion=MirarCalendario" method="post">
 				<button type="submit" class="btn btn-success btn-sm btn-block" name="Calendario" title="Mirar en un calendario todas las reservas" value="Calendario" >

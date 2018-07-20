@@ -52,6 +52,64 @@
     }
 </style>
 
+
+<link rel="stylesheet" href="assets/tablesorter/css/theme.blue.css" type="text/css" />
+<link rel="stylesheet" href="assets/tablesorter/addons/pager/jquery.tablesorter.pager.css">
+
+<style>
+    .tablesorter thead .disabled {
+        display:none !important;
+    }
+    th.tablesorter-header.resizable-false {
+  background-color: #e6bf99;
+}
+
+.wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 450px;
+}
+.wrapper table {
+  width: auto;
+  table-layout: fixed;
+}
+.wrapper .tablesorter td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 10px;
+}
+.wrapper .tablesorter th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 10px;
+}
+
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../Common/loadingGIF.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+</style>
+
 </head>
 
 	<% 
@@ -112,6 +170,7 @@
 
 <body>
 
+<div id="coverScreen"  class="LockOn text-center"><h3>Cargando...</h3></div>
 
 <div class="container spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
@@ -130,46 +189,18 @@
   <%	} 
 	  } %>
   		<div><h2>Campañas</h2></div>
-  		
-		<form action="ServletCampania?opcion=FiltroCampania" method="post">
-			<div class="form-group">
-			  <label class="col-md-2 control-label" for="rango">Buscar por nombre de campaña <i class="fa fa-user fa-1x"></i></label>
-			  <div class="col-md-4">
-			  	<input class="form-control" type="text" id="17_Nombre" autocomplete="off" placeholder="Maternal" name="17_Nombre"/><br>
-			  	</div>
-			</div>
-			<div class="form-group">
-			  <label class="col-md-2 control-label" for="rango">Buscar por canal de venta<i class="fa fa-user fa-1x"></i></label>
-			  <div class="col-md-4">
-			  	<select class="form-control"  name="14_Id_Canal_Venta" id="14_Id_Canal_Venta">
-					<option value="0"></option>
-					<%
-							Iterator<Canal_Venta> it = canalesventas.iterator();
-							while(it.hasNext())
-							{
-								Canal_Venta c = (Canal_Venta)it.next();
-					%>
-							<option value="<%=c.getId_Canal_Venta()%>"><%=c.getCanal()%></option>
-					<% 		}     %>
-				</select>	
-				<br>
-				</div>
-			</div>
-			<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-			</form>
-			<br>
-		<div class="col-lg-6">
-  		<form action="ServletLogin?opcion=GenerarNuevoCampania" method="post">	 
+  		<div class = "col-md-6">
+				 <form action="ServletLogin?opcion=GenerarNuevoCampania" method="post">	 
 				<div class="btn-group  btn-group-lg">
 					<button type="submit" class="btn btn-success" name="NuevoCampania" value="Nuevo" title="Crear nueva campaña">
                 		<i class="fa fa-plus-square fa-1x"></i> <i class="fa fa-camera fa-2x"></i>
             		</button>
 				</div>
 		</form>	
-		<div class="col-lg-6">
-				<button type="button"  class="reset btn btn-success btn-sm btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros </button>
-		</div>
-		</div>
+          </div>
+		  <div class="col-md-6">
+		  			<button type="button"  class="reset btn btn-success btn-sm btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros </button>					
+          </div>
    <%
 				//Obtención de reservas para tabla de visualizacion de reservas 
 				ArrayList<ArrayList<Object>> campanias = (ArrayList<ArrayList<Object>>)(request.getAttribute("campanias"));
@@ -351,7 +382,12 @@ $(function(){
     //.tablesorterPager(pagerOptions);
 
 });
-
+$(window).on('load', function () {
+$("#coverScreen").hide();
+});
+$("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {
+$("#coverScreen").show();
+});
 	
 </script>
 

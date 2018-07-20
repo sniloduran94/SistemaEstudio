@@ -215,14 +215,14 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="17_Inicio_Vigencia">Inicio Vigencia  <i class="fa fa-calendar fa-1x"></i></label>
   <div class="col-md-4">
-  	<input class="form-control" type="text" id="datetimepicker2" value="<%=fecha%>" name="17_Inicio_Vigencia" />
+  	<input class="form-control" autocomplete="off" type="text" id="datetimepicker2" value="<%=fecha%>" name="17_Inicio_Vigencia" />
   </div>
 </div>
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="17_Fin_Vigencia">Fin Vigencia <i class="fa fa-calendar fa-1x"></i></label>
   <div class="col-md-4">
-  	<input class="form-control" type="text" id="datetimepicker21" value="<%=fecha2%>" name="17_Fin_Vigencia" />
+  	<input class="form-control" autocomplete="off" type="text" id="datetimepicker21" value="<%=fecha2%>" name="17_Fin_Vigencia" />
   </div>
 </div>
 

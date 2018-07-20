@@ -41,6 +41,65 @@
 
 <link rel="stylesheet" href="assets/style.css">
 
+
+<link rel="stylesheet" href="assets/tablesorter/css/theme.blue.css" type="text/css" />
+
+<link rel="stylesheet" href="assets/tablesorter/addons/pager/jquery.tablesorter.pager.css">
+
+<style>
+    .tablesorter thead .disabled {
+        display:none !important;
+    }
+    th.tablesorter-header.resizable-false {
+  background-color: #e6bf99;
+}
+
+.wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 450px;
+}
+.wrapper table {
+  width: auto;
+  table-layout: fixed;
+}
+.wrapper .tablesorter td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 10px;
+}
+.wrapper .tablesorter th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 10px;
+}
+
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../Common/loadingGIF.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+</style>
+
 </head>
 
 	<% 
@@ -98,6 +157,7 @@
 
 <body>
 
+<div id="coverScreen"  class="LockOn text-center"><h3>Cargando...</h3></div>
 
 <div class="container spacer">
   <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
@@ -116,25 +176,6 @@
   <%	} 
 	  } %>
   <h2>Validar reservas</h2>
-  	<form action="ServletReserva?opcion=FiltroClienteValidar" method="post">
-	<div class="form-group">
-	  <label class="col-md-2 control-label" for="rango">Buscar por nombre de cliente <i class="fa fa-user fa-1x"></i></label>
-	  <div class="col-md-4">
-	  	<input class="form-control" type="text" id="15_Nombre" autocomplete="off" placeholder="Luis" name="15_Nombre"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
-	</div>
-	</form>
-	<br><br><br><br><br><br>
-	<form action="ServletReserva?opcion=FiltroClienteValidar" method="post">
-	<div class="form-group ">
-	  <label class="col-md-2 control-label" for="rango">Buscar por apellido de cliente <i class="fa fa-user fa-1x"></i></label>
-	  <div class="col-md-4">
-	  	<input class="form-control" type="text" id="15_Apellido_Pat" autocomplete="off" placeholder="Luis" name="15_Apellido_Pat"/><br>
-	  	<button type="submit" id="adelanto" name="boton" class="btn btn-success btn-sm btn-block"><i class="fa fa-calendar fa-1x"></i> Buscar <i class="fa fa-search fa-1x"></i></button>
-	  </div>
-	</div>
-	</form>
 	<%
 				//Obtención de reservas para tabla de visualizacion de reservas 
 				ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)(request.getAttribute("reservas"));
@@ -145,7 +186,7 @@
 					<table class="table table-hover">
 					    <thead>
 						  <tr style="font-size:13px;">
-						  	<th><h5></h5></th>
+						  	<th data-sorter="false" data-filter="false"><h5></h5></th>
 							<th><h5>ID<br>Reserva</h5></th>
 							<th><h5>Fecha</h5></th>
 							<th><h5>RUT<br>Cliente</h5></th>
@@ -153,7 +194,7 @@
 							<th><h5>Campaña</h5></th>
 							<th><h5>Código<br>Cupón</h5></th>
 							<th><h5>¿Validado?</h5></th>
-							<th><h5>Validar</h5></th>
+							<th data-sorter="false" data-filter="false"><h5>Validar</h5></th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -245,6 +286,82 @@
 
 <!-- custom script -->
 <script src="assets/script.js"></script>
+
+<script type="text/javascript" src="assets/tablesorter/js/jquery.tablesorter.combined.js"></script> 
+
+<script src="assets/tablesorter/js/jquery.tablesorter.js"></script>
+<script src="assets/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+<script src="assets/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+<script id="js">
+$(function(){
+
+  var $table = $('table'),
+  // define pager options
+  pagerOptions = {
+   
+  	
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+    // output string - default is '{page}/{totalPages}';
+    // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+    // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
+    // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+    // go to page selector - select dropdown that sets the current page
+    cssGoto: '.gotoPage',
+        
+  };
+  
+  // Initialize tablesorter
+  // ***********************
+  $table
+    .tablesorter({
+      theme: 'blue',
+      headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+      widthFixed: true,
+      widgets: ['zebra', 'filter','resizable'],
+      widgetOptions : {
+			filter_columnFilters: true,
+			filter_placeholder: { search : 'Buscar...' },
+			filter_saveFilters : false,
+			filter_reset: '.reset',
+		    resizable_addLastColumn : true,
+      		resizable_widths : [ '100px', '60px', '30px', '50px', '60px', '140px' ]
+    }
+      
+    })/*.bind('filterInit', function(){
+        $table.find('.tablesorter-filter').hide().each(function(){
+            var w, $t = $(this);
+            w = $t.closest('td').innerWidth();
+            $t
+                .show()
+                .css({
+                    'min-width': w,
+                    width: w // 'auto' makes it wide again
+                });
+        });
+    })*/
+    
+
+    // initialize the pager plugin
+    // ****************************
+    //.tablesorterPager(pagerOptions);
+     
+
+});	
+$(window).on('load', function () {
+$("#coverScreen").hide();
+});
+$("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {
+$("#coverScreen").show();
+});
+</script>
 
 <script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
 
