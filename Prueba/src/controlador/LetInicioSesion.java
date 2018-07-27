@@ -205,7 +205,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("", "", "");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 	    	request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/visualizarreservasswitch.jsp");
@@ -235,7 +235,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' AND [16_Pre_Reserva] = 0 ");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
@@ -276,7 +276,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Recordatorio: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("", "", "");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/visualizarreservasrecordatorio.jsp");
@@ -302,7 +302,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("", "", "");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/visualizarreservasc.jsp");
@@ -315,7 +315,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Anticipo: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdAnticipo("", "", "");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [dbo].[14_Canal_Venta].[14_Requiere_Cupon] = 0 AND [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/visualizarreservasanticipo.jsp");
@@ -920,7 +920,7 @@ public class LetInicioSesion extends HttpServlet {
 	    	//request.setAttribute("usuario", usuario);
 			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
 	    	
-	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("", "", "");	
+	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId(" WHERE [dbo].[14_Canal_Venta].[14_Requiere_Cupon] = 1 AND [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' ");	
 			request.setAttribute("reservas", reservas);
 			
 	    	rd = request.getRequestDispatcher("/validarreservas.jsp");

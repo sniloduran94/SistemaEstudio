@@ -256,13 +256,6 @@ ul.nav a:hover { color: white !important; background: #41cc00 !important; }
 	.footerarriba{margin-top: 1em;padding-bottom:1em;}
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
 .LockOn {
     display: block;
     visibility: visible;
@@ -281,8 +274,8 @@ input::-webkit-inner-spin-button {
     color:blue;
     font-style:italic;
     font-weight:400;
-    background-image: url("../Common/loadingGIF.gif");
+    background-image: url("../images/loadingGIF.gif");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center;
+    background-position: center bottom;
 }

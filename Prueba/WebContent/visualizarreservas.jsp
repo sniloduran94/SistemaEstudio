@@ -216,7 +216,7 @@
 							<% if(usuario.getEsAdmin()==1){ %>
 									<th class="reserva"><h5>Código<br>Cupón</h5></th>
 									<th class="reserva"><h5>¿Pre<br>Reserva?</h5></th>
-									<th ><h5>Modificar/Eliminar</h5></th>
+									<th data-sorter="false" data-filter="false"><h5>Modificar/Eliminar</h5></th>
 							<% }else{ %>
 									<th class="campania"><h5>Precio</h5></th>
 									<th class="campania"><h5>Máx.<br>Pers.*</h5></th>
@@ -224,7 +224,7 @@
 									<th class="campania"><h5>Cant<br>Fotos</h5></th>
 									<th class="campania"><h5>Precio<br>Persona<br>Adicional</h5></th>
 									<th class="campania"><h5>Precio<br>por<br>Reagendar</h5></th>
-									<th ><h5>Cambiar vista<br>Campaña/Reserva</h5></th>
+									<th data-sorter="false" data-filter="false"><h5>Cambiar vista<br>Campaña/Reserva</h5></th>
 							<% } %>
 						  </tr>
 						</thead>
@@ -646,6 +646,8 @@ $(function(){
      
 
 });	
+
+CambiarConfiguracionReserva();
 $(window).on('load', function () {
 $("#coverScreen").hide();
 });

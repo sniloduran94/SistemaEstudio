@@ -81,29 +81,7 @@
   min-width: 10px;
 }
 
-.LockOn {
-    display: block;
-    visibility: visible;
-    position: absolute;
-    z-index: 999;
-    top: 0px;
-    left: 0px;
-    width: 105%;
-    height: 105%;
-    background-color:white;
-    vertical-align:bottom;
-    padding-top: 20%; 
-    filter: alpha(opacity=75); 
-    opacity: 0.75; 
-    font-size:large;
-    color:blue;
-    font-style:italic;
-    font-weight:400;
-    background-image: url("../Common/loadingGIF.gif");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
+
 </style>
 
 
@@ -475,20 +453,6 @@ $('#datetimepicker9').datetimepicker({
 $('#datetimepicker_dark').datetimepicker({theme:'dark'})
 </script>
 <script>
-	document.getElementById("adelanto").onclick = MayorOIgual;
-	function MayorOIgual(){ 
-	   	var clave1 = document.getElementById("datetimepicker2").value;
-	    var	clave2 = document.getElementById("datetimepicker21").value;
-	   	if((clave2!=="")&&(clave1!=="")){
-		   	if ( Date.parse(clave1) >=  Date.parse(clave2)){
-			 document.getElementById("datetimepicker21").value = "";
-		      alert("La segunda fecha puede estar en blanco, o ser mayor que la primera fecha");
-		      returnToPreviousPage();
-			} 
-		}
-	} 
-</script>
-<script>
 	$(document).ready(function() {
     var masked = $('.campania');
 		$.each(masked, function() {
@@ -613,8 +577,8 @@ $(function(){
      
 
 });	
-$(window).on('load', function () {
 CambiarConfiguracionReserva();
+$(window).on('load', function () {
 $("#coverScreen").hide();
 });
 $("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {

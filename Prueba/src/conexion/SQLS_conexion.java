@@ -1222,7 +1222,7 @@ public int EliminarEvento(int id){
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
 				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] " + Excluyente
-				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;";
+				+ " ORDER BY  (CASE WHEN [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' THEN 1 ELSE 0 END) DESC, (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;";
 				
 		ResultSet rs = Consultar(SQL); 
 		 
@@ -1313,9 +1313,10 @@ public int EliminarEvento(int id){
 		
 		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
 				+ " FROM [DBO].[Ultimas_Reservas] "
-				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] "
 				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
-				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]"
+				+ "  INNER JOIN [DBO].[14_Canal_Venta] ON [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] = [dbo].[17_Campania].[14_Id_Canal_Venta] "
+				+ " INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador] "
 				+ " INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]  "
 				+ " LEFT OUTER JOIN ("
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
@@ -1323,7 +1324,7 @@ public int EliminarEvento(int id){
 				+ " WHERE [39_Evento].[39_Estado] != 0"
 				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] "  + Excluyente
 				+ "  "
-				+ " ORDER BY (CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;;";
+				+ " ORDER BY (CASE WHEN [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' THEN 1 ELSE 0 END) DESC,(CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;;";
 		
 		ResultSet rs = Consultar(SQL);
 		
@@ -4343,7 +4344,7 @@ public int ActualizarCampania(Campania camp){
 	 */
 	public ArrayList<ArrayList<Object>> getTrabajadoresSinId(String Columna, String Valor, String Tipo) throws SQLException{
 		String SQL = "";
-		if((!Columna.equals("")) && (!Valor.equals("")) && (!Tipo.equals(""))){
+		if((!Columna.equals("")) && (!Valor.equals("")) && (!Tipo.equals(""))){ 
 			SQL = "SELECT [04_Id_Trabajador]"
 					+ "      ,[04_Rut]"
 					+ "      ,[04_Nombre]"
