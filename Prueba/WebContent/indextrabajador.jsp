@@ -143,6 +143,34 @@
 		</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal" id="FechasInformeSesiones"> <!-- Mision-->
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<br>				
+				<h4 class="modal-title bounceInUp">Informe reservas y sesiones</h4>
+			</div>
+			<div class="modal-body bounceInUp">
+			
+				<!-- Foto de la promocion con su informacion -->
+				Ingrese las fechas para emitir reporte:
+				<br><br> Fecha inicio informe:
+					<input class="form-control" type="text" id="datetimepicker4" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
+	  			<br> Fecha fin informe:
+	  				<input class="form-control" type="text" id="datetimepicker41" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
+	 				
+	 			<a href='' onclick="this.href='ServletLogin?opcion=GenerarXLSSesiones&Inicio='+document.getElementById('datetimepicker4').value+'&Fin='+document.getElementById('datetimepicker41').value">
+	 					<button type="button" class="btn btn-default btn3d" >Imprimir</button>
+	 			</a>
+			</div>
+				<div class="modal-footer bounceInUp">
+					<button type="button" class="btn btn-default btn3d" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="topbar animated fadeInLeftBig"></div>
  
 <!-- Header Starts -->
@@ -599,7 +627,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="ServletLogin?opcion=GenerarXLSSesiones" method="post">
+                        <a href="#FechasInformeSesiones" data-toggle="modal">
                             <div class="panel-footer">
                                 <span class="pull-left">¡Exportar reservas y sesiones!</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -995,52 +1023,6 @@
                 </div>
                 
 	</div>
-	<h3 class="text-center  ">Administración Otros</h3>
-	<p class="text-center  ">Selecciona una acción</p>
-	<div class="row">
-				<div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-user-plus fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div>Generar un<br>nuevo fotógrafo</div><br>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="ServletLogin?opcion=GenerarNuevoFotografo" method="post">
-                            <div class="panel-footer" style="background-color:green;">
-                                <span class="pull-left" style="color:white;">¡Generar!</span>
-                                <span class="pull-right" style="color:white;"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-				<div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="background-color:#0059b3; border-color:#003300;">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-users fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div>Administrar<br>fotógrafos</div><br>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="ServletLogin?opcion=VisualizarTrabajador" method="post">
-                            <div class="panel-footer">
-                                <span class="pull-left">¡Administrar!</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-	   </div>
 </div>
 		<%  }
         	
@@ -1164,6 +1146,32 @@ $('#datetimepicker3').datetimepicker({
 	scrollTime: false
 });
 $('#datetimepicker31').datetimepicker({
+	yearOffset:0,
+	lang:'sp',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false,
+	scrollMonth: false,
+	scrollTime: false
+});
+$('#datetimepicker4').datetimepicker({
+	yearOffset:0,
+	lang:'sp',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false,
+	scrollMonth: false,
+	scrollTime: false
+});
+$('#datetimepicker41').datetimepicker({
 	yearOffset:0,
 	lang:'sp',
 	timepicker:false,

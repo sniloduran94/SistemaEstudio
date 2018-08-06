@@ -21,6 +21,10 @@
     <servlet-class>controlador.DownloadFileServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>DownloadFileServlet2</servlet-name>
+    <servlet-class>controlador.DownloadFileServlet2</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>LetCampania</servlet-name>
     <servlet-class>controlador.LetCampania</servlet-class>
   </servlet>
@@ -67,6 +71,10 @@
   <servlet-mapping>
     <servlet-name>LetCliente</servlet-name>
     <url-pattern>/ServletCliente</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>DownloadFileServlet2</servlet-name>
+    <url-pattern>/DownloadFileServlet2</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DownloadFileServlet</servlet-name>

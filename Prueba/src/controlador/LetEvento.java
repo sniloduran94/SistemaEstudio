@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.event.PrintJobListener;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +36,9 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import conexion.Impresora;
 import conexion.Impresora2;
 import conexion.SQLS_conexion;
+import conexion.Text2PDF;
+import conexion.UserHomeApplet;
+import conexion.WriteExcel;
 import modelo.Campania;
 import modelo.Canal_Venta;
 import modelo.Evento;
@@ -192,7 +197,7 @@ public class LetEvento extends HttpServlet {
     		    			
 		    	Impresora tiquete=new Impresora();  
 
-				tiquete.setDispositivo("USB001");			
+				tiquete.setDispositivo("ticket.txt");			
 				
 				tiquete.escribir(vend.getVendedor());
 				tiquete.escribir(vend.getDireccion());
@@ -207,7 +212,7 @@ public class LetEvento extends HttpServlet {
 				tiquete.escribir("Tipo sesión    : "+ev.get(8));
 				tiquete.escribir("________________________________________");
 				tiquete.escribir("        DETALLE SESIÓN COMPRADA         "); 
-				tiquete.escribir("TAMAÑO    DETALLE ARTÍCULO      CANTIDAD"); 
+				tiquete.escribir("CANTIDAD    DETALLE ARTÍCULO      TAMAÑO"); 
 				tiquete.escribir("            CD con fotos               1");
 				tiquete.escribir("10x15cm     Fotografía 10x15           "+ev.get(10));  
 				tiquete.escribir("15x21cm     Fotografía 15x21           "+ev.get(11));   
@@ -247,23 +252,107 @@ public class LetEvento extends HttpServlet {
 				tiquete.escribir("http://www.fotoexpressiones.com/selecciondefotos.html");
 				tiquete.escribir("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"");
 				//Esto es para escribir una linea divisoria
-				tiquete.dividir();
-
-				//esto cambia el formato de acuerdo a las especificaciones de epson
-
-				tiquete.setFormato(1);
-				tiquete.escribir("    Mas texto con letra mas grande      ");
-				tiquete.setFormato(1);
-
-				tiquete.escribir("texto con letra normal");
-				tiquete.dividir();
 
 				//tiquete.setRojo();
 				//tiquete.setNegro();
 
 				//tiquete.correr(10);//Esto baja 10 lineas en blanco
-				tiquete.cortar();//Esto corta el papel de la impresora
+				//tiquete.cortar();//Esto corta el papel de la impresora
 				tiquete.cerrarDispositivo();//Cierra el dispositivo y aplica el texto
+				
+				Text2PDF.GenerarPDF();
+				
+				//Mandar PDF
+				try{
+					String home = System.getProperty("user.home");
+					String dir = System.getProperty("user.dir");
+				
+					UserHomeApplet dirUsu = new UserHomeApplet(); // System.out.println("Prop "+dirUsu.getUserHome());
+					   							
+					String fmt = home+"/Downloads/ticket.pdf";
+					File f = null;
+					for (int i = 1; i < 100; i++) {
+					    f = new File(String.format(fmt, i));
+					    if (!f.exists()) {
+					        break;
+					    }
+					}
+					try {
+					    System.out.println(f.getCanonicalPath());
+					} catch (IOException e) {
+					    e.printStackTrace();
+					}	
+					
+					rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=ticket.pdf"); 
+					
+					response.setContentType("application/pdf");			
+					response.setHeader("Content-Disposition", "attachment; filename=\"ticket.pdf\"");
+						
+					rd.include(request, response); 
+					
+					String filePath = home + "/Downloads";
+			        String fileName = "ticket.pdf";
+			        
+			        File downloadFile = new File(filePath, fileName);
+			        if(!downloadFile.exists()){
+			        	
+			        	return ;
+			        }
+			               
+			        FileInputStream inStream = new FileInputStream(downloadFile);
+			         
+			        // if you want to use a relative path to context root:
+			        String relativePath = getServletContext().getRealPath("");
+			        System.out.println("relativePath = " + relativePath);
+			         
+			        // obtains ServletContext
+			        ServletContext context = getServletContext();
+			         
+			        // gets MIME type of the file
+			        String mimeType = context.getMimeType(filePath);
+			        if (mimeType == null) {        
+			            // set to binary type if MIME mapping not found
+			            mimeType = "application/pdf";
+			        }
+			        System.out.println("MIME type: " + mimeType);
+			         
+			        // modifies response
+				    response.setContentType(mimeType);
+				    response.setContentLength((int) downloadFile.length());
+				      
+				       // forces download
+			       String headerKey = "Content-Disposition";
+			       String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+				        
+			        response.setContentType("application/pdf");
+			        response.setHeader(headerKey, headerValue);
+			                 
+			        // obtains response's output stream
+			        OutputStream outStream = response.getOutputStream();
+			         
+			        byte[] buffer = new byte[4096];
+			        int bytesRead = -1;
+			         
+			        while ((bytesRead = inStream.read(buffer)) != -1) {
+			            outStream.write(buffer, 0, bytesRead);
+			        }
+			         
+			        inStream.close();
+			        outStream.close(); 
+			        rd.forward(request, response);
+						
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+					String mensaje = "<strong>¡Se produjo un error!</strong><br><br>"
+							+ "Descripción: "+e.getMessage();
+					
+					request.setAttribute("mensaje", mensaje);
+					request.setAttribute("tipomensaje", "danger");
+
+					rd.forward(request, response);
+				}
+				
+				
 				
 				ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
 				request.setAttribute("eventos", eventos2);
@@ -381,10 +470,10 @@ public class LetEvento extends HttpServlet {
 	
 	public void InvalidarFiltros() throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//super.doGet(req, resp);
+		//super.doGet(req, resp); 
 
-		sesion.setAttribute("15_Nombre", null);
-    	sesion.setAttribute("15_Apellido_Pat", null);
+		sesion.setAttribute("15_Nombre", null); 
+    	sesion.setAttribute("15_Apellido_Pat", null);  
     	sesion.setAttribute("16_Fecha1", null);
     	sesion.setAttribute("16_Fecha2", null);
     	sesion.setAttribute("24_Id_Ticket", null);

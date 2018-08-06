@@ -23,16 +23,26 @@ public class Impresora {
 		if (texto.trim().length() <= 0) {// Si el dispositivo viene en blanco el
 											// sistema tratara de definirlo
 			if (dispositivo.trim().length() <= 0) {
-				dispositivo = "LPT1"; // para imprimir en windows
+				dispositivo = "LTP1"; // para imprimir en windows
 			}
 		}
 		try {
-			fw = new FileWriter(this.dispositivo.trim());
+			String home = System.getProperty("user.home");
+			String dir = System.getProperty("user.dir");
+			
+			System.out.println("C:/Users/" + System.getProperty("user.name") + "/Downloads/");
+			
+			UserHomeApplet dirUsu = new UserHomeApplet();
+			System.out.println("Prop "+dirUsu.getUserHome());
+							
+			String fmt = home+"/Downloads/";
+			
+			fw = new FileWriter(new File(fmt, this.dispositivo.trim()));
 			bw = new BufferedWriter(fw);
 			pw = new PrintWriter(bw);  
 			
-			System.out.println(dispositivo); 
-			System.out.println(fw.toString());
+			//System.out.println("El nuevo dispositivo es: "+dispositivo); 
+			//System.out.println("El nuevo dispositivo2 es: "+fw.toString());
 		} catch (Exception e) {
 			System.out.print(e);
 		}
@@ -143,8 +153,7 @@ public class Impresora {
 				java.io.File archivo = new java.io.File("pantalla.txt");
 				
 				System.out.println(archivo.getAbsolutePath());  
-				System.out.println("Ejaleeeeee");  
-				java.awt.Desktop.getDesktop().open(archivo);
+				//java.awt.Desktop.getDesktop().open(archivo);
 			}
 		} catch (Exception e) {
 			System.out.print(e);

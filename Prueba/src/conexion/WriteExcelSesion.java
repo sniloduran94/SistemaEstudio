@@ -116,6 +116,7 @@ public class WriteExcelSesion {
     addCaption(sheet, col++, 1, "Descuentos");
     addCaption(sheet, col++, 1, "Persona adicional");
     addCaption(sheet, col++, 1, "Recargo por reagendar");
+    addCaption(sheet, col++, 1, "Convertida");
     addCaption(sheet, col++, 1, "Monto extra");
     addCaption(sheet, col++, 1, "Fotógrafo");
     addCaption(sheet, col++, 1, "Fotos Seleccionadas");
@@ -130,7 +131,6 @@ public class WriteExcelSesion {
     addCaption(sheet, col++, 1, "Dif. 30x40");
     addCaption(sheet, col++, 1, "Campaña original");
     addCaption(sheet, col++, 1, "Campaña convertida");
-    addCaption(sheet, col++, 1, "Diferencia");
     
   }
 
@@ -189,6 +189,8 @@ public class WriteExcelSesion {
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(21))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(22))));
     addNumber(sheet, col++, i, ((arreglo.get(i-2).get(23))));
+
+    addNumber(sheet, col++, i, ((arreglo.get(i-2).get(38)))); 
     addNumber(sheet, col++, i, (arreglo.get(i-2).get(24)));
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(25)));  
     addCaption(sheet, col++, i, (arreglo.get(i-2).get(26)));
@@ -204,7 +206,6 @@ public class WriteExcelSesion {
 
     addCaption(sheet, col++, i, ((arreglo.get(i-2).get(37))));
     addCaption(sheet, col++, i, ((arreglo.get(i-2).get(36))));
-    addCaption(sheet, col++, i, ((arreglo.get(i-2).get(38))));
 	}
 }
 

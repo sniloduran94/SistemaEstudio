@@ -395,22 +395,7 @@ input::-webkit-inner-spin-button {
 					<% 
 				}
 			 %>
-			
-			
-			
-			
-			<!-- CheckBox input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="35_Asistio">¿Asistió?</label>  
-			  <div class="col-md-8">
-			  	<% if(sa!=null && (sa.isAsistio())){ %>
-			  		<input id="35_Asistio" name="35_Asistio" type="checkbox" checked onChange="ObtenerFechaSesion();DesactivarActivar();"> Sí / No
-			  	<% }else{ %>
-			  		<input id="35_Asistio" name="35_Asistio" type="checkbox" onChange="ObtenerFechaSesion();DesactivarActivar();"> Sí / No
-			  	<% } %>
-			  </div>
-			</div>
-			
+						
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="35_Fecha_Entrega">Fecha de sesión<br>(Año / Mes / Día)</label>
 				<div class="col-md-8">
@@ -575,7 +560,7 @@ input::-webkit-inner-spin-button {
 			
 			<!-- Text input-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="35_Descuento">Descuento&nbsp; <i
+				<label class="col-md-4 control-label" for="35_Descuento">Descuento&nbsp;(Siempre valor positivo) <i
 			class="fa fa-tag fa-1x"></i></label>
 				<div class="col-md-8">
 					<% if(sa!=null && sa.getDescuento()!=-1){ %>
@@ -595,10 +580,10 @@ input::-webkit-inner-spin-button {
 				<div class="col-md-8">
 					<% if(sa!=null && sa.getPersona_Adicional()>=0){ %>
 						<input id="35_Persona_Adicional" name="35_Persona_Adicional"
-							type="number" value="<%=sa.getPersona_Adicional()%>" class="form-control input-md" onKeyUp="CalcularAdicional();sumarExtras()">
+							type="number" min="0" value="<%=sa.getPersona_Adicional()%>" class="form-control input-md" onKeyUp="CalcularAdicional();sumarExtras()">
 					<% }else{ %>
 						<input id="35_Persona_Adicional" name="35_Persona_Adicional"
-							type="number" value="<%=res.getCantidad_Adicionales()%>" class="form-control input-md" onKeyUp="CalcularAdicional();sumarExtras();">
+							type="number" min="0" value="<%=res.getCantidad_Adicionales()%>" class="form-control input-md" onKeyUp="CalcularAdicional();sumarExtras();">
 					<% } %>
 				</div>
 			</div>
@@ -1307,6 +1292,18 @@ function CambiarCampania(){
 		alert(e);
 	}
 	
+}
+
+// Select your input element.
+var number = document.getElementById('35_Persona_Adicional');
+
+// Listen for input event on numInput.
+number.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) 
+      || e.keyCode == 8)) {
+        return false;
+    }
 }
 </script>
 

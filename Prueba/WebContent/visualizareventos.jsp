@@ -159,17 +159,17 @@
 					<thead>
 						  <tr style="font-size:13px;">
 						  	<th data-sorter="false" data-filter="false"></th>
-							<th data-sorter="false" data-filter="false"><h5>Id Evento</h5></th>
+							<th><h5>N° Boleta</h5></th>
 							<th><h5>Fecha</h5></th>
 							<th style="width:5%"><h5>Forma de Pago</h5></th>
 							<th><h5>Movimiento</h5></th>
 							<th style="width:9%"><h5>Sesion Asoc</h5></th>
-							<th><h5>Valor</h5></th>
+							<th><h5>Valor total por cobrar</h5></th>
 							<th><h5>ID Usuario</h5></th>
 							<th><h5>Item</h5></th>
 							<th><h5>Descripcion</h5></th>
-							<th><h5>Estado</h5></th>
-							<th><h5>N° Boleta</h5></th>
+							<th><h5>Estado</h5></th>	
+							<th data-sorter="false" data-filter="false"><h5>Id Evento</h5></th>
 							<th data-sorter="false" data-filter="false"><h5>Anular</h5></th>
 							<th data-sorter="false" data-filter="false"><h5>Imprimir</h5></th>
 						  </tr>
@@ -191,7 +191,8 @@
 					%>
 						<tr>
 							<td><h5><i class="fa fa-user fa-2x"></i></h5></td>
-							<td><h5><%=ev.getId_Evento() %></h5></td>
+							
+							<td><h5><%=ev.getNumero_Boleta()%></h5></td>
 							<td><h5><%=ev.getFecha().replace(" ","<br>")%></h5></td>
 							<td><h5><%=ev.getForma_Pago()%></h5></td>
 							<td><h5><%=ev.getMovimiento()%></h5></td>
@@ -201,7 +202,8 @@
 							<td><h5><%=ev.getItem()%></h5></td>
 							<td><h5><%=(ev.getDescripcion().equals("null"))?"":ev.getDescripcion()%></h5></td>
 							<td><h5><%=(ev.getEstado()==1)?"Activa":"Anulada"%></h5></td>
-							<td><h5><%=ev.getNumero_Boleta()%></h5></td>
+							
+							<td><h5><%=ev.getId_Evento() %></h5></td>
 							<form action="ServletEvento?opcion=CambiarEvento" method="post">
 									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
 							<td>	 
@@ -213,9 +215,16 @@
             				</td>
             				<td>
             					<div class="btn-group  btn-group-lg">
-									 <button type="submit" class="btn btn-success" name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
-                						<i class="fa fa-print fa-1x"></i>
-            						 </button>
+            					 	<% if(nueva.get(1)!=null && nueva.get(2)!=null){  // Fecha reserva %>
+										 <button type="submit" class="btn btn-success" name="ImprimirEvento" value="Imprimir" >
+                							<i class="fa fa-print fa-1x"></i>
+            						 	</button>
+									<%}else{ %>
+										 <button type="submit" class="btn btn-success" name="ImprimirEvento" disabled value="Imprimir" >
+                							<i class="fa fa-print fa-1x"></i>
+            						 	 </button>
+									<%} %>
+									
             					</div>
             				</td>
 							</form>		

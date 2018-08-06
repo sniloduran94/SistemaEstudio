@@ -32,7 +32,7 @@ public class SQLS_conexion {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			cn = DriverManager.getConnection(cadenaConexion,"expressiones","Advancing2016");
-			//cn = DriverManager.getConnection(cadenaConexion,"foto","1234");
+			//cn = DriverManager.getConnection(cadenaConexion,"foto","1234"); 
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println("Ocurrió un error: " + e);
@@ -1311,7 +1311,7 @@ public int EliminarEvento(int id){
 		String SQL = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		
-		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre]  "
+		SQL = "SELECT T1.[39_Numero_Boleta] AS [39_Numero_Boleta], CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + 	CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' +   RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha,  [DBO].[Ultimas_Reservas].*,  [DBO].[15_CLIENTE].[15_ID_CLIENTE],   [DBO].[15_CLIENTE].[15_RUT],   [DBO].[15_CLIENTE].[15_NOMBRE],   [DBO].[15_CLIENTE].[15_Apellido_Pat],  [DBO].[15_CLIENTE].[15_Apellido_Mat],   [DBO].[15_CLIENTE].[15_Mail],   [DBO].[17_CAMPANIA].[17_ID_CAMPANIA],   [DBO].[17_CAMPANIA].[17_NOMBRE],	 CONVERT(VARCHAR,  [17_Campania].[17_Inicio_Vigencia], 111)AS iniciovigencia,	 CONVERT(VARCHAR,  [17_Campania].[17_Fin_Vigencia], 111)AS finvigencia,  [DBO].[17_CAMPANIA].[17_Precio],  [DBO].[17_CAMPANIA].[17_Maximo_Personas],  [DBO].[17_CAMPANIA].[17_Posee_CD],  [DBO].[17_CAMPANIA].[17_Cant_Fotos_CD],  [DBO].[17_CAMPANIA].[17_Cant_10x15],  [DBO].[17_CAMPANIA].[17_Cant_15x21],  [DBO].[17_CAMPANIA].[17_Cant_20x30],  [DBO].[17_CAMPANIA].[17_Cant_30x40],  [DBO].[17_CAMPANIA].[17_Precio_Adicional],  [DBO].[17_CAMPANIA].[17_Precio_Reagendamiento],  [DBO].[17_CAMPANIA].[17_Abono],  [DBO].[34_TIPO_SESION].[34_ID_TIPO_SESION],  [DBO].[34_TIPO_SESION].[34_TIPO_SESION],  [dbo].[04_Trabajador].[04_Id_Trabajador],  [dbo].[04_Trabajador].[04_Nombre] ,  T2.[39_Numero_Boleta] "
 				+ " FROM [DBO].[Ultimas_Reservas] "
 				+ " INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente] "
 				+ " INNER JOIN [DBO].[17_CAMPANIA] ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania] "
@@ -1322,7 +1322,12 @@ public int EliminarEvento(int id){
 				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar] "
 				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 				+ " WHERE [39_Evento].[39_Estado] != 0"
-				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva] "  + Excluyente
+				+ " ) AS T1 ON T1.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva]"
+				+ " LEFT OUTER JOIN ( "
+				+ " SELECT [dbo].[35_Auxiliar].[16_Id_Reserva], [39_Evento].[39_Numero_Boleta] FROM [dbo].[35_Auxiliar]  "
+				+ " LEFT JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
+				+ " WHERE [39_Evento].[39_Estado] = 1 "
+				+ " ) AS T2 ON T2.[16_Id_Reserva] = [DBO].[Ultimas_Reservas].[16_Id_Reserva]"  + Excluyente
 				+ "  "
 				+ " ORDER BY (CASE WHEN [17_Campania].[17_Nombre] NOT LIKE '%ALMUERZO%' THEN 1 ELSE 0 END) DESC,(CASE WHEN [16_Fecha] IS NULL THEN 1 ELSE 0 END) DESC, [16_Fecha] DESC;;";
 		
@@ -3937,22 +3942,38 @@ public int ActualizarCampania(Campania camp){
 	 * @author Advancing
 	 * Reservas para exportación a excel con reservas y sesiones
 	 * @throws SQLException 
-	 */ 
-	public ArrayList<ArrayList<String>> ArrayExcelSesiones() throws SQLException{  
-		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,  [dbo].[Ultimas_Reservas].[16_Validado],  [dbo].[15_Cliente].[15_Nombre],	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],	 [dbo].[Ultimas_Reservas].[17_Id_Campania],C.[17_Id_Campania],	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],	 C.[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],	 [dbo].[14_Canal_Venta].[14_Canal],	 C.[17_Precio],	 C.[17_Posee_CD],	 C.[17_Cant_Fotos_CD],	 "
+	 */  
+	public ArrayList<ArrayList<String>> ArrayExcelSesiones(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException{   
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String fechaini = sdf.format(llegoInicio1);
+		String fechafin = sdf.format(llegoFin1);
+		
+		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,  [dbo].[Ultimas_Reservas].[16_Validado],  [dbo].[15_Cliente].[15_Nombre],	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],	 [dbo].[Ultimas_Reservas].[17_Id_Campania],C.[17_Id_Campania],	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],	 C.[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],	 [dbo].[14_Canal_Venta].[14_Canal],	 C.[17_Precio],	 C.[17_Posee_CD],	"
+				+ "     CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_Fotos_CD] ELSE CC.[17_Cant_Fotos_CD] END AS [17_Cant_Fotos_CD],	"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
-				+ "	[dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras],	 [dbo].[35_Auxiliar].[35_Descuento],	 [dbo].[35_Auxiliar].[35_Persona_Adicional],	 [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar],	 [dbo].[35_Auxiliar].[35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
+				+ "	    [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras], [dbo].[35_Auxiliar].[35_Descuento] * -1 AS [35_Descuento],	 "
+				+ "     [dbo].[35_Auxiliar].[35_Persona_Adicional] * C.[17_Precio_Adicional] AS [35_Persona_Adicional],	 "
+				+ "     [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar] * C.[17_Precio_Reagendamiento] AS [35_Recargo_Por_Reagendar],	 [dbo].[35_Auxiliar].[35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
 				+ "     CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
-				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE C.[17_Precio] - CC.[17_Precio] END AS [Diferencia]"				
-				+ "	FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania] AS C,[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion],[dbo].[35_Auxiliar]	  "
-				+ "	LEFT JOIN [17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]"
-				+ "	WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]	   AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = C.[17_Id_Campania]	   AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]	   AND  C.[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta]	   AND  [dbo].[Ultimas_Reservas].[16_Id_Reserva] = [dbo].[35_Auxiliar].[16_Id_Reserva]" ;		
-		  
-		ResultSet rs = Consultar(SQL); 
+				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE CC.[17_Precio] - C.[17_Precio] END AS [Diferencia]"				
+				+ "	    FROM [DBO].[Ultimas_Reservas] "
+				+ "  INNER JOIN [DBO].[35_Auxiliar] ON [dbo].[35_Auxiliar].[16_Id_Reserva] = [DBO].[Ultimas_reservas].[16_Id_Reserva] "
+				+ "  INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]  "
+				+ "  INNER JOIN [DBO].[17_CAMPANIA] AS C ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = c.[17_Id_Campania]   "
+				+ "   LEFT JOIN [DBO].[17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]	"
+				+ "  INNER JOIN [DBO].[14_Canal_Venta] ON [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] = CC.[14_Id_Canal_Venta]  "
+				+ "  INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]   "
+				+ "  INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]   "
+				+ "  INNER JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar] AND [39_Evento].[39_Estado] != 0"
+				+ "  WHERE [16_Fecha] BETWEEN '"+fechaini + "' AND '" + fechafin+"' "
+				+ "  ORDER BY [Ultimas_reservas].[16_Fecha]";
+		
+		ResultSet rs = Consultar(SQL);  
 		
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 		
@@ -4658,8 +4679,8 @@ public int ActualizarCampania(Campania camp){
 		
 		String SQL = "";
 		
-		SQL = "SELECT [35_Id_Auxiliar]"
-				+ "			      ,[35_Asistio]"
+		SQL = "SELECT TOP 1 [35_Id_Auxiliar]"
+				+ "				  ,[35_Asistio]"
 				+ "			      ,[35_Numero_Ticket]"
 				+ "			      ,[35_Valor_Por_Cobrar]"
 				+ "			      ,[35_CD]"
@@ -4686,10 +4707,11 @@ public int ActualizarCampania(Campania camp){
 				+ "			      ,[35_Lista_Para_Entregar]"
 				+ "			      ,CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Sesion], 111) AS [35_Fecha_Sesion]"
 				+ "			  FROM [dbo].[35_Auxiliar]"
-				+ "				WHERE [16_Id_Reserva] = "+Id_Reserva+";";
+				+ "			  WHERE [16_Id_Reserva] = "+Id_Reserva+""
+				+ "			  ORDER BY [35_Id_Auxiliar] DESC;";
 				
 		ResultSet rs = Consultar(SQL);
-		
+		 
 		SesionAuxiliar sa = new SesionAuxiliar();
 		
 		if(rs==null){
@@ -5933,6 +5955,7 @@ public int ActualizarCampania(Campania camp){
 		String SQL = " DECLARE @StartDate date"
 				+ "       ,@EndDate   date = GETDATE();"
 				+ " SELECT TOP 1 @StartDate =  [39_Fecha] FROM [39_Evento] ORDER BY [39_Fecha];"
+				+ " SELECT TOP 1 @EndDate = [39_Fecha] FROM [39_Evento] ORDER BY [39_Fecha] DESC; "
 				+ " WITH theDates AS"
 				+ "     (SELECT @StartDate as theDate"
 				+ "      UNION ALL"
@@ -5966,6 +5989,8 @@ public int ActualizarCampania(Campania camp){
 				+ " OPTION (MAXRECURSION 0);";
 		
 		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 				
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>(); 
 
@@ -6044,13 +6069,8 @@ public int ActualizarCampania(Campania camp){
 					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
 					+ "	[14_Canal_Venta].[14_Canal],"
 					+ "	[34_Tipo_Sesion].[34_Tipo_Sesion],"
-					+ "	[17_Campania].[17_Cant_Fotos_CD],"
-					+ "	[17_Campania].[17_Cant_10x15],"
-					+ "	[17_Campania].[17_Cant_15x21],"
-					+ "	[17_Campania].[17_Cant_20x30],"
-					+ "	[17_Campania].[17_Cant_30x40],"
-					+ "	[17_Campania].[17_Precio],"
 					+ "	[Ultimas_reservas].[16_Monto_Pago_Adelantado],"
+					+ " [35_Auxiliar].[35_Id_Auxiliar],"
 					+ "	[35_Auxiliar].[35_Valor_Por_Cobrar],"
 					+ "	[35_Auxiliar].[35_CD],"
 					+ "	[35_Auxiliar].[35_Extras],"
@@ -6061,38 +6081,42 @@ public int ActualizarCampania(Campania camp){
 					+ "	[35_Auxiliar].[35_Cant_20x30],"
 					+ "	[35_Auxiliar].[35_Cant_30x40],"
 					+ "	[35_Auxiliar].[35_Persona_Adicional],"
-					+ "	[17_Campania].[17_Precio_Adicional]," 
-					+ "	[Ultimas_reservas].[16_Cantidad_Adicionales],"
 					+ "	[Ultimas_reservas].[16_Cantidad_Reagendamiento],"
 					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
 					+ "	[39_Evento].[39_Forma_Pago],"
-					+ "	[39_Evento].[39_Valor]"
+					+ "	[39_Evento].[39_Valor],"
+					+ " C.[17_Precio_Adicional],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio] ELSE CC.[17_Precio] END AS [17_Precio],	"
+					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_Fotos_CD] ELSE CC.[17_Cant_Fotos_CD] END AS [17_Cant_Fotos_CD],	"
+					+ " CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE C.[17_Precio] - CC.[17_Precio] END AS [Diferencia]"				
 					+ " FROM [dbo].[39_Evento]   "
 					+ " LEFT JOIN [35_Auxiliar] ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 					+ " LEFT JOIN [Ultimas_Reservas]  ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva] "
 					+ " LEFT JOIN [15_Cliente]  ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente] "
 					+ " LEFT JOIN [04_Trabajador]  ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
-					+ " LEFT JOIN [17_Campania] ON [17_Campania].[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
-					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = [17_Campania].[14_Id_Canal_Venta]"
+					+ " LEFT JOIN [17_Campania] AS C  ON  C.[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
+					+ " LEFT JOIN [17_Campania] AS CC ON CC.[17_Id_Campania] = [35_Auxiliar].[17_Id_Campania_Convertida]"
+					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = C.[14_Id_Canal_Venta]"
 					+ " LEFT JOIN [34_Tipo_Sesion] ON [Ultimas_reservas].[34_Id_Tipo_Sesion] = [34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 					+ " WHERE [39_Evento].[39_Estado] = 1 "+Excepciones;
 			}else{
 			SQL = "  SELECT "
-					+ "    [39_Evento].[39_Id_Evento],"
+					+ " [39_Evento].[39_Id_Evento],"
 					+ "	[39_Evento].[39_Numero_Boleta],"
-					+ "	[39_Fecha],"
+					+ "	[39_Fecha]," 
 					+ "	[35_Auxiliar].[35_Fotografo],"
 					+ "	[04_Trabajador].[04_Nombre],"
 					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
 					+ "	[14_Canal_Venta].[14_Canal],"
 					+ "	[34_Tipo_Sesion].[34_Tipo_Sesion],"
-					+ "	[17_Campania].[17_Cant_Fotos_CD],"
-					+ "	[17_Campania].[17_Cant_10x15],"
-					+ "	[17_Campania].[17_Cant_15x21],"
-					+ "	[17_Campania].[17_Cant_20x30],"
-					+ "	[17_Campania].[17_Cant_30x40],"
-					+ "	[17_Campania].[17_Precio],"
 					+ "	[Ultimas_reservas].[16_Monto_Pago_Adelantado],"
+					+ " [35_Auxiliar].[35_Id_Auxiliar],"
 					+ "	[35_Auxiliar].[35_Valor_Por_Cobrar],"
 					+ "	[35_Auxiliar].[35_CD],"
 					+ "	[35_Auxiliar].[35_Extras],"
@@ -6103,24 +6127,35 @@ public int ActualizarCampania(Campania camp){
 					+ "	[35_Auxiliar].[35_Cant_20x30],"
 					+ "	[35_Auxiliar].[35_Cant_30x40],"
 					+ "	[35_Auxiliar].[35_Persona_Adicional],"
-					+ "	[17_Campania].[17_Precio_Adicional],"
-					+ "	[Ultimas_reservas].[16_Cantidad_Adicionales],"
 					+ "	[Ultimas_reservas].[16_Cantidad_Reagendamiento],"
 					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
 					+ "	[39_Evento].[39_Forma_Pago],"
-					+ "	[39_Evento].[39_Valor]"
+					+ "	[39_Evento].[39_Valor],"
+					+ " C.[17_Precio_Adicional],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio] ELSE CC.[17_Precio] END AS [17_Precio],	"
+					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_Fotos_CD] ELSE CC.[17_Cant_Fotos_CD] END AS [17_Cant_Fotos_CD],	"
+					+ " CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
+					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE C.[17_Precio] - CC.[17_Precio] END AS [Diferencia]"				
 					+ " FROM [dbo].[39_Evento]   "
 					+ " LEFT JOIN [35_Auxiliar] ON [35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar]"
 					+ " LEFT JOIN [Ultimas_Reservas]  ON [Ultimas_Reservas].[16_Id_Reserva] = [35_Auxiliar].[16_Id_Reserva] "
 					+ " LEFT JOIN [15_Cliente]  ON [15_Cliente].[15_Id_Cliente] = [Ultimas_Reservas].[15_Id_Cliente] "
 					+ " LEFT JOIN [04_Trabajador]  ON [39_Evento].[04_Trabajador] = [04_Trabajador].[04_Id_Trabajador]"
-					+ " LEFT JOIN [17_Campania] ON [17_Campania].[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
-					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = [17_Campania].[14_Id_Canal_Venta]"
+					+ " LEFT JOIN [17_Campania] AS C  ON  C.[17_Id_Campania] = [Ultimas_reservas].[17_Id_Campania]"
+					+ " LEFT JOIN [17_Campania] AS CC ON CC.[17_Id_Campania] = [35_Auxiliar].[17_Id_Campania_Convertida]"
+					+ " LEFT JOIN [14_Canal_Venta] ON [14_Canal_Venta].[14_Id_Canal_Venta] = C.[14_Id_Canal_Venta]"
 					+ " LEFT JOIN [34_Tipo_Sesion] ON [Ultimas_reservas].[34_Id_Tipo_Sesion] = [34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
-					+ " WHERE [39_Evento].[39_Estado] = 1";
+					+ " WHERE [39_Evento].[39_Estado] = 1 ";
 		}
 		
 		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS");
@@ -6160,12 +6195,18 @@ public int ActualizarCampania(Campania camp){
 			
 			min.add(rs.getString("35_Persona_Adicional"));   
 			min.add(rs.getString("17_Precio_Adicional"));
-			min.add(rs.getString("16_Cantidad_Adicionales"));
+			
+			min.add(rs.getString("35_Persona_Adicional"));
 			min.add(rs.getString("16_Cantidad_Reagendamiento"));
 			
 			min.add(rs.getString("35_Recargo_Por_Reagendar"));
 			min.add(rs.getString("39_Forma_Pago"));
 			min.add(rs.getString("39_Valor"));
+			
+			min.add(rs.getString("Campaña"));
+			min.add(rs.getString("Campaña_Convertida"));
+			
+			min.add(rs.getString("35_Id_Auxiliar"));
 			return min;
 		}
 		return null;
@@ -6180,7 +6221,7 @@ public int ActualizarCampania(Campania camp){
 		String SQL = "SELECT [01_Id_Fotografo]"
 				+ "      ,[01_Nombre]"
 				+ "      ,[11_Id_Estado]"
-				+ " 	 FROM [DBO].[01_Fotografo];";
+				+ " 	 FROM [DBO].[01_Fotografo] WHERE [11_Id_Estado] = 1;";
 		ResultSet rs = Consultar(SQL);
 		
 		ArrayList<Fotografo> array = new ArrayList<Fotografo>();

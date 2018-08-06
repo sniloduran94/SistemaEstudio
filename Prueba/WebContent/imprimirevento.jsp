@@ -242,6 +242,10 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad fotos 30x40</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(13)%></label>
 				</div><br>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Precio por persona adicional</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(26)%></label>
+				</div><br>
 			
 			
 		</div>
@@ -278,6 +282,14 @@ select {
 				<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Descuento</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(20)==null)?"":ev.get(20)%></label>
+				</div><br>				
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Nombre campaña agendada</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(32)==null)?"":ev.get(32)%></label>
+				</div><br>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Nombre campaña convertida</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(33)==null)?"":ev.get(33)%></label>
 				</div><br>
 				<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad fotos 10x15 adicionales</label>
@@ -300,16 +312,8 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(17).equals("-1"))?"N/A":ev.get(17)%></label>
 				</div><br>
 					<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Persona adicional</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Persona(s) adicional(es)</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(25)%></label>
-				</div><br>
-					<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Precio adicional</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(26)%></label>
-				</div><br>
-				<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad adicionales</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(27)%></label>
 				</div><br>
 					<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad reagendamiento</label>
@@ -327,7 +331,6 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Valor a pagar</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(31)%></label>
 				</div><br>
-			
 		</div>
 	</div>
 	<form action="ServletEvento?opcion=ImprimirEvento" method="post">

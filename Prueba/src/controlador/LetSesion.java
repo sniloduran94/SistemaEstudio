@@ -85,7 +85,7 @@ public class LetSesion extends HttpServlet {
     	    	int llegoCD =  (request.getParameter("35_CD")!="")?Integer.parseInt(request.getParameter("35_CD")):-1;
     	    	int llegoExtras = (request.getParameter("35_Extras")!="")?Integer.parseInt(request.getParameter("35_Extras")):-1;		 
     	    	int llegoDescuento = (request.getParameter("35_Descuento")!="")?Integer.parseInt(request.getParameter("35_Descuento")):-1;		 
-    	    	int llegoPersona_Adicional = (request.getParameter("35_Persona_Adicional")!="")?Integer.parseInt(request.getParameter("35_Persona_Adicional")):-1;
+    	    	int llegoPersona_Adicional = (request.getParameter("35_Persona_Adicional")!="")?Integer.parseInt(request.getParameter("35_Persona_Adicional")):0;
     	    	int llegoRecargoPorReagendar =  (request.getParameter("35_Recargo_Por_Reagendar")!="")?Integer.parseInt(request.getParameter("35_Recargo_Por_Reagendar")):-1;
     	    	int llegoMontoExtras = (request.getParameter("35_Monto_Extras")!="")?Integer.parseInt(request.getParameter("35_Monto_Extras")):-1;
     	    	String llegoFotografo = request.getParameter("35_Fotografo");
@@ -143,11 +143,8 @@ public class LetSesion extends HttpServlet {
     			}else{
     				saux.setLista_Para_Entregar(false);
     			}*/
-    	    	if(llegoAsistio!=null && llegoAsistio.equals("on")){
-    				saux.setAsistio(true);
-    			}else{
-    				saux.setAsistio(false);
-    			}
+    			saux.setAsistio(true);
+    			
     	    	if(llegoFotosSeleccionadas!=null && llegoFotosSeleccionadas.equals("on")){
     				saux.setFotos_Seleccionadas(true);
     			}else{
