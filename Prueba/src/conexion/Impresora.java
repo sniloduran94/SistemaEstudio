@@ -49,6 +49,7 @@ public class Impresora {
 	}
 
 	public void escribir(String texto) {
+
 		try {
 			pw.println(texto);
 		} catch (Exception e) {

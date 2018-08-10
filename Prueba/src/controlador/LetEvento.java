@@ -198,38 +198,65 @@ public class LetEvento extends HttpServlet {
 		    	Impresora tiquete=new Impresora();  
 
 				tiquete.setDispositivo("ticket.txt");			
-				
+				for(int i=1;i<10;i++){
+					tiquete.escribir("");
+				}
 				tiquete.escribir(vend.getVendedor());
-				tiquete.escribir(vend.getDireccion());
+				
+				tiquete.escribir(this.insertPeriodically(vend.getDireccion(), "\r\n", 40));
 				tiquete.escribir(vend.getMail()); 
 				tiquete.escribir(vend.getWeb());
-				tiquete.escribir("N° Boleta      : "+ev.get(1));
+				tiquete.escribir("");
+				tiquete.escribir(String.format("%16s %23s", "N° Ticket      :", ev.get(1)));
 				tiquete.escribir("Fecha          : "+ev.get(2).substring(0, 10));
 				tiquete.escribir("Fotógrafo      : "+ev.get(3));
 				tiquete.escribir("Vendedor       : "+ev.get(4));
 				tiquete.escribir("Cliente        : "+ev.get(5)+ " "+ev.get(6));
 				tiquete.escribir("Canal de venta : "+ev.get(7));
 				tiquete.escribir("Tipo sesión    : "+ev.get(8));
-				tiquete.escribir("________________________________________");
-				tiquete.escribir("        DETALLE SESIÓN COMPRADA         "); 
-				tiquete.escribir("CANTIDAD    DETALLE ARTÍCULO      TAMAÑO"); 
-				tiquete.escribir("            CD con fotos               1");
-				tiquete.escribir("10x15cm     Fotografía 10x15           "+ev.get(10));  
-				tiquete.escribir("15x21cm     Fotografía 15x21           "+ev.get(11));   
-				tiquete.escribir("20x30cm     Ampliación 20x30           "+ev.get(12));   
-				tiquete.escribir("30x40cm     Ampliación 30x40           "+ev.get(13));   
-				tiquete.escribir("________________________________________");  
-				tiquete.escribir("                ADICIONALES             ");  
-				tiquete.escribir(String.format("%2s %18s %6s %9s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
-				tiquete.escribir("");
-				tiquete.escribir(String.format("%2s %20s %6s %9s", "", "CD Completo", "Digital",ev.get(17)));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15","X" ));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","X" ));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","X" ));
-				tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","X" ));
-				if(ev.get(20) == null || ev.get(20).equals("null")){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","","-" ));
-				}else{
+
+				if(Integer.parseInt(ev.get(10))>0 || Integer.parseInt(ev.get(11))>0 || Integer.parseInt(ev.get(12))>0 || Integer.parseInt(ev.get(13))>0  ){
+					tiquete.escribir("________________________________________");
+					tiquete.escribir("        DETALLE SESIÓN COMPRADA         "); 
+					tiquete.escribir("CANTIDAD    DETALLE ARTÍCULO      TAMAÑO"); 
+				}
+				
+				if(Integer.parseInt(ev.get(10))>0){
+					tiquete.escribir(ev.get(10)+"          Fotografía 10x15      10x15cm");  
+				}
+				if(Integer.parseInt(ev.get(11))>0){
+					tiquete.escribir(ev.get(11)+"          Fotografía 15x21      15x21cm");   
+				}
+				if(Integer.parseInt(ev.get(12))>0){
+					tiquete.escribir(ev.get(12)+"          Ampliación 20x30      20x30cm");    
+				}
+				if(Integer.parseInt(ev.get(13))>0){
+					tiquete.escribir(ev.get(13)+"          Ampliación 30x40      30x40cm");    
+				}	
+				
+				if(Integer.parseInt(ev.get(17))>0 || Integer.parseInt(ev.get(21))>0 || Integer.parseInt(ev.get(22))>0 || Integer.parseInt(ev.get(23))>0 || Integer.parseInt(ev.get(24))>0){
+					tiquete.escribir("________________________________________");  
+					tiquete.escribir("                ADICIONALES             ");  
+					tiquete.escribir(String.format("%2s %18s %6s %8s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
+					tiquete.escribir("");
+				}
+				
+				if(Integer.parseInt(ev.get(17))>0){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "CD Completo", "Digital",ev.get(17)));
+				}
+				if(Integer.parseInt(ev.get(21))>0){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15","X" ));
+				}
+				if(Integer.parseInt(ev.get(22))>0){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","X" ));
+				}
+				if(Integer.parseInt(ev.get(23))>0){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","X" ));
+				}
+				if(Integer.parseInt(ev.get(24))>0){
+					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","X" ));
+				}
+				if(ev.get(20) != null && !ev.get(20).equals("null") && Integer.parseInt(ev.get(20))>0){
 					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","",ev.get(20) ));
 				}
 				tiquete.escribir("________________________________________"); 
@@ -249,8 +276,8 @@ public class LetEvento extends HttpServlet {
 				tiquete.escribir("Forma de pago:    "+String.format("%22s", ev.get(30)));
 				tiquete.escribir("****************************************");
 				tiquete.escribir("Seleccione sus fotos en:                ");
-				tiquete.escribir("http://www.fotoexpressiones.com/selecciondefotos.html");
-				tiquete.escribir("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"");
+				tiquete.escribir(this.insertPeriodically("http://www.fotoexpressiones.com/selecciondefotos.html", "\r\n", 40));
+				tiquete.escribir(this.insertPeriodically("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"", "\r\n", 40));
 				//Esto es para escribir una linea divisoria
 
 				//tiquete.setRojo();
@@ -259,8 +286,8 @@ public class LetEvento extends HttpServlet {
 				//tiquete.correr(10);//Esto baja 10 lineas en blanco
 				//tiquete.cortar();//Esto corta el papel de la impresora
 				tiquete.cerrarDispositivo();//Cierra el dispositivo y aplica el texto
-				
-				Text2PDF.GenerarPDF();
+				 
+				Text2PDF.GenerarPDF("ticket"+ev.get(1)+".pdf"); 
 				
 				//Mandar PDF
 				try{
@@ -269,7 +296,7 @@ public class LetEvento extends HttpServlet {
 				
 					UserHomeApplet dirUsu = new UserHomeApplet(); // System.out.println("Prop "+dirUsu.getUserHome());
 					   							
-					String fmt = home+"/Downloads/ticket.pdf";
+					String fmt = home+"/Downloads/ticket"+ev.get(1)+".pdf";
 					File f = null;
 					for (int i = 1; i < 100; i++) {
 					    f = new File(String.format(fmt, i));
@@ -283,15 +310,15 @@ public class LetEvento extends HttpServlet {
 					    e.printStackTrace();
 					}	
 					
-					rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=ticket.pdf"); 
+					rd= getServletContext().getRequestDispatcher("/DownloadFileServlet?fileName=ticket"+ev.get(1)+".pdf"); 
 					
 					response.setContentType("application/pdf");			
-					response.setHeader("Content-Disposition", "attachment; filename=\"ticket.pdf\"");
+					response.setHeader("Content-Disposition", "attachment; filename=\"ticket"+ev.get(1)+".pdf\"");
 						
 					rd.include(request, response); 
 					
 					String filePath = home + "/Downloads";
-			        String fileName = "ticket.pdf";
+			        String fileName = "ticket"+ev.get(1)+".pdf";
 			        
 			        File downloadFile = new File(filePath, fileName);
 			        if(!downloadFile.exists()){
@@ -337,9 +364,13 @@ public class LetEvento extends HttpServlet {
 			            outStream.write(buffer, 0, bytesRead);
 			        }
 			         
+			        //Marcar como ticket impreso
+			        //gd.ActualizarEventoImpreso(llegoEvento);
+			        
 			        inStream.close();
 			        outStream.close(); 
 			        rd.forward(request, response);
+			        
 						
 				}catch(Exception e){
 					System.out.println(e.getMessage());
@@ -481,5 +512,26 @@ public class LetEvento extends HttpServlet {
     	
     	return ;
 	}
+	
+	public String insertPeriodically(
+		    String text, String insert, int period)
+		{
+		    StringBuilder builder = new StringBuilder(
+		         text.length() + insert.length() * (text.length()/period)+1);
+
+		    int index = 0;
+		    String prefix = "";
+		    while (index < text.length())
+		    {
+		        // Don't put the insert in the very first iteration.
+		        // This is easier than appending it *after* each substring
+		        builder.append(prefix);
+		        prefix = insert;
+		        builder.append(text.substring(index, 
+		            Math.min(index + period, text.length())));
+		        index += period;
+		    }
+		    return builder.toString();
+		}
 	
 }

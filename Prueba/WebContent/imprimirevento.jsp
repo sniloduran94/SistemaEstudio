@@ -336,8 +336,13 @@ select {
 	<form action="ServletEvento?opcion=ImprimirEvento" method="post">
 		<input type="hidden" value="<%=ev.get(0)%>" name="39_Id_Evento">
 			<div class="btn-group-lg">
-				 <button type="submit" class="btn btn-block btn-success" name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
-              	 <i class="fa fa-print fa-1x"></i> Imprimir
+				<% if(ev.get(35)!=null&&ev.get(35).equals("1")){ %>
+					 <button type="submit" class="btn btn-block btn-success" disabled name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
+	              	 <i class="fa fa-print fa-1x"></i> Imprimir
+              	 <% }else{ %>
+              	 	<button type="submit" class="btn btn-block btn-success" name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
+	              	 <i class="fa fa-print fa-1x"></i> Imprimir
+              	 <% } %>
             	 </button>
             </div>
     <form>	

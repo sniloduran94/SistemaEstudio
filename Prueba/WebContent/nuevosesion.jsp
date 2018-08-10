@@ -442,19 +442,20 @@ input::-webkit-inner-spin-button {
 			
 			
 			<!-- Text input-->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="35_Numero_Ticket">Número de ticket&nbsp;<br>(Obligatorio) <i
+			<!--<div class="form-group">
+				<label class="col-md-4 control-label" for="35_Numero_Ticket">Número de ticket&nbsp;<i
 			class="fa fa-ticket fa-1x"></i></label>
-				<div class="col-md-8">
+				<div class="col-md-8">-->
+				
 					<% if(sa!=null && sa.getNumero_Ticket()!=-1){ %>
 						<input id="35_Numero_Ticket" name="35_Numero_Ticket"
-							type="number" value="<%=sa.getNumero_Ticket()%>" class="form-control input-md" required>
+							type="hidden" value="<%=sa.getNumero_Ticket()%>" class="form-control input-md" >
 					<% }else{ %>
 						<input id="35_Numero_Ticket" name="35_Numero_Ticket"
-							type="number" placeholder="1" class="form-control input-md" required>
+							type="hidden" placeholder="1" class="form-control input-md" >
 					<% } %>
-				</div>
-			</div>
+			<!-- 	</div>
+			</div> -->
 			
 			<!-- Select Basic -->
 			<div class="form-group">
@@ -655,9 +656,9 @@ input::-webkit-inner-spin-button {
 				<label class="col-md-2 control-label" for="35_Cant_10x15">Fotos 10x15&nbsp; </label>
 				<div class="col-md-3">
 					<% if(sa!=null){ %>
-						<input id="35_Cant_10x15" name="35_Cant_10x15" type="number" value="<%=sa.getCant_10x15()+Integer.parseInt((String)reservas.get(7))%>" class="form-control input-md" />
+						<input onKeyUp="VerificarValorMayor('35_Cant_10x15','10x15')" id="35_Cant_10x15" name="35_Cant_10x15" type="number" value="<%=sa.getCant_10x15()+Integer.parseInt((String)reservas.get(7))%>" class="form-control input-md" />
 					<% }else{ %>
-						<input id="35_Cant_10x15" name="35_Cant_10x15" type="number" value="<%=(String)reservas.get(7)%>" class="form-control input-md" />
+						<input onKeyUp="VerificarValorMayor('35_Cant_10x15','10x15')" id="35_Cant_10x15" name="35_Cant_10x15" type="number" value="<%=(String)reservas.get(7)%>" class="form-control input-md" />
 					<% } %>
 					<input id="17_Cant_10x15" style="display:none;" name="17_Cant_10x15" type="number" value="<%=(String)reservas.get(7)%>" class="form-control input-md" />
 				</div>
@@ -666,9 +667,9 @@ input::-webkit-inner-spin-button {
 				<label class="col-md-2 control-label" for="35_Cant_15x21">Fotos 15x21&nbsp;  </label>
 				<div class="col-md-3">
 					<% if(sa!=null){ %>
-						<input id="35_Cant_15x21" name="35_Cant_15x21" type="number" value="<%=sa.getCant_15x21()+Integer.parseInt((String)reservas.get(8))%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_15x21','15x21')" id="35_Cant_15x21" name="35_Cant_15x21" type="number" value="<%=sa.getCant_15x21()+Integer.parseInt((String)reservas.get(8))%>" class="form-control input-md">
 					<% }else{ %>
-						<input id="35_Cant_15x21" name="35_Cant_15x21" type="number" value="<%=(String)reservas.get(8)%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_15x21','15x21')" id="35_Cant_15x21" name="35_Cant_15x21" type="number" value="<%=(String)reservas.get(8)%>" class="form-control input-md">
 					<% } %>
 					<input id="17_Cant_15x21" style="display:none;" name="17_Cant_15x21" type="number" value="<%=(String)reservas.get(8)%>" class="form-control input-md">
 				</div>
@@ -679,9 +680,9 @@ input::-webkit-inner-spin-button {
 				<label class="col-md-2 control-label" for="35_Cant_20x30">Fotos 20x30&nbsp;</label>
 				<div class="col-md-3">
 					<% if(sa!=null){ %>
-						<input id="35_Cant_20x30" name="35_Cant_20x30" type="number" value="<%=sa.getCant_20x30()+Integer.parseInt((String)reservas.get(9))%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_20x30','20x30')" id="35_Cant_20x30" name="35_Cant_20x30" type="number" value="<%=sa.getCant_20x30()+Integer.parseInt((String)reservas.get(9))%>" class="form-control input-md">
 					<% }else{ %>
-						<input id="35_Cant_20x30" name="35_Cant_20x30" type="number" value="<%=(String)reservas.get(9)%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_20x30','20x30')" id="35_Cant_20x30" name="35_Cant_20x30" type="number" value="<%=(String)reservas.get(9)%>" class="form-control input-md">
 					<% } %>
 					<input id="17_Cant_20x30" style="display:none;" name="17_Cant_20x30" type="number" value="<%=(String)reservas.get(9)%>" class="form-control input-md">
 				</div>
@@ -690,9 +691,9 @@ input::-webkit-inner-spin-button {
 				<label class="col-md-2 control-label" for="35_Cant_30x40">Fotos 30x40&nbsp; </label>
 				<div class="col-md-3">
 					<% if(sa!=null){ %>
-						<input id="35_Cant_30x40" name="35_Cant_30x40" type="number" value="<%=sa.getCant_30x40()+Integer.parseInt((String)reservas.get(10))%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_30x40','30x40')" id="35_Cant_30x40" name="35_Cant_30x40" type="number" value="<%=sa.getCant_30x40()+Integer.parseInt((String)reservas.get(10))%>" class="form-control input-md">
 					<% }else{ %>
-						<input id="35_Cant_30x40" name="35_Cant_30x40" type="number" value="<%=(String)reservas.get(10)%>" class="form-control input-md">
+						<input onKeyUp="VerificarValorMayor('35_Cant_30x40','30x40')" id="35_Cant_30x40" name="35_Cant_30x40" type="number" value="<%=(String)reservas.get(10)%>" class="form-control input-md">
 					<% } %>
 					<input id="17_Cant_30x40" style="display:none;" name="17_Cant_30x40" type="number" value="<%=(String)reservas.get(10)%>" class="form-control input-md">
 				</div>
@@ -841,6 +842,12 @@ input::-webkit-inner-spin-button {
 <script src="assets/lang-all.js"></script>
 
 <script type="text/javascript">
+
+var Cant10x15 = <%=camp.getCant_10x15() %>;
+var Cant15x21 = <%=camp.getCant_15x21() %>;
+var Cant20x30 = <%=camp.getCant_20x30() %>;
+var Cant30x40 = <%=camp.getCant_30x40() %>;
+
 	function DesactivarActivar(){
 		if(document.getElementById("35_Asistio").checked == false){
 			document.getElementById("35_Valor_Por_Cobrar").readOnly = true;
@@ -1227,6 +1234,32 @@ input::-webkit-inner-spin-button {
 		var num6 = Number(document.getElementById("35_Descuento").value);
 		document.getElementById("35_Monto_Extras").value = num1 + num2 + num3 + num4 + num5 - num6;
 	}	
+	
+	function VerificarValorMayor(Element, Tipo){
+		var Cantidad = 0;
+		switch(Tipo){
+			case '10x15':
+				Cantidad = Cant10x15;
+				break;
+			case '15x21':
+				Cantidad = Cant15x21;
+				break;
+			case '20x30':
+				Cantidad = Cant20x30;
+				break;
+			case '30x40':
+				Cantidad = Cant30x40;
+				break;	
+			default:
+				Cantidad = 0;
+		}
+		if(document.getElementById(Element).value < Cantidad){
+			alert('El valor de la cantidad de fotos '+Tipo+' debe ser mayor a '+Cantidad);
+			document.getElementById(Element).value = Cantidad;
+			document.getElementById(Element).focus;
+		}
+		
+	}
 </script>
 <script type="text/javascript">
 	document.addEventListener("mousewheel", function(event){
@@ -1253,7 +1286,10 @@ function findWithAttrFotos(array, attr, value) {
     }
     return -1;
 }
+	
 function CambiarCampania(){
+	
+	
 	try{
 		var PrecioCampAntigua = 0;
 		var IdCamp = document.getElementById("17_Id_Campania").value;
@@ -1277,6 +1313,11 @@ function CambiarCampania(){
 			document.getElementById("35_Cant_15x21").value = Fotos[1];
 			document.getElementById("35_Cant_20x30").value = Fotos[2];
 			document.getElementById("35_Cant_30x40").value = Fotos[3];
+			
+			Cant10x15 = Fotos[0];
+			Cant15x21 = Fotos[1];
+			Cant20x30 = Fotos[2];
+			Cant30x40 = Fotos[3];
 			
 			sumarExtras();
 		}else{

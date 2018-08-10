@@ -208,9 +208,15 @@
 									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
 							<td>	 
 								<div class="btn-group  btn-group-lg">
+									<% if(ev.getEstado()==1){  //Activo o inactivo %>
 									 <button type="submit" class="btn btn-success" name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
                 						<i class="fa fa-minus-circle fa-1x"></i>
             						 </button>
+            						<%}else{ %>
+            						 <button type="submit" class="btn btn-success" disabled name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
+                						<i class="fa fa-minus-circle fa-1x"></i>
+            						 </button>
+            						<%} %>
             					</div>
             				</td>
             				<td>

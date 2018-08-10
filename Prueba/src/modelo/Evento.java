@@ -13,7 +13,14 @@ public class Evento {
 	private int Id_Auxiliar;
 	private String Movimiento;
 	private String Tipo_Doc;
+	private int Impreso;
 	
+	public int getImpreso() {
+		return Impreso;
+	}
+	public void setImpreso(int impreso) {
+		Impreso = impreso;
+	}
 	public int getId_Evento() {
 		return Id_Evento;
 	}
@@ -71,7 +78,7 @@ public class Evento {
 	public int getId_Auxiliar() {
 		return Id_Auxiliar;
 	}
-	public void setId_Auxiliar(int id_Auxiliar) {
+	public void setId_Auxiliar(int id_Auxiliar) { 
 		Id_Auxiliar = id_Auxiliar;
 	}
 	public String getMovimiento() {
