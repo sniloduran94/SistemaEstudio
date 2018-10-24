@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 
 
 public class JavaMail {  
-	String version = "v32";
+	String version = "v34";
 	
 	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\Prueba";
 	String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotografico"+version;

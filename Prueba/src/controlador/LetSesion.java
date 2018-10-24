@@ -224,9 +224,7 @@ public class LetSesion extends HttpServlet {
     	    	ev.setMovimiento(llegoMovimiento);    			
     	    	
     	    	int resultado = gd.IngresarSesionAuxiliar(saux, ev);
-    	    	
-    	    	System.out.println("RESULTADO DE EJECUCIÓN "+resultado);
-    	    	
+    	    	    	    	
     	    	if((sa!=null) && (sa.isLista_Para_Entregar()==false && saux.isLista_Para_Entregar())){
     	    		JavaMail mail = new JavaMail();
     	    		
@@ -330,7 +328,15 @@ public class LetSesion extends HttpServlet {
 					
 					request.setAttribute("mensaje", mensaje);
 					request.setAttribute("tipomensaje", "danger");
+    	    	}else{
+    	    		ArrayList<String> event = (ArrayList<String>)gd.getEvento(" AND [35_Auxiliar].[16_Id_Reserva] = "+llegoIdReserva+" AND [39_Estado] = 1");
+    	    		String mensaje = "El nuevo ticket generado es el "+event.get(1);
+    	    		
+					request.setAttribute("mensaje", mensaje);
+					request.setAttribute("tipomensaje", "success");
     	    	}
+    			
+    			
     	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
     	    	rd.forward(request, response);
 		    }

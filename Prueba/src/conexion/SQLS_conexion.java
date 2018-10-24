@@ -23,6 +23,7 @@ public class SQLS_conexion {
 	public static Connection cn = getConexion();  
 
 	/**
+	 * 
 	 * @author Advancing
 	 * Método que devuelve la conexión con la base de datos 
 	 */
@@ -3957,9 +3958,7 @@ public int ActualizarCampania(Campania camp){
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
 				+ "	    [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras], [dbo].[35_Auxiliar].[35_Descuento] * -1 AS [35_Descuento],	 "
 				+ "     [dbo].[35_Auxiliar].[35_Persona_Adicional] * C.[17_Precio_Adicional] AS [35_Persona_Adicional],	 "
-				+ "     [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar] * C.[17_Precio_Reagendamiento] AS [35_Recargo_Por_Reagendar],	 "
-				+ "     CASE WHEN [35_Auxiliar].[35_CD] = -1 THEN 0 ELSE [35_Auxiliar].[35_CD] END + CASE WHEN [35_Auxiliar].[35_Extras] = -1 THEN 0 ELSE [35_Auxiliar].[35_Extras] END + [35_Auxiliar].[35_Descuento] + [dbo].[35_Auxiliar].[35_Persona_Adicional] * C.[17_Precio_Adicional] + [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar] * C.[17_Precio_Reagendamiento] + CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE CC.[17_Precio] - C.[17_Precio] END	    "
-				+ "     AS [35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
+				+ "     [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar] * C.[17_Precio_Reagendamiento] AS [35_Recargo_Por_Reagendar],	 [dbo].[35_Auxiliar].[35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
 				+ "     CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE CC.[17_Precio] - C.[17_Precio] END AS [Diferencia]"				
@@ -3967,7 +3966,7 @@ public int ActualizarCampania(Campania camp){
 				+ "  INNER JOIN [DBO].[35_Auxiliar] ON [dbo].[35_Auxiliar].[16_Id_Reserva] = [DBO].[Ultimas_reservas].[16_Id_Reserva] "
 				+ "  INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]  "
 				+ "  INNER JOIN [DBO].[17_CAMPANIA] AS C ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = c.[17_Id_Campania]   "
-				+ "  LEFT JOIN [DBO].[17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]	"
+				+ "   LEFT JOIN [DBO].[17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]	"
 				+ "  INNER JOIN [DBO].[14_Canal_Venta] ON [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] = CC.[14_Id_Canal_Venta]  "
 				+ "  INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]   "
 				+ "  INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]   "
@@ -5545,27 +5544,6 @@ public int ActualizarCampania(Campania camp){
 		return 0;
 	}	
 
-	public int ActualizarEventoImpreso(String numero_evento) throws SQLException {
-		
-		String SQL = "UPDATE [dbo].[39_Evento]"
-				+ "	SET [39_Impreso] = '1'"
-				+ "WHERE [39_Id_Evento] = "+numero_evento+"";
-				
-		Statement s = null;
-		int columnasafectadas = 0;
-		try {
-			Connection conn = getConexion();
-			s = conn.createStatement();
-			columnasafectadas = s.executeUpdate(SQL);
-			if (columnasafectadas == 1) {
-				return 1;
-			}
-		} catch (SQLException e) {
-			System.out.println("ERROR! "+ e);
-		}
-		return 0;
-	}	
-	
 	/**
 	 * @author Advancing
 	 * @param Tipo_Sesion Obtiene cupones deshabilitados 
@@ -5631,6 +5609,7 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[38_BD_PW]"
 					+ "      ,[38_Direccion]"
 					+ "		 ,[38_GoogleMap]"
+					+ "		 ,[38_Telefono]"
 					+ "  FROM [dbo].[38_Vendedor] WHERE ["+Columna+"] = ";
 			if(Tipo.equals("String")){
 				SQL = SQL+ "'"+Valor+"'";
@@ -5652,6 +5631,7 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[38_BD_PW]"
 					+ "      ,[38_Direccion]"
 					+ "		 ,[38_GoogleMap]"
+					+ "		 ,[38_Telefono]"
 					+ "  FROM [dbo].[38_Vendedor]; ";
 		}
 		
@@ -5675,7 +5655,7 @@ public int ActualizarCampania(Campania camp){
 			cc.setBD_PW(rs.getString("38_BD_PW"));
 			cc.setDireccion(rs.getString("38_Direccion"));
 			cc.setGoogleMap(rs.getString("38_GoogleMap"));
-
+			cc.setTelefono(rs.getString("38_Telefono"));
 			//ATRIBUTOS DE TABLA RESERVA
 			array.add(cc);
 			//ATRIBUTOS DE TABLA COMUNA Y CIUDAD
@@ -5736,7 +5716,6 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[39_Evento].[35_Id_Auxiliar]"
 					+ "      ,[39_Movimiento]"
 					+ "	     ,[39_Tipo_Doc]"
-					+ "		 ,[39_Impreso]"
 					+ "		 , CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
 					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
 					+ "      RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha"
@@ -5767,7 +5746,6 @@ public int ActualizarCampania(Campania camp){
 					+ "      ,[39_Evento].[35_Id_Auxiliar]"
 					+ "      ,[39_Movimiento]"   
 					+ "		 ,[39_Tipo_Doc]"
-					+ "		 ,[39_Impreso]"
 					+ "		 ,CONVERT(VARCHAR,  [DBO].[Ultimas_Reservas].[16_FECHA], 111) + ' ' + "
 					+ "		 CONVERT(VARCHAR, DATEPART(hh,  [DBO].[Ultimas_Reservas].[16_FECHA])) + ':' + "
 					+ "  	 RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [DBO].[Ultimas_Reservas].[16_FECHA])), 2) AS Fecha"
@@ -5811,7 +5789,6 @@ public int ActualizarCampania(Campania camp){
 			ev.setMovimiento(rs.getString("39_Movimiento"));
 			ev.setNumero_Boleta(rs.getInt("39_Numero_Boleta"));
 			ev.setTipo_Doc(rs.getString("39_Tipo_Doc"));
-			ev.setImpreso(rs.getInt("39_Impreso"));
 			
 			//ATRIBUTOS DE TABLA CAMPAÑA
 			min.add(ev);
@@ -5841,7 +5818,7 @@ public int ActualizarCampania(Campania camp){
 				+ ",[39_Forma_Pago]"
 				+ ",[39_Valor]"
 				+ " FROM [39_Evento] "
-				+ " WHERE [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1"
+				+ " WHERE [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1 AND [39_Forma_Pago] != 'Efectivo Caja Chica'"
 				+ " ORDER BY YEAR([39_Fecha]) ASC, MONTH([39_Fecha]) ASC, DAY([39_Fecha]) ASC;";
 		
 		ResultSet rs = Consultar(SQL);
@@ -5895,7 +5872,7 @@ public int ActualizarCampania(Campania camp){
 				+ ",CASE WHEN [39_Descripcion] = 'null' THEN '' ELSE [39_Descripcion] END  AS [39_Descripcion]"
 				+ ",[39_Valor]"
 				+ "FROM [39_Evento] "
-				+ "WHERE [39_Movimiento] = 'Egreso' AND [39_Estado] = 1;";
+				+ "WHERE [39_Movimiento] = 'Egreso' AND [39_Estado] = 1 AND [39_Forma_Pago] != 'Efectivo Caja Chica';";
 		
 		ResultSet rs = Consultar(SQL);
 				
@@ -5941,6 +5918,8 @@ public int ActualizarCampania(Campania camp){
 				+ "				 ORDER BY YEAR([39_Fecha]) ASC, MONTH([39_Fecha]) ASC, DAY([39_Fecha]) ASC;";
 		
 		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
 				
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 
@@ -5965,9 +5944,75 @@ public int ActualizarCampania(Campania camp){
 						fila.add(Integer.toString(acumulado));
 
 						array.add(fila); 
-					}/*else{
+					}else{
 						acumulado += Integer.parseInt(rs.getString("39_Valor"));
-					}*/
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return array;
+	}
+	
+	public ArrayList<ArrayList<String>> ArrayExcelCajaChica2(java.util.Date llegoInicio1, java.util.Date llegoFin1) throws SQLException, NumberFormatException, java.text.ParseException{
+		String SQL = " DECLARE @StartDate date       ,@EndDate   date = GETDATE(); "
+				+ " SELECT TOP 1 @StartDate =  [39_Fecha] FROM [39_Evento] WHERE [39_Forma_Pago] = 'Efectivo Caja Chica' ORDER BY [39_Fecha]; "
+				+ " SELECT TOP 1 @EndDate = [39_Fecha] FROM [39_Evento] WHERE [39_Forma_Pago] = 'Efectivo Caja Chica' ORDER BY [39_Fecha] DESC;  "
+				+ " "
+				+ " WITH theDates AS     ("
+				+ " SELECT @StartDate as theDate      "
+				+ " UNION ALL      "
+				+ " SELECT DATEADD(day, 1, theDate)        "
+				+ " FROM theDates       "
+				+ " WHERE theDate < @EndDate     ) "
+				+ " SELECT CONVERT(VARCHAR, theDate, 105) as TheDate,    "
+				+ " CASE WHEN T1.Valor IS NULL THEN 0 ELSE T1.Valor END AS Ingreso, "
+				+ " CASE WHEN T4.Valor IS NULL THEN 0 ELSE T4.Valor END AS Egreso  "
+				+ " FROM theDates  "
+				+ " LEFT JOIN [39_Evento] AS E ON theDate = [39_Fecha] AND [39_Forma_Pago] = '%Efectivo Caja Chica%' AND [39_Movimiento] = 'Ingreso'  AND [39_Estado] = 1  "
+				+ " LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]  "
+				+ "			FROM [39_Evento]   "
+				+ "			WHERE [39_Forma_Pago] = 'Efectivo Caja Chica' AND [39_Movimiento] = 'Ingreso' AND [39_Estado] = 1  "
+				+ "			GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T1 ON CONVERT(VARCHAR, theDate, 105) = T1.Dia "
+				+ "LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]  "
+				+ "			FROM [39_Evento]   "
+				+ "			WHERE [39_Forma_Pago] = 'Efectivo Caja Chica' AND [39_Movimiento] = 'Egreso' AND [39_Estado] = 1 "
+				+ "			GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, theDate, 105) = T4.Dia "
+				+ "		OPTION (MAXRECURSION 0);";
+		
+		ResultSet rs = Consultar(SQL);
+		
+		System.out.println(SQL);
+				
+		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		int acumulado = 0; 
+		
+		if(rs==null){
+			System.out.println("No hay datos");
+		}else{
+			while (rs.next()) {
+				try {					
+					if((sdf.parse(rs.getString("39_Fecha")).compareTo(llegoInicio1) >= 0) && (sdf.parse(rs.getString("39_Fecha")).compareTo(llegoFin1) <= 0)){
+						ArrayList<String> fila = new ArrayList<String>();
+						fila.add(rs.getString("39_Fecha"));
+						fila.add(rs.getString("39_Item"));
+						fila.add(rs.getString("39_Descripcion"));
+						fila.add(rs.getString("39_Tipo_Doc"));
+						fila.add(rs.getString("39_Numero_Boleta"));
+						fila.add(rs.getString("39_Valor"));
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+						fila.add(Integer.toString(acumulado));
+
+						array.add(fila); 
+					}else{
+						acumulado += Integer.parseInt(rs.getString("39_Valor"));
+					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -6010,7 +6055,7 @@ public int ActualizarCampania(Campania camp){
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T3 ON CONVERT(VARCHAR, theDate, 105) = T3.Dia"
 				+ "  LEFT JOIN (SELECT  CONVERT(VARCHAR,  [39_Fecha], 105) AS Dia, SUM([39_Valor]) Valor, [39_Forma_Pago]"
 				+ "  FROM [39_Evento] "
-				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso' AND [39_Estado] = 1"
+				+ "  WHERE [39_Forma_Pago] = 'Efectivo' AND [39_Movimiento] = 'Egreso' AND [39_Estado] = 1  AND [39_Forma_Pago] != 'Efectivo Caja Chica'"
 				+ "  GROUP BY CONVERT(VARCHAR,  [39_Fecha], 105), [39_Forma_Pago]) AS T4 ON CONVERT(VARCHAR, theDate, 105) = T4.Dia"
 				+ " OPTION (MAXRECURSION 0);";
 		
@@ -6090,7 +6135,6 @@ public int ActualizarCampania(Campania camp){
 					+ " [39_Evento].[39_Id_Evento],"
 					+ "	[39_Evento].[39_Numero_Boleta],"
 					+ "	[39_Fecha],"
-					+ " [39_Impreso],"
 					+ "	[35_Auxiliar].[35_Fotografo],"
 					+ "	[04_Trabajador].[04_Nombre],"
 					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
@@ -6112,8 +6156,10 @@ public int ActualizarCampania(Campania camp){
 					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
 					+ "	[39_Evento].[39_Forma_Pago],"
 					+ "	[39_Evento].[39_Valor],"
+					+ "	[39_Evento].[39_Impreso],"
 					+ " C.[17_Precio_Adicional],"
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio] ELSE CC.[17_Precio] END AS [17_Precio],	"
+					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio_Reagendamiento] ELSE CC.[17_Precio_Reagendamiento] END AS [17_Precio_Reagendamiento], "
 					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
@@ -6137,7 +6183,6 @@ public int ActualizarCampania(Campania camp){
 					+ " [39_Evento].[39_Id_Evento],"
 					+ "	[39_Evento].[39_Numero_Boleta],"
 					+ "	[39_Fecha]," 
-					+ " [39_Impreso],"
 					+ "	[35_Auxiliar].[35_Fotografo],"
 					+ "	[04_Trabajador].[04_Nombre],"
 					+ "	[15_Cliente].[15_Nombre]			 ,[15_Cliente].[15_Apellido_Pat],"
@@ -6159,8 +6204,10 @@ public int ActualizarCampania(Campania camp){
 					+ "	[35_Auxiliar].[35_Recargo_Por_Reagendar],"
 					+ "	[39_Evento].[39_Forma_Pago],"
 					+ "	[39_Evento].[39_Valor],"
+					+ "	[39_Evento].[39_Impreso],"
 					+ " C.[17_Precio_Adicional],"
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio] ELSE CC.[17_Precio] END AS [17_Precio],	"
+					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Precio_Reagendamiento] ELSE CC.[17_Precio_Reagendamiento] END AS [17_Precio_Reagendamiento], "
 					+ " CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
 					+ "	CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
@@ -6236,6 +6283,8 @@ public int ActualizarCampania(Campania camp){
 			
 			min.add(rs.getString("35_Id_Auxiliar"));
 			min.add(rs.getString("39_Impreso"));
+			min.add(rs.getString("17_Precio_Reagendamiento"));
+			
 			return min;
 		}
 		return null;
@@ -6316,5 +6365,24 @@ public int ActualizarCampania(Campania camp){
 		return array;
 	}
 	
+	public int ActualizarEventoImpreso(String NumTicket) throws SQLException{
+		String SQL = "UPDATE [39_Evento] SET [39_Evento].[39_Impreso] = 2 WHERE [39_Evento].[39_Id_Evento] = "+NumTicket+";";
+		
+		ResultSet rs = Consultar(SQL);	
+				
+		Statement s = null;
+		int columnasafectadas = 0;
+		try {
+			Connection conn = getConexion();
+			s = conn.createStatement();
+			columnasafectadas = s.executeUpdate(SQL);
+			if (columnasafectadas == 1) {
+				return 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("ERROR! "+ e);
+		}
+		return 0;
+	}
 	
 }

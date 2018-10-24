@@ -113,6 +113,34 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal" id="FechasInformeCajaChica"> <!-- Mision-->
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<br>				
+				<h4 class="modal-title bounceInUp">Informe Caja Chica</h4>
+			</div>
+			<div class="modal-body bounceInUp">
+			
+				<!-- Foto de la promocion con su informacion -->
+				Ingrese las fechas para emitir reporte:
+				<br><br> Fecha inicio informe:
+					<input class="form-control" type="text" id="datetimepicker3" autocomplete="off" placeholder="2016/01/30" name="Inicio"/><br>
+	  			<br> Fecha fin informe:
+	  				<input class="form-control" type="text" id="datetimepicker31" autocomplete="off" placeholder="2016/01/31" name="Fin" /><br>
+	 				
+	 			<a href='' onclick="this.href='ServletLogin?opcion=GenerarXLSCajaChica&Inicio='+document.getElementById('datetimepicker3').value+'&Fin='+document.getElementById('datetimepicker31').value">
+	 					<button type="button" class="btn btn-default btn3d" >Imprimir</button>
+	 			</a>
+			</div>
+				<div class="modal-footer bounceInUp">
+					<button type="button" class="btn btn-default btn3d" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <div class="topbar animated fadeInLeftBig"></div>
  
 <!-- Header Starts -->
@@ -329,6 +357,28 @@
                                     <i class="fa fa-file-excel-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
+                                    <div>Exportar resumen <br>de caja chica a Excel(xls)</div><br>
+                                    <i class="fa fa-list-ol fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#FechasInformeCajaChica" data-toggle="modal">
+                            <div class="panel-footer">
+                                <span class="pull-left">¡Exportar resumen!</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:green; border-color:#003300;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-file-excel-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
                                     <div>Exportar resumen de <br>de descuentos a Excel(xls)</div><br>
                                     <i class="fa fa-tags fa-2x"></i>
                                 </div>
@@ -441,6 +491,32 @@ $('#datetimepicker2').datetimepicker({
 	scrollTime: false
 });
 $('#datetimepicker21').datetimepicker({
+	yearOffset:0,
+	lang:'sp',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false,
+	scrollMonth: false,
+	scrollTime: false
+});
+$('#datetimepicker3').datetimepicker({
+	yearOffset:0,
+	lang:'sp',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false,
+	scrollMonth: false,
+	scrollTime: false
+});
+$('#datetimepicker31').datetimepicker({
 	yearOffset:0,
 	lang:'sp',
 	timepicker:false,

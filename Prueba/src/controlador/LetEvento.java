@@ -206,6 +206,7 @@ public class LetEvento extends HttpServlet {
 				tiquete.escribir(this.insertPeriodically(vend.getDireccion(), "\r\n", 40));
 				tiquete.escribir(vend.getMail()); 
 				tiquete.escribir(vend.getWeb());
+				tiquete.escribir("Fono "+vend.getTelefono());
 				tiquete.escribir("");
 				tiquete.escribir(String.format("%16s %23s", "N° Ticket      :", ev.get(1)));
 				tiquete.escribir("Fecha          : "+ev.get(2).substring(0, 10));
@@ -222,62 +223,90 @@ public class LetEvento extends HttpServlet {
 				}
 				
 				if(Integer.parseInt(ev.get(10))>0){
-					tiquete.escribir(ev.get(10)+"          Fotografía 10x15      10x15cm");  
+					tiquete.escribir(ev.get(10)+"           Fotografía 10x15     10x15cm");  
 				}
 				if(Integer.parseInt(ev.get(11))>0){
-					tiquete.escribir(ev.get(11)+"          Fotografía 15x21      15x21cm");   
+					tiquete.escribir(ev.get(11)+"           Fotografía 15x21     15x21cm");   
 				}
 				if(Integer.parseInt(ev.get(12))>0){
-					tiquete.escribir(ev.get(12)+"          Ampliación 20x30      20x30cm");    
+					tiquete.escribir(ev.get(12)+"           Ampliación 20x30     20x30cm");    
 				}
 				if(Integer.parseInt(ev.get(13))>0){
-					tiquete.escribir(ev.get(13)+"          Ampliación 30x40      30x40cm");    
+					tiquete.escribir(ev.get(13)+"           Ampliación 30x40     30x40cm");    
 				}	
 				
-				if(Integer.parseInt(ev.get(17))>0 || Integer.parseInt(ev.get(21))>0 || Integer.parseInt(ev.get(22))>0 || Integer.parseInt(ev.get(23))>0 || Integer.parseInt(ev.get(24))>0){
+				if(Integer.parseInt(ev.get(25))>0 || Integer.parseInt(ev.get(29))>0 ||  Integer.parseInt(ev.get(17))>0 || Integer.parseInt(ev.get(21))>0 || Integer.parseInt(ev.get(22))>0 || Integer.parseInt(ev.get(23))>0 || Integer.parseInt(ev.get(24))>0 || ev.get(20) != null || Integer.parseInt(ev.get(20))>0 || ev.get(18) != null){
 					tiquete.escribir("________________________________________");  
 					tiquete.escribir("                ADICIONALES             ");  
-					tiquete.escribir(String.format("%2s %18s %6s %8s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
-					tiquete.escribir("");
+					tiquete.escribir(String.format("%2s %-18s %6s %8s", "CANT.","DETALLE ARTICULO", "TAMAÑO","MONTO"));
+					tiquete.escribir(""); 
+				}
+				if(ev.get(25) != null && !ev.get(25).equals("null") && Integer.parseInt(ev.get(25))* Integer.parseInt(ev.get(26)) > 0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(25), "Pers. Adicional", "",Integer.parseInt(ev.get(25))* Integer.parseInt(ev.get(26))));
+				}
+				if(ev.get(29) != null && !ev.get(29).equals("null") && Integer.parseInt(ev.get(29))* Integer.parseInt(ev.get(36)) > 0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(29), "Cargo Reagendar", "",Integer.parseInt(ev.get(29))* Integer.parseInt(ev.get(36))));
 				}
 				
 				if(Integer.parseInt(ev.get(17))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "CD Completo", "Digital",ev.get(17)));
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", "1", "CD Completo", "",ev.get(17)));
 				}
-				if(Integer.parseInt(ev.get(21))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15","X" ));
-				}
-				if(Integer.parseInt(ev.get(22))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","X" ));
-				}
-				if(Integer.parseInt(ev.get(23))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","X" ));
-				}
-				if(Integer.parseInt(ev.get(24))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","X" ));
+				if(ev.get(18) != null && !ev.get(18).equals("null") && !ev.get(18).equals("-1")){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", "1", "Extras","",ev.get(18)));
 				}
 				if(ev.get(20) != null && !ev.get(20).equals("null") && Integer.parseInt(ev.get(20))>0){
-					tiquete.escribir(String.format("%2s %20s %6s %9s", "", "Descuento","",ev.get(20) ));
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", "1", "Descuento","",ev.get(20) ));
+				}				
+				if(Integer.parseInt(ev.get(21))>0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(21), "Fotografía 10x15","10x15","" ));
 				}
+				if(Integer.parseInt(ev.get(22))>0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(22), "Fotografía 15x21","15x21","" ));
+				}
+				if(Integer.parseInt(ev.get(23))>0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(23), "Ampliación 20x30","20x30","" ));
+				}
+				if(Integer.parseInt(ev.get(24))>0){
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", ev.get(24), "Ampliación 30x40","30x40","" ));
+				}
+				if(Integer.parseInt(ev.get(25))>0 || Integer.parseInt(ev.get(29))>0 ||  Integer.parseInt(ev.get(17))>0 || Integer.parseInt(ev.get(21))>0 || Integer.parseInt(ev.get(22))>0 || Integer.parseInt(ev.get(23))>0 || Integer.parseInt(ev.get(24))>0 || ev.get(20) != null || Integer.parseInt(ev.get(20))>0 || ev.get(18) != null){
+					tiquete.escribir("");
+					int TotalAD = M(Integer.parseInt(ev.get(25)))* M(Integer.parseInt(ev.get(26))) +
+								  M(Integer.parseInt(ev.get(29)))* M(Integer.parseInt(ev.get(36))) +
+							      M(Integer.parseInt(ev.get(17))) + M(Integer.parseInt(ev.get(18))) - M(Integer.parseInt(ev.get(20)));
+					tiquete.escribir(String.format("%2s %-20s %6s %9s", "", "Total Adicionales","",TotalAD));
+				}
+				
 				tiquete.escribir("________________________________________"); 
-				tiquete.escribir("Valor Sesión Base  : "+ev.get(14));  
-				if(ev.get(15) == null || ev.get(15).equals("null")){
-					tiquete.escribir("Valor Abonado      : "+ev.get(15)); 
+				tiquete.escribir("");
+				tiquete.escribir(    "Valor Sesión Base......... : "+String.format("%11s\r\n", ev.get(14))); 
+				if(ev.get(15) == null || ev.get(15).equals("null") || ev.get(15).equals("-1")){
+					if(ev.get(15).equals("-1")){
+						tiquete.escribir("Valor Abonado............. :           0"); 
+					}else{
+						tiquete.escribir("Valor Abonado............. :        N/A");  
+					}
 				}else{
-					tiquete.escribir("Valor Abonado      : -"); 
+					tiquete.escribir("Valor Abonado............. : "+String.format("%11s\r\n", ev.get(15))); 
 				}
 				tiquete.escribir("________________________________________"); 
-				tiquete.escribir("Subtotal por pagar : "+ev.get(16)); 
-				tiquete.escribir("Valor extras       : "+ev.get(19));
+				tiquete.escribir("Pendiente por pagar....... : "+String.format("%11s\r\n", ev.get(16))); 
+				tiquete.escribir("");
+				if(Integer.parseInt(ev.get(25))>0 || Integer.parseInt(ev.get(29))>0 ||  Integer.parseInt(ev.get(17))>0 || Integer.parseInt(ev.get(21))>0 || Integer.parseInt(ev.get(22))>0 || Integer.parseInt(ev.get(23))>0 || Integer.parseInt(ev.get(24))>0 || ev.get(20) != null || Integer.parseInt(ev.get(20))>0 || ev.get(18) != null){
+					int TotalAD = M(Integer.parseInt(ev.get(25)))* M(Integer.parseInt(ev.get(26))) +
+							  M(Integer.parseInt(ev.get(29)))* M(Integer.parseInt(ev.get(36))) +
+						      M(Integer.parseInt(ev.get(17))) + M(Integer.parseInt(ev.get(18))) - M(Integer.parseInt(ev.get(20)));
+					tiquete.escribir(String.format("Total Adicionales"+String.format("%23s\r\n", TotalAD ))); 
+				}
 				tiquete.escribir("________________________________________"); 
-				tiquete.escribir("TOTAL "+String.format("%34s\r\n", ev.get(31))); 
+				tiquete.escribir("TOTAL POR PAGAR"+String.format("%25s\r\n", ev.get(31))); 
 				tiquete.escribir("________________________________________"); 
 				
 				tiquete.escribir("Forma de pago:    "+String.format("%22s", ev.get(30)));
 				tiquete.escribir("****************************************");
-				tiquete.escribir("Seleccione sus fotos en:                ");
-				tiquete.escribir(this.insertPeriodically("http://www.fotoexpressiones.com/selecciondefotos.html", "\r\n", 40));
-				tiquete.escribir(this.insertPeriodically("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"", "\r\n", 40));
+				//tiquete.escribir("Seleccione sus fotos en:                ");
+				//tiquete.escribir(this.insertPeriodically("http://www.fotoexpressiones.com/selecciondefotos.html", "\r\n", 40));
+				//tiquete.escribir(this.insertPeriodically("O ingresando a www.fotoexpressiones.com, pestaña \"SELECCION\"", "\r\n", 40));
 				//Esto es para escribir una linea divisoria
 
 				//tiquete.setRojo();
@@ -365,7 +394,7 @@ public class LetEvento extends HttpServlet {
 			        }
 			         
 			        //Marcar como ticket impreso
-			        //gd.ActualizarEventoImpreso(llegoEvento);
+			        gd.ActualizarEventoImpreso(llegoEvento);
 			        
 			        inStream.close();
 			        outStream.close(); 
@@ -498,7 +527,7 @@ public class LetEvento extends HttpServlet {
             e.printStackTrace();
         }
 	}
-	
+		
 	public void InvalidarFiltros() throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//super.doGet(req, resp); 
@@ -511,6 +540,14 @@ public class LetEvento extends HttpServlet {
     	sesion.setAttribute("14_Id_Canal_Venta", null);
     	
     	return ;
+	}
+
+	public int M (int i){
+		if(i==-1){
+			return 0;
+		}else{
+			return i;
+		}
 	}
 	
 	public String insertPeriodically(

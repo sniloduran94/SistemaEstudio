@@ -221,7 +221,7 @@
             				</td>
             				<td>
             					<div class="btn-group  btn-group-lg">
-            					 	<% if(nueva.get(1)!=null && nueva.get(2)!=null){  // Fecha reserva %>
+            					 	<% if(nueva.get(1)!=null && nueva.get(2)!=null && ev.getEstado() == 1){  // Fecha reserva %>
 										 <button type="submit" class="btn btn-success" name="ImprimirEvento" value="Imprimir" >
                 							<i class="fa fa-print fa-1x"></i>
             						 	</button>

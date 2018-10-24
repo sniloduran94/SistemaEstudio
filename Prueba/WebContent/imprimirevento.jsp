@@ -164,10 +164,13 @@ select {
 				<!-- Nav Starts -->
 				<div class="navbar-collapse  collapse">
 					<ul class="nav navbar-nav navbar-right scroll">
-						<li><a href="ServletLogin?opcion=IndexTrabajadorAdmin">Menú
-						</a></li>
-						<li><a href="ServletLogin?opcion=CerrarSesion">Cerrar Sesión</a></li>
-					</ul>
+              	 <% if(usuario.getEsAdmin()==1){ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+              	 <% }else{ %>
+              	 	<li class="active" onClick="redirect('ServletLogin?opcion=IndexTrabajadorFotografo')"><a href="">Menú</a></li>
+              	 <% } %>
+				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
+              </ul>
 				</div>
 				<!-- #Nav Ends -->
 
@@ -246,6 +249,10 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Precio por persona adicional</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(26)%></label>
 				</div><br>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Precio por reagendamiento</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(36)%></label>
+				</div><br>
 			
 			
 		</div>
@@ -289,7 +296,7 @@ select {
 				</div><br>
 				<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Nombre campaña convertida</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(33)==null)?"":ev.get(33)%></label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(33)==null || ev.get(33).equals(ev.get(32)))?"N/A":ev.get(33)%></label>
 				</div><br>
 				<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad fotos 10x15 adicionales</label>
@@ -308,16 +315,12 @@ select {
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(24)%></label>
 				</div><br>
 					<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Monto por CD</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(17).equals("-1"))?"N/A":ev.get(17)%></label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Monto por Extras</label>
+					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=(ev.get(18).equals("-1"))?"N/A":ev.get(18)%></label>
 				</div><br>
 					<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Persona(s) adicional(es)</label>
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(25)%></label>
-				</div><br>
-					<div class="form-group col-md-12 col-sm-12 col-xs-12">
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Cantidad reagendamiento</label>
-					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for=""><%=ev.get(28)%></label>
 				</div><br>
 					<div class="form-group col-md-12 col-sm-12 col-xs-12">
 					<label class="col-md-6 col-sm-6 col-xs-6 control-label" for="">Recargo por reagendar</label>
@@ -336,7 +339,7 @@ select {
 	<form action="ServletEvento?opcion=ImprimirEvento" method="post">
 		<input type="hidden" value="<%=ev.get(0)%>" name="39_Id_Evento">
 			<div class="btn-group-lg">
-				<% if(ev.get(35)!=null&&ev.get(35).equals("1")){ %>
+				<% if(ev.get(35)!=null&&ev.get(35).equals("2")){ %>
 					 <button type="submit" class="btn btn-block btn-success" disabled name="ImprimirEvento" value="Imprimir" onclick="return confirm('¿Imprimir este evento?')">
 	              	 <i class="fa fa-print fa-1x"></i> Imprimir
               	 <% }else{ %>
