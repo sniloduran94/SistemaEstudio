@@ -35,7 +35,7 @@ public class Impresora {
 			UserHomeApplet dirUsu = new UserHomeApplet();
 			System.out.println("Prop "+dirUsu.getUserHome());
 							
-			String fmt = home+"/Downloads/";
+			String fmt = "//192.168.100.4/TicketsEstudios"; 
 			
 			fw = new FileWriter(new File(fmt, this.dispositivo.trim()));
 			bw = new BufferedWriter(fw);

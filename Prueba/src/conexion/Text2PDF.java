@@ -40,7 +40,7 @@ public class Text2PDF {
 		UserHomeApplet dirUsu = new UserHomeApplet();
 		System.out.println("Prop "+dirUsu.getUserHome());
 						
-		String fmt = home+"/Downloads/";
+		String fmt = "//192.168.100.4/TicketsEstudios/";
 	    
 	    FileName = fmt+"ticket.txt";
  

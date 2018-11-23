@@ -204,9 +204,10 @@
 							<td><h5><%=(ev.getEstado()==1)?"Activa":"Anulada"%></h5></td>
 							
 							<td><h5><%=ev.getId_Evento() %></h5></td>
-							<form action="ServletEvento?opcion=CambiarEvento" method="post">
-									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
+							
 							<td>	 
+								<form action="ServletEvento?opcion=CambiarEvento" method="post">
+									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
 								<div class="btn-group  btn-group-lg">
 									<% if(ev.getEstado()==1){  //Activo o inactivo %>
 									 <button type="submit" class="btn btn-success" name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
@@ -218,22 +219,41 @@
             						 </button>
             						<%} %>
             					</div>
+            					</form>	
             				</td>
+							
             				<td>
-            					<div class="btn-group  btn-group-lg">
+            					
             					 	<% if(nueva.get(1)!=null && nueva.get(2)!=null && ev.getEstado() == 1){  // Fecha reserva %>
+									<form action="ServletEvento?opcion=CambiarEvento" method="post">
+									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
+									
+										<div class="btn-group  btn-group-lg">
 										 <button type="submit" class="btn btn-success" name="ImprimirEvento" value="Imprimir" >
                 							<i class="fa fa-print fa-1x"></i>
             						 	</button>
-									<%}else{ %>
-										 <button type="submit" class="btn btn-success" name="ImprimirEvento" disabled value="Imprimir" >
+            						</form></div>
+            					
+									<%}else if((nueva.get(1)==null || nueva.get(2)==null) && ev.getEstado() == 1){ %>
+									<form action="ServletEvento?opcion=ImprimirEventoSimple" method="post">
+									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">	
+									<div class="btn-group  btn-group-lg">
+										 <button type="submit" class="btn btn-success" name="ImprimirEventoSimple" value="Imprimir" >
                 							<i class="fa fa-print fa-1x"></i>
             						 	 </button>
+            						</form></div>
+            					
+									<%}else{ %>
+									<form action="ServletEvento?opcion=CambiarEvento" method="post">
+									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
+									<div class="btn-group  btn-group-lg">
+										 <button type="submit" class="btn btn-success" name="ImprimirEventoSimple" disabled value="Imprimir" >
+                							<i class="fa fa-print fa-1x"></i>
+            						 	 </button></div>
 									<%} %>
 									
-            					</div>
-            				</td>
-							</form>		
+								</form>
+            				</td>	
 						</tr>
 	<% 				} %>
 			    </tbody>

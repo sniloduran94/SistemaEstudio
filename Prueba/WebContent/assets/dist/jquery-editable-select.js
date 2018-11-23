@@ -49,7 +49,7 @@
 		});
 		
 		if (!this.$list.is(':visible') && this.$list.find('li.es-visible').length > 0) {
-			var fns = { default: 'show', fade: 'fadeIn', slide: 'slideDown' };
+			var fns = { fade: 'fadeIn', slide: 'slideDown' };
 			var fn  = fns[this.options.effects];
 			
 			this.utility.trigger('show');

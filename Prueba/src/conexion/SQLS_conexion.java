@@ -3727,14 +3727,14 @@ public int ActualizarCampania(Campania camp){
 	 * Reservas para exportación a excel
 	 */
 	public ArrayList<ArrayList<String>> ArrayExcel() throws SQLException{
-		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,"
-				+ "  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' + "
-				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,"
-				+ " [dbo].[Ultimas_Reservas].[16_Validado],"
-				+ " [dbo].[Ultimas_Reservas].[15_Id_Cliente], [dbo].[15_Cliente].[15_Id_Cliente],"
+		String SQL = "  SELECT CONVERT(VARCHAR,  [16_Reserva].[16_Fecha], 105) AS FECHA,"
+				+ "  CONVERT(VARCHAR, DATEPART(hh,  [16_Reserva].[16_FECHA])) + ':' + "
+				+ "  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [16_Reserva].[16_FECHA])), 2) AS HORA,"
+				+ " [dbo].[16_Reserva].[16_Validado],"
+				+ " [dbo].[16_Reserva].[15_Id_Cliente], [dbo].[15_Cliente].[15_Id_Cliente],"
 				+ " [dbo].[15_Cliente].[15_Nombre],"
 				+ " [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],"
-				+ " [dbo].[Ultimas_Reservas].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
+				+ " [dbo].[16_Reserva].[17_Id_Campania],[dbo].[17_Campania].[17_Id_Campania],"
 				+ " [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],"
 				+ " [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],"
 				+ " [dbo].[17_Campania].[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],"
@@ -3746,13 +3746,13 @@ public int ActualizarCampania(Campania camp){
 				+ " [dbo].[17_Campania].[17_Cant_15x21],"
 				+ " [dbo].[17_Campania].[17_Cant_20x30],"
 				+ " [dbo].[17_Campania].[17_Cant_30x40],"
-				+ " [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],"
-				+ " [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],"
-				+ " [dbo].[Ultimas_Reservas].[16_Pre_Reserva]"
-				+ " FROM [dbo].[Ultimas_Reservas],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion]"
-				+ " WHERE  [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
-				+ " AND  [dbo].[Ultimas_Reservas].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
-				+ " AND  [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
+				+ " [dbo].[16_Reserva].[16_Cantidad_Adicionales],"
+				+ " [dbo].[16_Reserva].[16_Cantidad_Reagendamiento],"
+				+ " [dbo].[16_Reserva].[16_Pre_Reserva]"
+				+ " FROM [dbo].[16_Reserva],[dbo].[14_Canal_Venta],[dbo].[17_Campania],[dbo].[15_Cliente],[dbo].[34_Tipo_Sesion]"
+				+ " WHERE  [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]"
+				+ " AND  [dbo].[16_Reserva].[17_Id_Campania] = [dbo].[17_Campania].[17_Id_Campania]"
+				+ " AND  [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]"
 				+ " AND  [dbo].[17_Campania].[14_Id_Canal_Venta] = [dbo].[14_Canal_Venta].[14_Id_Canal_Venta];";
 		
 		ResultSet rs = Consultar(SQL);
@@ -3950,29 +3950,29 @@ public int ActualizarCampania(Campania camp){
 		String fechaini = sdf.format(llegoInicio1);
 		String fechafin = sdf.format(llegoFin1);
 		
-		String SQL = "  SELECT CONVERT(VARCHAR,  [Ultimas_Reservas].[16_Fecha], 105) AS FECHA,  CONVERT(VARCHAR, DATEPART(hh,  [Ultimas_Reservas].[16_FECHA])) + ':' +  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [Ultimas_Reservas].[16_FECHA])), 2) AS HORA,  [dbo].[Ultimas_Reservas].[16_Validado],  [dbo].[15_Cliente].[15_Nombre],	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],	 [dbo].[Ultimas_Reservas].[17_Id_Campania],C.[17_Id_Campania],	 [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],	 C.[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],	 [dbo].[14_Canal_Venta].[14_Canal],	 C.[17_Precio],	 C.[17_Posee_CD],	"
+		String SQL = "  SELECT CONVERT(VARCHAR,  [16_Reserva].[16_Fecha], 105) AS FECHA,  CONVERT(VARCHAR, DATEPART(hh,  [16_Reserva].[16_FECHA])) + ':' +  RIGHT('0' + CONVERT(VARCHAR, DATEPART(mi,  [16_Reserva].[16_FECHA])), 2) AS HORA,  [dbo].[16_Reserva].[16_Validado],  [dbo].[15_Cliente].[15_Nombre],	 [dbo].[15_Cliente].[15_Apellido_Pat], [dbo].[15_Cliente].[15_Apellido_Mat],	 [dbo].[16_Reserva].[17_Id_Campania],C.[17_Id_Campania],	 [dbo].[16_Reserva].[34_Id_Tipo_Sesion], [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion],	 [dbo].[34_Tipo_Sesion].[34_Tipo_Sesion],	 C.[14_Id_Canal_Venta], [dbo].[14_Canal_Venta].[14_Id_Canal_Venta],	 [dbo].[14_Canal_Venta].[14_Canal],	 C.[17_Precio],	 C.[17_Posee_CD],	"
 				+ "     CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_Fotos_CD] ELSE CC.[17_Cant_Fotos_CD] END AS [17_Cant_Fotos_CD],	"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_10x15] ELSE CC.[17_Cant_10x15] END AS [17_Cant_10x15], "
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_15x21] ELSE CC.[17_Cant_15x21] END AS [17_Cant_15x21],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_20x30] ELSE CC.[17_Cant_20x30] END AS [17_Cant_20x30],	 "
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN C.[17_Cant_30x40] ELSE CC.[17_Cant_30x40] END AS [17_Cant_30x40],	"
-				+ "	    [dbo].[Ultimas_Reservas].[16_Cantidad_Adicionales],	 [dbo].[Ultimas_Reservas].[16_Cantidad_Reagendamiento],	 [dbo].[Ultimas_Reservas].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras], [dbo].[35_Auxiliar].[35_Descuento] * -1 AS [35_Descuento],	 "
+				+ "	    [dbo].[16_Reserva].[16_Cantidad_Adicionales],	 [dbo].[16_Reserva].[16_Cantidad_Reagendamiento],	 [dbo].[16_Reserva].[16_Id_Reserva], [dbo].[35_Auxiliar].[16_Id_Reserva],	 [dbo].[35_Auxiliar].[35_Asistio],	 [dbo].[35_Auxiliar].[35_Numero_Ticket],	 [dbo].[35_Auxiliar].[35_Valor_Por_Cobrar],	 [dbo].[35_Auxiliar].[35_CD],	 [dbo].[35_Auxiliar].[35_Extras], [dbo].[35_Auxiliar].[35_Descuento] * -1 AS [35_Descuento],	 "
 				+ "     [dbo].[35_Auxiliar].[35_Persona_Adicional] * C.[17_Precio_Adicional] AS [35_Persona_Adicional],	 "
 				+ "     [dbo].[35_Auxiliar].[35_Recargo_Por_Reagendar] * C.[17_Precio_Reagendamiento] AS [35_Recargo_Por_Reagendar],	 [dbo].[35_Auxiliar].[35_Monto_Extras],	 [dbo].[35_Auxiliar].[35_Fotografo],	 [dbo].[35_Auxiliar].[35_Fotos_Seleccionadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Entrega], 105) AS [35_Fecha_Entrega],	 [dbo].[35_Auxiliar].[35_Entregadas],	 CONVERT(VARCHAR,  [dbo].[35_Auxiliar].[35_Fecha_Envio_Imprimir], 105) AS [35_Fecha_Envio_Imprimir],	 [dbo].[35_Auxiliar].[35_Monto_Impresion],	 [dbo].[35_Auxiliar].[35_Numero_Factura],	 [dbo].[35_Auxiliar].[35_Cant_10x15],	 [dbo].[35_Auxiliar].[35_Cant_15x21],	 [dbo].[35_Auxiliar].[35_Cant_20x30],	 [dbo].[35_Auxiliar].[35_Cant_30x40],"
 				+ "     CASE WHEN C.[17_Nombre] IS NULL THEN ' ' ELSE C.[17_Nombre] END AS [Campaña],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN ' ' ELSE CC.[17_Nombre] END AS [Campaña_Convertida],"
 				+ "		CASE WHEN [35_Auxiliar].[17_Id_Campania_Convertida] IS NULL THEN 0 ELSE CC.[17_Precio] - C.[17_Precio] END AS [Diferencia]"				
-				+ "	    FROM [DBO].[Ultimas_Reservas] "
-				+ "  INNER JOIN [DBO].[35_Auxiliar] ON [dbo].[35_Auxiliar].[16_Id_Reserva] = [DBO].[Ultimas_reservas].[16_Id_Reserva] "
-				+ "  INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[Ultimas_Reservas].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]  "
-				+ "  INNER JOIN [DBO].[17_CAMPANIA] AS C ON [dbo].[Ultimas_Reservas].[17_Id_Campania] = c.[17_Id_Campania]   "
+				+ "	    FROM [DBO].[16_Reserva] "
+				+ "  INNER JOIN [DBO].[35_Auxiliar] ON [dbo].[35_Auxiliar].[16_Id_Reserva] = [DBO].[16_Reserva].[16_Id_Reserva] "
+				+ "  INNER JOIN [DBO].[15_CLIENTE] ON [dbo].[16_Reserva].[15_Id_Cliente] = [dbo].[15_Cliente].[15_Id_Cliente]  "
+				+ "  INNER JOIN [DBO].[17_CAMPANIA] AS C ON [dbo].[16_Reserva].[17_Id_Campania] = c.[17_Id_Campania]   "
 				+ "   LEFT JOIN [DBO].[17_Campania] CC ON [35_Auxiliar].[17_Id_Campania_Convertida] = CC.[17_Id_Campania]	"
 				+ "  INNER JOIN [DBO].[14_Canal_Venta] ON [dbo].[14_Canal_Venta].[14_Id_Canal_Venta] = CC.[14_Id_Canal_Venta]  "
-				+ "  INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[Ultimas_Reservas].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]   "
-				+ "  INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[Ultimas_Reservas].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]   "
+				+ "  INNER JOIN [DBO].[04_TRABAJADOR] ON [dbo].[16_Reserva].[04_Id_Trabajador] =  [dbo].[04_Trabajador].[04_Id_Trabajador]   "
+				+ "  INNER JOIN [DBO].[34_TIPO_SESION] ON [dbo].[16_Reserva].[34_Id_Tipo_Sesion] = [dbo].[34_Tipo_Sesion].[34_Id_Tipo_Sesion]   "
 				+ "  INNER JOIN [dbo].[39_Evento]  ON [dbo].[35_Auxiliar].[35_Id_Auxiliar] = [39_Evento].[35_Id_Auxiliar] AND [39_Evento].[39_Estado] != 0"
 				+ "  WHERE [16_Fecha] BETWEEN '"+fechaini + "' AND '" + fechafin+" 23:59:59' "
-				+ "  ORDER BY [Ultimas_reservas].[16_Fecha]";
+				+ "  ORDER BY [16_Reserva].[16_Fecha]";
 		
 		ResultSet rs = Consultar(SQL);  
 		
@@ -6289,6 +6289,7 @@ public int ActualizarCampania(Campania camp){
 		}
 		return null;
 	}
+
 	
 	/**
 	 * @author Advancing
