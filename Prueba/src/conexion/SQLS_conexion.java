@@ -543,7 +543,7 @@ public class SQLS_conexion {
 	
 public int EliminarEvento(int id){
 		
-		String SQL = "UPDATE [dbo].[39_Evento]  SET [39_Evento].[39_Estado] = 0 "
+		String SQL = "UPDATE [dbo].[39_Evento]  SET [39_Evento].[39_Estado] = 0 "   
 				+ "WHERE [39_Evento].[39_Id_Evento] = "+id+";";
 				
 		Statement s = null;
@@ -560,7 +560,28 @@ public int EliminarEvento(int id){
 		}
 		return 0;
 	}
+
+
+public int ActualizarEventoMotivoAnulacion(int id, String pMotivoAnulacion) {
+	String SQL = "UPDATE [dbo].[39_Evento]  SET [39_Evento].[39_Motivo_Anulacion] = '" + pMotivoAnulacion + "'" +
+                 " WHERE [39_Evento].[39_Id_Evento] = " + id +   
+                 ";";
 	
+	Statement s = null;
+	int columnasafectadas = 0;
+	try {
+		Connection conn = getConexion();
+		s = conn.createStatement();
+		columnasafectadas = s.executeUpdate(SQL);
+		if (columnasafectadas == 1) {
+			return 1;
+		}
+	} catch (SQLException e) {
+		System.out.println("ERROR! "+ e);
+	}
+	return 0;
+}
+
 	/**
 	 * @author Advancing
 	 * Obtención de Tipos de Sesion
@@ -6385,5 +6406,7 @@ public int ActualizarCampania(Campania camp){
 		}
 		return 0;
 	}
+
+	
 	
 }

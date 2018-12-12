@@ -52,6 +52,45 @@
 </head>
 <body>
 
+<div class="modal" id="modalMotivoAnulacion"> <!-- Mision-->
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<br><h4 class="modal-title bounceInUp">Motivo de Anulación</h4>
+			</div>
+			<div class="modal-body bounceInUp">
+<!-- Mantencion Evolutiva: Enviar correo señalando el motivo de anulación -->
+			<%%>
+				Ingrese el motivo por el cual desea anular Ticket Nro: <input id="NumerodeTicket" readonly /><br>
+				<br><br> Motivo: <br><br>
+					<form action="ServletEvento?opcion=CambiarEvento" method="post">
+ 					<input class="form-control" type="text" id="39_Motivo_Anulacion" autocomplete="off" placeholder="Ingrese motivo de anulación" name="39_Motivo_Anulacion"/><br>
+					 	<input type="hidden" id="39_Id_Evento" name="39_Id_Evento"   class="form-control" type="text">
+					 	<input type="hidden" id="39_Motivo_Anulacion" name="39_Motivo_Anulacion"   class="form-control" type="text">
+						<div class="btn-group  btn-group-lg">
+						 		<button type="submit" class="btn btn-success" name="AnularEvento" value="Anular" >
+             						   ANULAR
+         						 </button>
+	   					</div>
+   					</form>	
+
+
+
+
+
+ 			
+	</div>
+		<div class="modal-footer bounceInUp">
+			<button type="button" class="btn btn-default btn3d" data-dismiss="modal">Cerrar</button>
+		</div>
+	</div><!-- /.modal-content -->
+			
+	</div><!-- /.modal-dialog -->
+		
+</div><!-- /.modal -->
+
+
 	<% 
 		HttpSession sesion = (HttpSession) request.getSession();
 		Trabajador usuario = null;
@@ -134,12 +173,12 @@
   <%	} 
 	  } %>
   		<div class="row">
-  			<div class="col-log-6">
+  			<div class="col-log-14">
   				<h2>Ingresos y egresos</h2>
   			</div>	
   		</div>
   		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-14">
 				<button type="button"  class="reset btn btn-success btn-block"><i class="fa fa-undo fa-1x"></i> Borrar filtros de búsqueda</button>
 			</div>
 		</div>
@@ -147,7 +186,7 @@
   		<div class="row">
   			<div class="row">
         <%if(!iterres1.hasNext()){  %>
-			<div class="col-lg-12">
+			<div class="col-lg-14">
 				<h3>No existen datos para mostrar </h3>
 			</div>
 		<%}else{%>
@@ -205,13 +244,13 @@
 							
 							<td><h5><%=ev.getId_Evento() %></h5></td>
 							
-							<td>	 
-								<form action="ServletEvento?opcion=CambiarEvento" method="post">
-									<input type="hidden" value="<%=ev.getId_Evento()%>" name="39_Id_Evento">
+							<td>	
+									<input type="hidden" value="<%=ev.getId_Evento()%>" name="param_39_Numero_Boleta">
 								<div class="btn-group  btn-group-lg">
 									<% if(ev.getEstado()==1){  //Activo o inactivo %>
-									 <button type="submit" class="btn btn-success" name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
+									 <button type="button" class="btn btn-success" name="AnularEvento" value="Anular" data-toggle="modal" data-target="#modalMotivoAnulacion" onclick="asignaTicket('<%=ev.getId_Evento()%>')">
                 						<i class="fa fa-minus-circle fa-1x"></i>
+                						
             						 </button>
             						<%}else{ %>
             						 <button type="submit" class="btn btn-success" disabled name="AnularEvento" value="Anular" onclick="return confirm('¿Estás seguro que deseas anular este evento?')">
@@ -219,7 +258,6 @@
             						 </button>
             						<%} %>
             					</div>
-            					</form>	
             				</td>
 							
             				<td>
@@ -310,7 +348,16 @@
 <!-- custom script -->
 <script src="assets/script.js"></script>
 
-<script id="js">/*
+<script id="js"> 
+<!-- SBRITO -->
+function asignaTicket(Valor){
+      document.getElementById("NumerodeTicket").value = Valor;
+      document.getElementById("39_Id_Evento").value = Valor;
+}
+function recuperaTicket(){
+ return document.getElementById("NumerodeTicket").value
+}
+/*
 	$(document).ready(function() {
 
 	var $table = $('table').tablesorter({

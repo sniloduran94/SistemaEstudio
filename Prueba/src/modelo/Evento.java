@@ -14,6 +14,7 @@ public class Evento {
 	private String Movimiento;
 	private String Tipo_Doc;
 	private int Impreso;
+	private String Motivo_Anulacion;
 	
 	public int getImpreso() {
 		return Impreso;
@@ -92,6 +93,12 @@ public class Evento {
 	}
 	public void setTipo_Doc(String tipo_Doc) {
 		Tipo_Doc = tipo_Doc;
+	}
+	public String getMotivo_Anulacion() {
+		return Motivo_Anulacion;
+	}
+	public void setMotivo_Anulacion(String motivo_Anulacion) {
+		Motivo_Anulacion = motivo_Anulacion;
 	}
 
 }

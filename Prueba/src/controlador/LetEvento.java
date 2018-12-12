@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import conexion.Impresora;
+import conexion.JavaMail;
 import conexion.SQLS_conexion;
 import conexion.Text2PDF;
 import conexion.UserHomeApplet;
@@ -28,6 +29,7 @@ import modelo.Canal_Venta;
 import modelo.Evento;
 import modelo.Trabajador;
 import modelo.Vendedor;
+import modelo.Cliente;
 
 /**
  * Servlet implementation class LetCampania
@@ -46,9 +48,51 @@ public class LetEvento extends HttpServlet {
 		    SQLS_conexion gd = new SQLS_conexion();
 		    
 		    RequestDispatcher rd = null;
-		    
+		    		    
 		    sesion = request.getSession();
 		     
+		    if (llegoSolicitud.equals("AnularEvento")) { 
+		    	
+		    	System.out.println("BANDERA 1 - ANULAR EVENTO");
+		    	 
+		    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
+    	    	System.out.println("El usuario en la solicitud de evento es "+ trab.getNombre());	    	
+    	    	
+
+		    	String llegoIdEvento = request.getParameter("39_Id_Evento");
+		    	String llegoMotivoAnulacion = request.getParameter("39_Motivo_Anulacion");
+    	    	                   
+		       			       	
+		        int corroboracion = gd.EliminarEvento(Integer.parseInt(llegoIdEvento));
+		    	int resultado = gd.ActualizarEventoMotivoAnulacion(Integer.parseInt(llegoIdEvento), llegoMotivoAnulacion);
+		        
+				//int corroboracion2 = gd.EliminarSesionAuxiliar(eventoamodificar.getId_Auxiliar());
+		    	
+				//if(corroboracion>0 && corroboracion2>0){
+
+				if(corroboracion>0){
+					String mensaje = "Evento anulado correctamente";
+					
+					request.setAttribute("mensaje", mensaje);
+					request.setAttribute("tipomensaje", "success");
+					
+					ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
+					request.setAttribute("eventos", eventos2);
+					
+			    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+				}else{
+					String mensaje = "ERROR! Intente anular nuevamente";
+					
+					request.setAttribute("mensaje", mensaje);
+					request.setAttribute("tipomensaje", "danger");
+					
+					ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
+					request.setAttribute("eventos", eventos2);
+					
+			    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+				} 
+		    }
+
 		    if (llegoSolicitud.equals("NuevoEvento")) {
 		    	 
 		    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
@@ -122,64 +166,99 @@ public class LetEvento extends HttpServlet {
     	    	ArrayList<ArrayList<Object>> eventos= (ArrayList<ArrayList<Object>>) gd.getEventosSinId(" [39_Id_Evento] ="+llegoEvento);
     	    	Evento eventoamodificar = (Evento)eventos.get(0).get(0); 
     	    	
-    	    	//Obtención del usuario
     	    	Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
     			System.out.println("Nombre en LetEvento - Cambiar Evento: "+ usuario.getNombre());
     		
-    			//Opciones - Modificar o eliminar
-    			//String llegoModificar = request.getParameter("");
     			String llegoAnular = request.getParameter("AnularEvento");
     			String llegoImprimir = request.getParameter("ImprimirEvento");
     			
-    			System.out.println(llegoAnular);
+    			//System.out.println(llegoAnular);
     			
     			if((llegoAnular!=null)||(llegoImprimir!=null)){  
     				if((llegoAnular!=null)){ 
-						//Caso de Eliminar una campaña	 
-						int corroboracion = gd.EliminarEvento(eventoamodificar.getId_Evento());
-						//int corroboracion2 = gd.EliminarSesionAuxiliar(eventoamodificar.getId_Auxiliar());
-						 
-						//if(corroboracion>0 && corroboracion2>0){
-						System.out.println(corroboracion);
+
+    			    	String llegoIdEvento = request.getParameter("39_Id_Evento");
+    			    	String llegoMotivoAnulacion = request.getParameter("39_Motivo_Anulacion");
+
+    			    	trab = (Trabajador) sesion.getAttribute("usuario");
+
+					    int corroboracion = gd.EliminarEvento(eventoamodificar.getId_Evento());
+    			    	int resultado = gd.ActualizarEventoMotivoAnulacion(eventoamodificar.getId_Evento(), llegoMotivoAnulacion);
+
 						if(corroboracion>0){
-							String mensaje = "Evento anulado correctamente";
+
+// Mantencion Evolutiva: Enviar correo señalando el motivo de anulación
 							
+	    	    			JavaMail mail = new JavaMail();
+
+	    	    			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(mail.IdVendedor), "Int").get(0);
+	    	    			String logoIcono = Vend.getLogo_Icono();
+	    	    			
+	    	    			String AsuntoDeCorreo = "Anulación de Evento ["+llegoIdEvento+"]";
+
+
+	    	    	    	ArrayList<Trabajador> trab2 = gd.getTrabajadoresFiltro("04_Email", "jonathan.herrera@advancing.cl", "String");
+	    	    	    	Trabajador trabRecibeMailAnulacion = trab2.get(0); 
+	    	    	    	
+	    	    			String correo = trabRecibeMailAnulacion.getEmail();
+	    	    			String correo2 = usuario.getEmail();
+	    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+
+	    	    			String MensajeDeCorreo = "Estimado/a <strong>" + trabRecibeMailAnulacion.getNombre()+" "+trabRecibeMailAnulacion.getApellido_Pat() + ":</strong> <br><br><br>"
+	    	    					+ " Se ha <strong>anulado el evento "+llegoIdEvento+"</strong>.<br><br>"
+	    	    					+ "<br><br> Motivo Anulación: " + llegoMotivoAnulacion + "<br><br>"
+	    	    					+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>" ;
+	    	    			
+	    	    			String correoEnvia = Vend.getMail();
+	    	    	    	String nombreEnvia = Vend.getVendedor();
+	    	    	    	String clave = Vend.getMail_PW();
+
+	    	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
+
+// FIN Mantencion Evolutiva: Enviar correo señalando el motivo de anulación
+
+							String mensaje = "Evento " +llegoIdEvento+" anulado correctamente";
+
 							request.setAttribute("mensaje", mensaje);
 							request.setAttribute("tipomensaje", "success");
-							
+
 							ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
 							request.setAttribute("eventos", eventos2);
-							
+
 					    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+
 						}else{
+
 							String mensaje = "ERROR! Intente anular nuevamente";
-							
+
 							request.setAttribute("mensaje", mensaje);
 							request.setAttribute("tipomensaje", "danger");
-							
+
 							ArrayList<ArrayList<Object>> eventos2 = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");
 							request.setAttribute("eventos", eventos2);
-							
+
 					    	rd = request.getRequestDispatcher("/visualizareventos.jsp");
+
 						} 
     				}
     				if((llegoImprimir!=null)){  
-    					
+
     					ArrayList<String> evento = gd.getEvento(" AND [39_Id_Evento] = "+llegoEvento);  
         				request.setAttribute("evento", evento);  					
 				    	rd = request.getRequestDispatcher("/imprimirevento.jsp");  
+
         			}
     			}
     			rd.forward(request, response);  
 		    }
-		    
+
 		    if(llegoSolicitud.equals("ImprimirEvento")){
-		    	   	    	
+
     	    	String llegoEvento = (request.getParameter("39_Id_Evento"));
-    	    	
+
     	    	ArrayList<String> ev = (ArrayList<String>) gd.getEvento(" AND [39_Id_Evento] ="+llegoEvento); 
     	    	Vendedor vend = (Vendedor)gd.getVendedoresSinId("", "", "").get(0);
-    	    	
+
     	    	//Obtención del usuario
     	    	Trabajador usuario =  (Trabajador) sesion.getAttribute("usuario");
     			System.out.println("Nombre en LetEvento - Imprimir Evento: "+ usuario.getNombre());
@@ -651,6 +730,7 @@ public class LetEvento extends HttpServlet {
 		    	rd = request.getRequestDispatcher("/visualizarcampanias.jsp");
 		    	rd.forward(request, response);
 	    	  }
+		       
 		    		    
 	}
        

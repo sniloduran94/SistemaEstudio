@@ -31,16 +31,20 @@ public class JavaMail {
 	//Remitentes si la reserva es del día de hoy
 	
 	//Prueba
-				   public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("contacto@genesisestudio.cl", "reservas@genesisestudio.cl", "consultorqad@gmail.com", "s.niloduran@gmail.com"));
+	   public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("contacto@genesisestudio.cl", "reservas@genesisestudio.cl", "consultorqad@gmail.com", "salomon.nilo@advancing.cl"));
+	   public int IdVendedor = 2;
 	//Expressiones
 	//				public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("central@genesisestudio.cl", "fotografia_2@fotoexpressiones.com", "contacto@fotoexpressiones.com", "reservas@fotoexpressiones.com"));
+	//			    public int IdVendedor = 2;
 	//Kids
 	//				public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("central@genesisestudio.cl", "fotografia_2@fotoexpressiones.com", "contacto@fotoexpressiones.com", "reservas@fotoexpressiones.com"));
+    //	    		public int IdVendedor = 5;
 	//Genesis
 	//				public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("central@genesisestudio.cl", "fotografia_2@fotoexpressiones.com", "contacto@genesisestudio.cl", "reservas@genesisestudio.cl"));
+	//	    		public int IdVendedor = 3;
 	//ElOtroEstudio
 	//				public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("central@genesisestudio.cl", "fotografia_2@fotoexpressiones.com", "contacto@elotroestudio.cl", "reservas@elotroestudio.cl"));
-	
+	//	    		public int IdVendedor = 4;
 	
  public void mandarCorreo(String Correo1, String Correo2, String Correo3, String Mensaje, String Asunto, String correoEnvia, String NombreCorreoEnvia, String correoClave, boolean esParaHoy){  
 	  // El correo gmail de envío  
