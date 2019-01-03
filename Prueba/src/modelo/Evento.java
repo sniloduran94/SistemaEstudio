@@ -9,7 +9,7 @@ public class Evento {
 	private String Item;
 	private String Descripcion;
 	private int Estado;
-	private int Numero_Boleta;
+	private double Numero_Boleta;
 	private int Id_Auxiliar;
 	private String Movimiento;
 	private String Tipo_Doc;
@@ -70,10 +70,10 @@ public class Evento {
 	public void setEstado(int estado) {
 		Estado = estado;
 	}
-	public int getNumero_Boleta() {
+	public double getNumero_Boleta() {
 		return Numero_Boleta;
 	}
-	public void setNumero_Boleta(int numero_Boleta) {
+	public void setNumero_Boleta(double numero_Boleta) {
 		Numero_Boleta = numero_Boleta;
 	}
 	public int getId_Auxiliar() {

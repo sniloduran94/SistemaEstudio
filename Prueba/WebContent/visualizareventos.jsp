@@ -230,8 +230,15 @@
 					%>
 						<tr>
 							<td><h5><i class="fa fa-user fa-2x"></i></h5></td>
+
+							<%
 							
-							<td><h5><%=ev.getNumero_Boleta()%></h5></td>
+							double vBoleta = ev.getNumero_Boleta();
+							vBoleta = Math.round(vBoleta );
+							
+							 %>
+
+							<td><h5><%=Math.round(vBoleta)%></h5></td>
 							<td><h5><%=ev.getFecha().replace(" ","<br>")%></h5></td>
 							<td><h5><%=ev.getForma_Pago()%></h5></td>
 							<td><h5><%=ev.getMovimiento()%></h5></td>

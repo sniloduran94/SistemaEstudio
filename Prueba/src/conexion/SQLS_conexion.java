@@ -1320,7 +1320,7 @@ public int ActualizarEventoMotivoAnulacion(int id, String pMotivoAnulacion) {
 				min.add(rs.getInt("17_Precio_Reagendamiento"));	 //20
 				min.add(rs.getInt("17_ABONO"));				 	 //21
 				
-				min.add(rs.getInt("39_Numero_Boleta")); 		 //22
+				min.add(rs.getDouble("39_Numero_Boleta")); 		 //22
 				
 				array.add(min);
 			}
@@ -1427,7 +1427,7 @@ public int ActualizarEventoMotivoAnulacion(int id, String pMotivoAnulacion) {
 				min.add(rs.getInt("17_Precio_Reagendamiento"));	 //20
 				min.add(rs.getInt("17_ABONO"));				 	 //21
 				
-				min.add(rs.getInt("39_Numero_Boleta")); 		 //22
+				min.add(rs.getDouble("39_Numero_Boleta")); 		 //22
 								
 				array.add(min);
 			}
@@ -1837,7 +1837,7 @@ public int ActualizarEventoMotivoAnulacion(int id, String pMotivoAnulacion) {
 				min.add(rs.getInt("17_Precio_Reagendamiento"));	 //20
 				min.add(rs.getInt("17_ABONO"));				 	 //21
 				
-				min.add(rs.getInt("39_Numero_Boleta")); 		 //22
+				min.add(rs.getDouble("39_Numero_Boleta")); 		 //22
 				
 				array.add(min);
 			}
@@ -5808,7 +5808,7 @@ public int ActualizarCampania(Campania camp){
 			ev.setEstado(rs.getInt("39_Estado"));
 			ev.setId_Auxiliar(rs.getInt("35_Id_Auxiliar"));
 			ev.setMovimiento(rs.getString("39_Movimiento"));
-			ev.setNumero_Boleta(rs.getInt("39_Numero_Boleta"));
+			ev.setNumero_Boleta(rs.getDouble("39_Numero_Boleta"));
 			ev.setTipo_Doc(rs.getString("39_Tipo_Doc"));
 			
 			//ATRIBUTOS DE TABLA CAMPAÑA

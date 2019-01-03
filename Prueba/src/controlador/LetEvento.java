@@ -99,16 +99,21 @@ public class LetEvento extends HttpServlet {
     	    	System.out.println("El usuario en la solicitud de evento es "+ trab.getNombre());	    	
     	    	
 		    	String llegoFormaPago = request.getParameter("39_Forma_Pago");
+		    		System.out.println("llegoFormaPago  "+ llegoFormaPago);
 		    	String llegoMovimiento = request.getParameter("39_Movimiento");
+		    		System.out.println("llegoMovimiento  "+ llegoMovimiento);
 		    	int llegoValor = Integer.parseInt(request.getParameter("39_Valor"));		    	
+		    		System.out.println("llegoValor  "+ llegoValor);
 		    	String llegoItem = request.getParameter("39_Item");
+		    		System.out.println("llegoItem  "+ llegoItem);
 		    	String llegoDescripcion = request.getParameter("17_Descripcion");
-		    	int llegoNumeroBoleta = 0;
+		    		System.out.println("llegoDescripcion  "+ llegoDescripcion);
+		    	double llegoNumeroBoleta = 0;
 		    	if(!request.getParameter("39_Numero_Boleta").equals("")){
-		    		llegoNumeroBoleta = Integer.parseInt(request.getParameter("39_Numero_Boleta"));
+		    		llegoNumeroBoleta = Double.parseDouble(request.getParameter("39_Numero_Boleta")); //Integer.parseInt(request.getParameter("39_Numero_Boleta"));
 		    	}		    	
 		    	String llegoTipoDoc = request.getParameter("39_Tipo_Doc");
-		    	
+		    		System.out.println("llegoTipoDoc  "+ llegoTipoDoc);
 		    	Evento ev = new Evento ();
     	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
     	    	Date ahora = new Date();
@@ -144,12 +149,14 @@ public class LetEvento extends HttpServlet {
 				
 					request.setAttribute("mensaje", mensaje);
 					request.setAttribute("tipomensaje", "success");		       		
+	    	    	System.out.println("Resultado de evento  "+ mensaje);	    	
 		       	}else{
 		       		String mensaje = "Se produjo un error en la inserción";
 					request.setAttribute("mensaje", mensaje);
 					request.setAttribute("tipomensaje", "success");
+	    	    	System.out.println("Resultado de evento  "+ mensaje);	    	
 		       	}
-		       	
+
 		    	ArrayList<ArrayList<Object>> eventos = (ArrayList<ArrayList<Object>>)gd.getEventosSinId("");	
 				request.setAttribute("eventos", eventos);
 				
