@@ -108,9 +108,9 @@ public class LetEvento extends HttpServlet {
 		    		System.out.println("llegoItem  "+ llegoItem);
 		    	String llegoDescripcion = request.getParameter("17_Descripcion");
 		    		System.out.println("llegoDescripcion  "+ llegoDescripcion);
-		    	double llegoNumeroBoleta = 0;
+		    	int llegoNumeroBoleta = 0;
 		    	if(!request.getParameter("39_Numero_Boleta").equals("")){
-		    		llegoNumeroBoleta = Double.parseDouble(request.getParameter("39_Numero_Boleta")); //Integer.parseInt(request.getParameter("39_Numero_Boleta"));
+		    		llegoNumeroBoleta = Integer.parseInt(request.getParameter("39_Numero_Boleta")); //Integer.parseInt(request.getParameter("39_Numero_Boleta"));
 		    	}		    	
 		    	String llegoTipoDoc = request.getParameter("39_Tipo_Doc");
 		    		System.out.println("llegoTipoDoc  "+ llegoTipoDoc);

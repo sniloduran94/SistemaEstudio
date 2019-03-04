@@ -75,7 +75,7 @@ public class LetReserva extends HttpServlet {
     	    	
     	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	
     	    	
-    	    	System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre() + new Date());
+    	    	System.out.println("1.- El usuario en la solicitud de reserva es "+ trab.getNombre() + new Date());
     	    	int llegoId = 0;	
     	    	
     	    	ArrayList<Cliente> Clientes = (ArrayList<Cliente>)gd.getClientesFiltro("","","");
@@ -350,12 +350,14 @@ public class LetReserva extends HttpServlet {
 	        					+ "<br><br><span style='font-size:12.0pt;color:red'> Para confirmar la hora, debes transferir o depositar $"
 	        					+ NumberFormat.getIntegerInstance().format(camp.getAbono())
 	        					+", durante las próximas 24 horas, sino se anulará la pre-reserva. </span>"
-	        					+ MetodoPago
-	        					+ "La dirección es: "+direccion
-	        					+ "<br>Nuestra página es: "+pagina
+	        					+ MetodoPago + "<br> " 
+	        					//+ "La dirección es: " +direccion
+	        					//+ "<br>Nuestra página es: " +pagina
 	        					+ MensajeMail
 	        					+ "<br><br> No faltes, ¡Te esperamos!"
 	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+								
+								
 	    	    	}else{
 	    	    		AsuntoDeCorreo = "Comprobante de reserva";
 	    	    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
@@ -368,7 +370,8 @@ public class LetReserva extends HttpServlet {
 	    					+ PDcampania
 	    					+ MensajeMail
 	    					+ "La dirección es: "+direccion
-	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";    	    		
+	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>"; 
+														
 	    	    	}
 	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, esParaHoy);
 	    			
@@ -543,7 +546,7 @@ public class LetReserva extends HttpServlet {
     	    					+ "La dirección es: "+direccion 
     	    					+ "<br>Nuestra página es: "+pagina
     	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
-    	    			
+    	    				
 
     	    			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, false);
     	    			    	
@@ -646,6 +649,7 @@ public class LetReserva extends HttpServlet {
     	        					+ MensajeMail
     	        					+ "<br><br> No faltes, ¡Te esperamos!"
     	        					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+										
     	    	    	}else{
     	    	    		MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
         	    					+ "Le recordamos que usted posee agendada una sesión fotográfica. <br><br>"
@@ -659,6 +663,7 @@ public class LetReserva extends HttpServlet {
         	    					+ "La dirección es: "+direccion
         	    					+ "<br>Nuestra página es: "+pagina
         	    					+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+										
         	    			
     	    	    	}
     	    	    	    	    			
@@ -726,7 +731,7 @@ public class LetReserva extends HttpServlet {
     	    
     	  if (llegoSolicitud.equals("ModificarReserva")) {
   	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
-  	    	System.out.println("El usuario en la modificacion de reserva es "+ trab.getNombre());
+  	    	System.out.println("2.- El usuario en la modificacion de reserva es "+ trab.getNombre());
   	    	
   	    	String llegoFecha;
   	    	if((request.getParameter("16_Fecha")==null)||(request.getParameter("16_Hora")==null)||(request.getParameter("16_Fecha").equals(""))||(request.getParameter("16_Hora").equals(""))){
@@ -877,6 +882,7 @@ public class LetReserva extends HttpServlet {
     						+ "La dirección es: "+direccion
     						+ "<br>Nuestra página es: "+pagina						
     						+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+							
         	    
     	    	}else{
 					MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
@@ -891,6 +897,7 @@ public class LetReserva extends HttpServlet {
 							+ "La dirección es: "+direccion
 							+ "<br>Nuestra página es: "+pagina						
 							+ "<br><br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+							
     	    	}
     	    }else{
     	    	MensajeDeCorreo = "Estimado/a <strong>"+cliente.getNombre()+":</strong> <br><br><br>"
@@ -898,6 +905,7 @@ public class LetReserva extends HttpServlet {
 						+ "Por lo tanto, quedamos atentos a su confirmación, ¡Te esperamos!"
 						+ "<br>Para más información visite nuestra página: "+pagina
 						+ "<br><br><strong>"+nombreEnvia+". </strong><br><br><center><img src=\""+logoIcono+"\"/></center>";
+						
     	    }
 			mail.mandarCorreo(correo, correo2, correo3, MensajeDeCorreo, AsuntoDeCorreo, correoEnvia, nombreEnvia, clave, esParaHoy);
 		    	 
@@ -915,7 +923,7 @@ public class LetReserva extends HttpServlet {
     	  
     	  if (llegoSolicitud.equals("Validar")) {
     	    	Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
-    	    	System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre());
+    	    	System.out.println("3.- El usuario en la solicitud de reserva es "+ trab.getNombre());
     	    	
     	    	int llegoIdReserva = Integer.parseInt(request.getParameter("16_Id_Reserva"));
     	    	int result = gd.ValidarReserva(llegoIdReserva);
@@ -1019,20 +1027,7 @@ public class LetReserva extends HttpServlet {
     	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
     	    	rd.forward(request, response);
     	    }
-    	  /*
-    	  if (llegoSolicitud.equals("FiltroPreReserva")){
-  	    	
-  	    	Trabajador usuario =  null;
-  	    	usuario = (Trabajador) sesion.getAttribute("usuario");
-  	    	//request.setAttribute("usuario", usuario);
-  			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
-  			  			  			  			
-  			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinId("16_Pre_Reserva", "1", "Int");	
-  	    	request.setAttribute("reservas", reservas);
-  			
-  	    	rd = request.getRequestDispatcher("/visualizarreservas.jsp");
-  	    	rd.forward(request, response);
-  	    }*/
+
     	  
     	  if (llegoSolicitud.equals("FiltroClienteAnticipo")) {
   	    	
@@ -1142,48 +1137,7 @@ public class LetReserva extends HttpServlet {
     	    	rd.forward(request, response);
     	    }
     	  
-    	 /* if (llegoSolicitud.equals("FiltroClienteNuevoSesiones")) {
-    	    	
-    	    	Trabajador usuario =  null;
-    	    	usuario = (Trabajador) sesion.getAttribute("usuario");
-    	    	//request.setAttribute("usuario", usuario);
-    			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
-    			
-    			this.InvalidarFiltros();
-    			
-    			String columna = "";
-    			
-    			String parametro = "";
-    			
-    			if(request.getParameter("15_Nombre")!=null){
-    				columna = "15_Nombre";
-    	  			parametro = request.getParameter(columna);
-    	  			sesion.setAttribute("15_Nombre", request.getParameter("15_Nombre"));
-    			}
-    			if(request.getParameter("15_Apellido_Pat")!=null){
-    				columna = "15_Apellido_Pat";
-    	  			parametro = request.getParameter(columna);
-    	  			sesion.setAttribute("15_Nombre", request.getParameter("15_Apellido_Pat"));
-    			}
-    			if(request.getParameter("24_Id_Ticket")!=null){
-    				columna = "24_Id_Ticket";
-
-    	  			parametro = request.getParameter(columna);
-    	  			sesion.setAttribute("15_Nombre", request.getParameter("24_Id_Ticket"));
-    	  			    				
-    				if(parametro.equals("0") || parametro.equals("N/A")){
-    					parametro = "-1";
-    				}
-    			}
-    	  			
-    			ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdLike(columna, parametro, "String");	
-    	    	request.setAttribute("reservas", reservas);
-    						
-    	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
-    	    	rd.forward(request, response);
-    	    }*/
-
-    	  
+   	  
     	  if (llegoSolicitud.equals("FiltroFechasRecordatorio")) {
     	    	
     		  Trabajador usuario =  null;
@@ -1208,54 +1162,9 @@ public class LetReserva extends HttpServlet {
     	    	rd.forward(request, response);
     	}
     	  
-    	 /* if (llegoSolicitud.equals("FiltroFechasC")) {
-  	    	
-    		  Trabajador usuario =  null;
-    	    	usuario = (Trabajador) sesion.getAttribute("usuario");
-    	    	//request.setAttribute("usuario", usuario);
-    			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
-    			
-    			this.InvalidarFiltros();
-    			
-    			String Fecha1 = "";
-    			String Fecha2 = "";
-    			Fecha1 = request.getParameter("Inicio");
-    			Fecha2 = request.getParameter("Fin");
-    			
-    			sesion.setAttribute("16_Fecha1", Fecha1);
-    	    	sesion.setAttribute("16_Fecha2", Fecha2);
-    			
-    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getReservasSinIdConFechas("", "", "", Fecha1, Fecha2);	
-    			request.setAttribute("reservas", reservas);
-    			
-    	    	rd = request.getRequestDispatcher("/visualizarreservasc.jsp");
-    	    	rd.forward(request, response);
-    	}*/
+ 
     	  
-    	  /*if (llegoSolicitud.equals("FiltroFechasSesiones")) {
-    	    	
-    		  Trabajador usuario =  null;
-    	    	usuario = (Trabajador) sesion.getAttribute("usuario");
-    	    	//request.setAttribute("usuario", usuario);
-    			System.out.println("Nombre en LetSesion - Visualizar: "+ usuario.getNombre());
-    			
-    			this.InvalidarFiltros();
-    			
-    			String Fecha1 = "";
-    			String Fecha2 = "";
-    			Fecha1 = request.getParameter("Inicio");
-    			Fecha2 = request.getParameter("Fin");
-    			
-    			sesion.setAttribute("16_Fecha1", Fecha1);
-    	    	sesion.setAttribute("16_Fecha2", Fecha2);
-    			    			
-    	    	ArrayList<ArrayList<Object>> reservas = (ArrayList<ArrayList<Object>>)gd.getNoPreReservasSinIdConFechas("", "", "", Fecha1, Fecha2);	
-    			request.setAttribute("reservas", reservas);
-    			
-    	    	rd = request.getRequestDispatcher("/nuevosesiones.jsp");
-    	    	rd.forward(request, response);
-    	}*/
-    	  
+     	  
     	if (llegoSolicitud.equals("FiltroSesiones")) {
   	    	
     		  Trabajador usuario =  null;
@@ -1357,7 +1266,7 @@ public class LetReserva extends HttpServlet {
     	  
     	if (llegoSolicitud.equals("AsignarAnticipo")) {
     	    Trabajador trab = (Trabajador) sesion.getAttribute("usuario");    	    	
-    	    System.out.println("El usuario en la solicitud de reserva es "+ trab.getNombre());
+    	    System.out.println("4.- El usuario en la solicitud de reserva es "+ trab.getNombre());
   	    	
     	    System.out.println(request.getParameter("16_Id_Reserva"));
     	    

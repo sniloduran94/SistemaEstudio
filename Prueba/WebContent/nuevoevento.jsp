@@ -261,7 +261,7 @@
 					<label class="col-md-4 control-label" for="39_Numero_Boleta">Numero Boleta </label>
 					<div class="col-md-4">
 						<input id="39_Numero_Boleta" name="39_Numero_Boleta"
-							type="text" placeholder="0" class="form-control input-md" value="0">
+							type="text" placeholder="0" class="form-control input-md" value="0" >
 					</div>
 				</div>
 

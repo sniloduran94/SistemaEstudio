@@ -245,7 +245,7 @@
 							continue; //CONTINUA EN ESTE CASO DE NO TENER FECHA
 						}	
 						
-						int ticketid = (int)nueva.get(22);
+						int ticketid = (int)nueva.get(22); //NUMERO DE BOLETA ()
 						if(ticketid!=0){
 							continue;
 						}

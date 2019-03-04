@@ -233,7 +233,7 @@
 
 							<%
 							
-							double vBoleta = ev.getNumero_Boleta();
+							int vBoleta = ev.getNumero_Boleta();
 							vBoleta = Math.round(vBoleta );
 							
 							 %>
