@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 
 
 public class JavaMail {  
-	String version = "v34";
+	String version = "v39";
 	
 	//String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\Prueba";
 	String directorio = "C:\\Users\\Administrator\\Documents\\Estudio Fotográfico\\WORKSPACE\\EstudioFotografico"+version;
@@ -31,7 +31,7 @@ public class JavaMail {
 	//Remitentes si la reserva es del día de hoy
 	
 	//Prueba
-	   public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("contacto@genesisestudio.cl", "reservas@genesisestudio.cl", "consultorqad@gmail.com", "salomon.nilo@advancing.cl"));
+	   public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("contacto@genesisestudio.cl", "reservas@genesisestudio.cl", "consultorqad@gmail.com", "sergio.brito@advancing.cl"));
 	   public int IdVendedor = 2;
 	//Expressiones
 	//				public ArrayList<String> CorreosHoy = new ArrayList<String>(Arrays.asList("central@genesisestudio.cl", "fotografia_2@fotoexpressiones.com", "contacto@fotoexpressiones.com", "reservas@fotoexpressiones.com"));

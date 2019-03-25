@@ -1,0 +1,598 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="modelo.*"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title></title>
+
+
+<!-- <link rel="stylesheet" href="assets/table/table.css">  -->
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100.caa' rel='stylesheet' type='text/css'>
+
+<!-- Google fonts -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+
+<!-- font awesome -->
+<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">-->
+
+<!-- Custom Fonts -->
+<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+
+<!-- animate.css -->
+<link rel="stylesheet" href="assets/animate/animate.css" />
+<link rel="stylesheet" href="assets/animate/set.css" />
+
+<!-- gallery -->
+<link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
+
+<!-- favicon -->
+<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+<link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+<link rel="stylesheet" href="assets/style.css">
+
+<!-- Calendario -->
+<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/jquery.datetimepicker.css"/>
+
+<style>
+	.btn-danger:hover
+	{
+	background-image:none !important;
+	background-color:#A6A8C1 !important;
+	}
+	.btn-danger{
+	background-image:none !important;
+	background-color:red !important;
+	
+	}
+</style>
+
+
+<link rel="stylesheet" href="assets/tablesorter/css/theme.blue.css" type="text/css" />
+<link rel="stylesheet" href="assets/tablesorter/addons/pager/jquery.tablesorter.pager.css">
+
+<style>
+    .tablesorter thead .disabled {
+        display:none !important;
+    }
+    th.tablesorter-header.resizable-false {
+  background-color: #e6bf99;
+}
+
+.wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 450px;
+}
+.wrapper table {
+  width: auto;
+  table-layout: fixed;
+}
+.wrapper .tablesorter td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 10px;
+}
+.wrapper .tablesorter th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 10px;
+}
+
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../Common/loadingGIF.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+</style>
+
+<!-- Fin Calendario -->
+
+</head>
+
+	<% 
+		HttpSession sesion = (HttpSession) request.getSession();
+		Trabajador usuario = null;
+		usuario = (Trabajador)(sesion.getAttribute("usuario"));
+		if(sesion == null || usuario == null){  %>
+				<div class="alert alert-danger alert-dismissable">
+				  <button type="button" class="close" data-dismiss="alert">&times;</button>
+				  <strong>¡Debes iniciar sesión para ver esta página!</strong>
+				</div>
+	<%  }else{	
+				sesion.setAttribute("usuario", usuario);
+    %>
+<div class="topbar animated fadeInLeftBig"></div>
+ 
+<!-- Header Starts -->
+<div class="navbar-wrapper">
+      <div class="container">
+
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-nav">
+          <div class="container">
+            <div class="navbar-header">
+              <!-- Logo Starts -->
+              <a class="navbar-brand" href="#home"><img src="images/LogoLetras2.png" alt="logo"></a>
+              <!-- #Logo Ends -->
+
+
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+            </div>
+
+
+             <!-- Nav Starts -->
+            <div class="navbar-collapse  collapse">
+              <ul class="nav navbar-nav navbar-right scroll">
+				 <li onClick="redirect('ServletLogin?opcion=IndexTrabajadorAdmin')"><a href="">Menú</a></li>
+				 <li onClick="redirect('ServletLogin?opcion=CerrarSesion')"><a href="">Cerrar Sesión</a></li>
+              </ul>
+            </div>
+            <!-- #Nav Ends -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+<!-- #Header Starts -->
+
+<body>
+
+
+<div class="container-fluid spacer">
+  <% if(request.getAttribute("mensaje") != null && request.getAttribute("tipomensaje")!=null){
+		if(!(request.getAttribute("mensaje").equals("")) &&  request.getAttribute("tipomensaje").equals("success")){%>
+		<!-- Mensaje-->
+		<div class="alert alert-success alert-dismissable">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <%=request.getAttribute("mensaje")%>
+	  	</div>
+   <%	}else{	%>
+   		<!-- Mensaje-->
+		<div class="alert alert-danger alert-dismissable">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <%=request.getAttribute("mensaje")%>
+	  	</div>
+  <%	} 
+	  } %>
+  <h2>Envío de mails por evento</h2>
+  
+	<%
+				//Obtención de reservas para tabla de visualizacion de reservas 
+				ArrayList<ArrayList<Object>> sesiones = (ArrayList<ArrayList<Object>>)(request.getAttribute("sesiones"));
+				Iterator<ArrayList<Object>> iterres1 = sesiones.iterator();
+				if(!iterres1.hasNext()){  %>
+						<h3>No existen datos para mostrar </h3>
+						</div>
+	<%			}else{	%>
+				  <div class="col-md-6 ">
+					<h4>Resultado(s): <%=sesiones.size()%></h4><br>
+					<div class = "col-md-4"></div>
+            	  </div>
+            		<table class="table">
+					    <thead>
+						  <tr style="font-size:13px;">
+							<th><h5>Fecha<br>sesión<br>(Día/Mes/Año)</h5></th>
+							<th><h5>Mail/Nombre</h5></th>
+							<th><h5>Monto<br>extras</h5></th>
+							<th><h5>Fotógrafo</h5></th>
+							<th><h5>Numero<br>ticket</h5></th>
+							<th><h5>Fecha<br>entrega<br>de fotos</h5></th>
+							<th><h5>Fecha<br>envio<br>imprimir</h5></th>
+							<th><h5>Fecha<br>Retiro</h5></th>
+							<th><h5>¿Fotos<br>seleccionadas?</h5></th>
+							<th><h5>¿Fotos<br>listas<br>para<br>entregar?</h5></th>
+							<th><h5>¿Entregadas?</h5></th>
+						  </tr>
+						</thead>
+						<tbody>
+	<%				while(iterres1.hasNext())
+					{
+						ArrayList<Object> nueva = iterres1.next();
+						SesionAuxiliar sa = (SesionAuxiliar)nueva.get(0); 
+												
+						String fechaentrega = null;
+						String fechaenvioimprimir = null;
+						String fecharetiro = null;
+						String fechasesion = null;
+						
+						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+						%>
+						<tr>
+							<td><h5><%=(sa.getFecha_Sesion()!=null)?sdf.format(sa.getFecha_Sesion()):"N/A"%></h5></td>
+							<td><h5><%=(((String)(nueva.get(2))).equals("null"))?"":(String)nueva.get(2)%>/<br><br>
+									<%=(((String)(nueva.get(3))).equals("null"))?"N/A":(String)nueva.get(3)%> <%=(((String)(nueva.get(4))).equals("null"))?"":(String)nueva.get(4)%></h5></td>
+							<td><h5><%=sa.getMonto_Extras()%></h5></td>
+							<td><h5><%=sa.getFotografo()%></h5></td>
+							<td><h5><%=sa.getNumero_Ticket()%></h5></td>
+							<td><h5><%=(sa.getFecha_Entrega()!=null)?sdf.format(sa.getFecha_Entrega()):"N/A" %></h5></td>
+							<td><h5><%=(sa.getFecha_Envio_Imprimir()!=null)?sdf.format(sa.getFecha_Envio_Imprimir()):"N/A"%></h5></td>
+							<td><h5><%=(sa.getFecha_Retiro()!=null)?sdf.format(sa.getFecha_Retiro()):"N/A"%></h5></td>
+							<form action="ServletSesion?opcion=CambiarEstado" method="post">
+								<input type="hidden" value="<%=sa.getId_Reserva_Asoc() %>" name="16_Id_Reserva">
+								<input type="hidden" value="<%=(((String)(nueva.get(2))).equals("null"))?"":(String)nueva.get(2) %>" name="15_Mail">
+								<input type="hidden" value="<%=(((String)(nueva.get(3))).equals("null"))?"N/A":(String)nueva.get(3)%> <%=(((String)(nueva.get(4))).equals("null"))?"":(String)nueva.get(4) %>" name="Nombre">
+								<input type="hidden" value="<%=(sa.getFecha_Sesion()!=null)?sdf.format(sa.getFecha_Sesion()):""%>" name="fechasesion">
+								<input type="hidden" value="<%=(sa.getFecha_Retiro()!=null)?sdf.format(sa.getFecha_Retiro()):""%>" name="fecharetiro">
+								<input type="hidden" value="<%=sa.getNombre_Retira()%>" name="nombreretiro">
+							<td><h5>
+								<center><%=(sa.isFotos_Seleccionadas())?"SI":"NO" %></center><br>
+							<% if(!sa.isFotos_Seleccionadas()){ %>
+								 <div class="btn-group  btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarS" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarS" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% }else{ %>
+								 <div class="btn-group  btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarS" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarS" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% } %>
+							</h5></td>
+							<td><h5>
+								<center><%=(sa.isLista_Para_Entregar())?"SI":"NO" %></center><br>
+							<% if(sa.isFotos_Seleccionadas() && sa.isLista_Para_Entregar() && !sa.isEntregadas()){ %>
+								<div class="btn-group btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarL" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarL" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% }else{ %>
+								    <div class="btn-group  btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarL" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarL" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% } %>
+							</h5></td>
+							<td><h5>
+								<center><%=(sa.isEntregadas())?"SI":"NO" %></center><br>
+							<% if(sa.isFotos_Seleccionadas() && sa.isLista_Para_Entregar() && sa.isEntregadas()){ %>
+								<div class="btn-group  btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarE" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarE" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% }else{ %>
+								 <div class="btn-group  btn-group-lg">
+								     <button type="submit" class="btn btn-success" name="CambiarE" value="1" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-check fa-1x"></i>
+            						 </button>
+            						 <button type="submit" class="btn btn-danger" name="CambiarE" value="0" onclick="return confirm('¿Estás seguro que deseas validar esta reserva?')">
+                						<i class="fa fa-remove fa-1x"></i>
+            						 </button>
+            					</div>
+							<% } %>
+							</h5></td>
+							</form>		
+						</tr>
+	<% 				} %>
+			    </tbody>
+			  </table>
+			</div>
+	<%  }
+	}	%>	
+
+
+</body>
+
+<!-- Footer Starts -->
+<div class="footer text-center spacer">
+	<p>Sistema Estudio. Advancing Group Ltda.</a></p>
+ <br><br>
+©Copyright 2017. Todos los derechos reservados.<br><br>
+</div>
+<!-- # Footer Ends -->
+<a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
+
+<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title">Title</h3>
+    <a class="prev">â¹</a>
+    <a class="next">âº</a>
+    <a class="close">Ã</a>
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->    
+</div>
+
+
+
+<!-- jquery -->
+<script src="assets/jquery.js"></script>
+
+<!-- boostrap -->
+<script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+
+<!-- jquery mobile -->
+<script src="assets/mobile/touchSwipe.min.js"></script>
+<script src="assets/respond/respond.js"></script>
+
+<!-- gallery -->
+<script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
+
+<!-- custom script -->
+<script src="assets/script.js"></script>
+
+<script src="assets/bootstrap/js/jquery.js"></script>
+<script src="build/jquery.datetimepicker.full.js"></script>
+
+<script>
+window.onerror = function(errorMsg) {
+	$('#console').html($('#console').html()+'<br>'+errorMsg)
+};
+
+$.datetimepicker.setLocale('es');
+
+$('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
+$("#datetimepicker_format_change").on("click", function(e){
+	$("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
+});
+$("#datetimepicker_format_locale").on("change", function(e){
+	$.datetimepicker.setLocale($(e.currentTarget).val());
+});
+
+$('#datetimepicker').datetimepicker({
+dayOfWeekStart : 1,
+lang:'en',
+disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+startDate:	'1986/01/05'
+});
+$('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+$('.some_class').datetimepicker();
+
+$('#default_datetimepicker').datetimepicker({
+	formatTime:'H:i',
+	formatDate:'d.m.Y',
+	//defaultDate:'8.12.1986', // it's my birthday
+	defaultDate:'+03.01.1970', // it's my birthday
+	defaultTime:'10:00',
+	timepickerScrollbar:false
+});
+
+$('#datetimepicker10').datetimepicker({
+	step:5,
+	inline:true
+});
+$('#datetimepicker_mask').datetimepicker({
+	mask:'9999/19/39 29:59'
+});
+
+$('#datetimepicker1').datetimepicker({
+	datepicker:false,
+	format:'H:i',
+	step:5
+});
+$('#datetimepicker2').datetimepicker({
+	yearOffset:0,
+	lang:'es',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false
+});
+$('#datetimepicker21').datetimepicker({
+	yearOffset:0,
+	lang:'sp',
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+	dayOfWeekStart : 1,
+	//disabledWeekDays: [0],
+	dayOfWeekShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+	timepicker: false
+});
+$('#datetimepicker3').datetimepicker({
+	inline:true
+});
+$('#datetimepicker4').datetimepicker();
+$('#open').click(function(){
+	$('#datetimepicker4').datetimepicker('show');
+});
+$('#close').click(function(){
+	$('#datetimepicker4').datetimepicker('hide');
+});
+$('#reset').click(function(){
+	$('#datetimepicker4').datetimepicker('reset');
+});
+$('#datetimepicker5').datetimepicker({
+	datepicker:false,
+	allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
+	step:5
+});
+$('#datetimepicker6').datetimepicker();
+$('#destroy').click(function(){
+	if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
+		$('#datetimepicker6').datetimepicker('destroy');
+		this.value = 'create';
+	}else{
+		$('#datetimepicker6').datetimepicker();
+		this.value = 'destroy';
+	}
+});
+var logic = function( currentDateTime ){
+	if (currentDateTime && currentDateTime.getDay() == 6){
+		this.setOptions({
+			minTime:'11:00'
+		});
+	}else
+		this.setOptions({
+			minTime:'8:00'
+		});
+};
+$('#datetimepicker7').datetimepicker({
+	onChangeDateTime:logic,
+	onShow:logic
+});
+$('#datetimepicker8').datetimepicker({
+	onGenerate:function( ct ){
+		$(this).find('.xdsoft_date')
+			.toggleClass('xdsoft_disabled');
+	},
+	minDate:'-1970/01/2',
+	maxDate:'+1970/01/2',
+	timepicker:false
+});
+$('#datetimepicker9').datetimepicker({
+	onGenerate:function( ct ){
+		$(this).find('.xdsoft_date.xdsoft_weekend')
+			.addClass('xdsoft_disabled');
+	},
+	weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
+	timepicker:false
+});
+$('#datetimepicker_dark').datetimepicker({theme:'dark'})
+</script>
+<script>
+	document.getElementById("adelanto").onclick = MayorOIgual;
+	function MayorOIgual(){ 
+	   	var clave1 = document.getElementById("datetimepicker2").value;
+	    var	clave2 = document.getElementById("datetimepicker21").value;
+	   	if((clave2!=="")&&(clave1!=="")){
+		   	if ( Date.parse(clave1) >=  Date.parse(clave2)){
+			 document.getElementById("datetimepicker21").value = "";
+		      alert("La segunda fecha puede estar en blanco, o ser mayor que la primera fecha");
+		      returnToPreviousPage();
+			} 
+		}
+	} 
+</script>
+
+
+<script type="text/javascript" src="assets/tablesorter/js/jquery.tablesorter.combined.js"></script> 
+
+<script src="assets/tablesorter/js/jquery.tablesorter.js"></script>
+<script src="assets/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+<script src="assets/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+<script id="js">
+$(function(){
+
+  var $table = $('table'),
+  // define pager options
+  pagerOptions = {
+   
+  	
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+    // output string - default is '{page}/{totalPages}';
+    // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+    // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
+    // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+    // go to page selector - select dropdown that sets the current page
+    cssGoto: '.gotoPage',
+        
+  };
+  
+  // Initialize tablesorter
+  // ***********************
+  $table
+    .tablesorter({
+      theme: 'blue',
+      headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+      widthFixed: true,
+      widgets: ['zebra', 'filter','resizable'],
+      widgetOptions : {
+			filter_columnFilters: true,
+			filter_placeholder: { search : 'Buscar...' },
+			filter_saveFilters : false,
+			filter_reset: '.reset',
+		    resizable_addLastColumn : true,
+      		resizable_widths : [ '100px', '60px', '30px', '50px', '60px', '140px' ]
+    }
+      
+    })/*.bind('filterInit', function(){
+        $table.find('.tablesorter-filter').hide().each(function(){
+            var w, $t = $(this);
+            w = $t.closest('td').innerWidth();
+            $t
+                .show()
+                .css({
+                    'min-width': w,
+                    width: w // 'auto' makes it wide again
+                });
+        });
+    })*/
+    
+
+    // initialize the pager plugin
+    // ****************************
+    //.tablesorterPager(pagerOptions);
+     
+
+});	
+$(window).on('load', function () {
+$("#coverScreen").hide();
+});
+$("#ucNoteGrid_grdViewNotes_ctl01_btnPrint").click(function () {
+$("#coverScreen").show();
+});
+</script>
+
+<script src="assets/PropiedadEstudio.js" type="text/javascript"></script>
+</body>
+</html>

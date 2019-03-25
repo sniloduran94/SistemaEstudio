@@ -209,7 +209,7 @@ public class LetEvento extends HttpServlet {
 	    	    	    	
 	    	    			String correo = trabRecibeMailAnulacion.getEmail();
 	    	    			String correo2 = usuario.getEmail();
-	    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+	    	    			String correo3 = "sergio.brito@advancing.cl"; 
 
 	    	    			String MensajeDeCorreo = "Estimado/a <strong>" + trabRecibeMailAnulacion.getNombre()+" "+trabRecibeMailAnulacion.getApellido_Pat() + ":</strong> <br><br><br>"
 	    	    					+ " Se ha <strong>anulado el evento "+llegoIdEvento+"</strong>.<br><br>"

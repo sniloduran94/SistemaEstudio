@@ -230,7 +230,7 @@ public class LetSesion extends HttpServlet {
     	    		
 	    			String correo = cliente.getMail();
 	    			String correo2 = trab.getEmail();
-	    			String correo3 = "salomon.nilo@advancing.cl"; 
+	    			String correo3 = "sergio.brito@advancing.cl"; 
 	    			
 	    			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(reserv.getVendedor()), "Int").get(0);
 	    	    	
@@ -273,7 +273,7 @@ public class LetSesion extends HttpServlet {
 		    			
 		    			String correo = cliente.getMail();
 		    			String correo2 = trab.getEmail();
-		    			String correo3 = "salomon.nilo@advancing.cl"; 
+		    			String correo3 = "sergio.brito@advancing.cl"; 
 		    			
 		    			SimpleDateFormat sdf511 = new SimpleDateFormat("dd/MM/yyyy");
 		    					    	    			    			
@@ -373,7 +373,7 @@ public class LetSesion extends HttpServlet {
     	    			
     	    			String correo = llegoMail;
     	    			String correo2 = trab.getEmail();
-    	    			String correo3 = "salomon.nilo@advancing.cl";
+    	    			String correo3 = "sergio.brito@advancing.cl";
     	    			
     	    			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(reserv.getVendedor()), "Int").get(0);
     	    			
@@ -416,7 +416,7 @@ public class LetSesion extends HttpServlet {
     	    			
     	    			String correo = llegoMail;
     	    			String correo2 = trab.getEmail();
-    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+    	    			String correo3 = "sergio.brito@advancing.cl"; 
 
     	    			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(reserv.getVendedor()), "Int").get(0);
     	    			
@@ -460,7 +460,7 @@ public class LetSesion extends HttpServlet {
     	    			
     	    			String correo = llegoMail;
     	    			String correo2 = trab.getEmail();
-    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+    	    			String correo3 = "sergio.brito@advancing.cl"; 
     	    			    	    	    	
     	    			String fechaentrega = request.getParameter("fecharetiro");
     	    			String NombreQuienRetira = request.getParameter("nombreretiro");

@@ -281,7 +281,7 @@ public class LetReserva extends HttpServlet {
 	    			
 	    			String correo = cliente.getMail();
 	    			String correo2 = usuario.getEmail();
-	    			String correo3 = "salomon.nilo@advancing.cl"; 
+	    			String correo3 = "sergio.brito@advancing.cl"; 
 	    			
 	    			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 	    			SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
@@ -492,7 +492,7 @@ public class LetReserva extends HttpServlet {
     	    			
     	    			String correo = cliente.getMail();
     	    			String correo2 = usuario.getEmail();
-    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+    	    			String correo3 = "sergio.brito@advancing.cl"; 
     	    			
     	    			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
     	    			SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
@@ -576,7 +576,7 @@ public class LetReserva extends HttpServlet {
     	    			
     	    			String correo = cliente.getMail();
     	    			String correo2 = usuario.getEmail();
-    	    			String correo3 = "salomon.nilo@advancing.cl"; 
+    	    			String correo3 = "sergio.brito@advancing.cl"; 
     	    			
     	    			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
     	    			SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
@@ -822,7 +822,7 @@ public class LetReserva extends HttpServlet {
   			JavaMail mail = new JavaMail();
 			String correo = cliente.getMail();
 			String correo2 = usuario.getEmail();
-			String correo3 = "salomon.nilo@advancing.cl";
+			String correo3 = "sergio.brito@advancing.cl";
 			String MensajeDeCorreo = "";
 
 			Vendedor Vend = gd.getVendedoresSinId("38_Id_Vendedor", Integer.toString(res.getVendedor()), "Int").get(0);
@@ -1304,7 +1304,7 @@ public class LetReserva extends HttpServlet {
 			
 			String correo = cliente.getMail();
 			String correo2 = trab.getEmail();
-			String correo3 = "salomon.nilo@advancing.cl"; 
+			String correo3 = "sergio.brito@advancing.cl"; 
 			
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 			String fecha2 = DomingoASabado(sdf2.format(reserv.getFecha()));
@@ -1426,7 +1426,7 @@ public class LetReserva extends HttpServlet {
 					
 					String correo = cliente.getMail();
 					String correo2 = usuario.getEmail();
-					String correo3 = "salomon.nilo@advancing.cl"; 
+					String correo3 = "sergio.brito@advancing.cl"; 
 					
 					SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 					SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
